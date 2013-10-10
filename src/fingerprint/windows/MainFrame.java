@@ -6,9 +6,9 @@ package fingerprint.windows;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
 import javax.swing.JFileChooser;
+import models.DailyEmployeeData;
 import models.TimeRecord;
 import utils.fileaccess.FileReader;
 
@@ -74,17 +74,14 @@ public class MainFrame extends java.awt.Frame {
 
             parseFile(file);
             
-//            String date;
-//            for(ArrayList<TimeRecord> recordlist :datesmap.values())
-//            {
-//                date=recordlist.get(0).getDate();
-//                System.out.println(date);
-//            }
-            for(String date:datesmap.keySet())
+            //arrange records into employees, 
+            //get earliest and latest record per employee
+            //set these as in and out respectively
+            for(ArrayList<TimeRecord> recordlist :datesmap.values())
             {
-//                date=recordlist.get(0).getDate();
-                System.out.println(date);
-            }  
+                TreeMap <String,DailyEmployeeData> edatamap=genEmployeeDataMap(recordlist);
+            }
+
             
             
 //            byte[] chars=lines[0].getBytes();
@@ -163,4 +160,55 @@ public class MainFrame extends java.awt.Frame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton chooseFile;
     // End of variables declaration//GEN-END:variables
+
+    private TreeMap <String,DailyEmployeeData> genEmployeeDataMap(ArrayList<TimeRecord> recordlist)
+    {
+                String date;
+                TreeMap <String,DailyEmployeeData> employeedatamap;//=new TreeMap <String,DailyEmployeeData>();
+                employeedatamap=new TreeMap <String,DailyEmployeeData>();
+                date=recordlist.get(0).getDate();
+//                System.out.println(date);
+                
+                //process all records, sort by employee
+                DailyEmployeeData edata;
+                for(TimeRecord tr:recordlist)
+                {
+                    if(!employeedatamap.containsKey(tr.getName()))
+                    {
+                        edata=new DailyEmployeeData();
+                        employeedatamap.put(tr.getName(), edata);
+                        edata.setIn(tr);
+                        edata.setOut(tr);
+                    }
+                    else
+                    {
+                        edata=employeedatamap.get(tr.getName());
+                        if(edata.getIn().islaterthan(tr))
+                        {
+                            edata.setIn(tr);
+                        }
+                        else if(edata.getOut().isearlierthan(tr))
+                        {
+                            edata.setOut(tr);
+                        }
+                    }
+                }
+                System.out.println(date);
+                for(DailyEmployeeData edata2:employeedatamap.values())
+                {
+                    System.out.print(edata2.getIn().getName());
+                    System.out.print("-");
+                    System.out.print(edata2.getIn().getTime());
+                    System.out.print("-");
+                    System.out.print(edata2.getOut().getTime());
+                    if(edata2.getIn().getTime().compareTo(edata2.getOut().getTime())==0)
+                        System.out.print(" only 1 record");
+                    System.out.println();
+                }  
+                System.out.println("----------");
+                
+                return employeedatamap;
+    }
+
+
 }

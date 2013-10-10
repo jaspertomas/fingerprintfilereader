@@ -4,14 +4,15 @@
  */
 package models;
 
-import java.util.Date;
+import java.sql.Time;
 
 /**
  *
  * @author jaspertomas
  */
 public class TimeRecord {
-    String no,dn,uid ,name ,status,action,apb,jobcode,datetime,date,time;
+    String no,dn,uid ,name ,status,action,apb,jobcode,datetime,date;
+    Time time;
     public TimeRecord(String line)
     {
             String[] segments=line.split("\t");
@@ -27,9 +28,13 @@ public class TimeRecord {
                 jobcode=segments[7];
                 datetime=segments[8];
                 
-                String[] timesegments=datetime.split(" ");
-                date=timesegments[0];
-                time=timesegments[1];
+                String[] datesegments=datetime.split(" ");
+                date=datesegments[0];
+//                time=datesegments[1];
+                
+                String[] timesegments=datesegments[1].split(":");
+                time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),Integer.valueOf(timesegments[2]));
+                
                 
             }
     }
@@ -106,11 +111,11 @@ public class TimeRecord {
         this.datetime = datetime;
     }
 
-    public String getTime() {
+    public Time getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Time time) {
         this.time = time;
     }
 
@@ -120,6 +125,17 @@ public class TimeRecord {
 
     public void setDate(String date) {
         this.date = date;
+    }
+    
+    public boolean isearlierthan(TimeRecord tr)
+    {
+        if(time.compareTo(tr.getTime())<0)return true;
+        else return false;
+    }
+    public boolean islaterthan(TimeRecord tr)
+    {
+        if(time.compareTo(tr.getTime())>0)return true;
+        else return false;
     }
     
     
