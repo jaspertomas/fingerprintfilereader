@@ -4,7 +4,13 @@
  */
 package fingerprint.windows;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
 import javax.swing.JFileChooser;
+import models.TimeRecord;
+import utils.fileaccess.FileReader;
 
 /**
  *
@@ -53,15 +59,97 @@ public class MainFrame extends java.awt.Frame {
         System.exit(0);
     }//GEN-LAST:event_exitForm
 
+    ArrayList<TimeRecord> records;
     private void chooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseFileActionPerformed
         // TODO add your handling code here:
         //Create a file chooser
         final JFileChooser fc = new JFileChooser();
+        
         //In response to a button click:
         int returnVal = fc.showOpenDialog(this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            //parse file
+            File file = fc.getSelectedFile();
 
+            parseFile(file);
+            
+//            String date;
+//            for(ArrayList<TimeRecord> recordlist :datesmap.values())
+//            {
+//                date=recordlist.get(0).getDate();
+//                System.out.println(date);
+//            }
+            for(String date:datesmap.keySet())
+            {
+//                date=recordlist.get(0).getDate();
+                System.out.println(date);
+            }  
+            
+            
+//            byte[] chars=lines[0].getBytes();
+//            for(int i=0;i<chars.length;i++)
+//                System.out.println(Integer.valueOf(chars[i]));
+//            System.out.println();
+//
+//            chars=lines[1].getBytes();
+//            for(int i=0;i<chars.length;i++)
+//                System.out.println(Integer.valueOf(chars[i]));
+//            System.out.println();
+//            
+//            chars=lines[2].getBytes();
+//            for(int i=0;i<chars.length;i++)
+//                System.out.println(Integer.valueOf(chars[i]));
+//            System.out.println();
+            
+            //This is where a real application would open the file.
+//            log.append("Opening: " + file.getName() + "." + newline);
+        } else {
+//            log.append("Open command cancelled by user." + newline);
+        }
     }//GEN-LAST:event_chooseFileActionPerformed
+    TreeMap<String,ArrayList<TimeRecord>> datesmap;
+    private void parseFile(File file)
+    {
+        //extract file contents
+        String filecontents=FileReader.read(file.getPath());
 
+        //remove double spaces and null characters
+        filecontents=filecontents.replace("\0", "");
+        filecontents=filecontents.replace("\n\n", "\n");
+        
+        //split into lines
+        String[] lines=filecontents.split("\n");
+
+        //convert lines into objects
+        records= new ArrayList<TimeRecord>();
+        for(String line:lines)
+        {
+            if(!line.contains("APB\tJobCode\tDateTime"))
+                records.add(new TimeRecord(line));
+        }
+        
+        //group by date
+        ArrayList<TimeRecord> dailyrecordlist; 
+        datesmap=new TreeMap<String,ArrayList<TimeRecord>>();
+        for(TimeRecord record:records)
+        {
+            if(!datesmap.containsKey(record.getDate()))
+            {
+                dailyrecordlist=new ArrayList<TimeRecord>();
+                dailyrecordlist.add(record);
+                datesmap.put(record.getDate(), dailyrecordlist);
+            }
+            else
+            {
+                dailyrecordlist=datesmap.get(record.getDate());
+                dailyrecordlist.add(record);
+//                    datesmap.put(record.getDate(), dailyrecords);
+            }
+
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
