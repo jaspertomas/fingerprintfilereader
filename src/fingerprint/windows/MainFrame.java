@@ -41,6 +41,8 @@ public class MainFrame extends java.awt.Frame {
     private void initComponents() {
 
         chooseFile = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea = new javax.swing.JTextArea();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -55,6 +57,12 @@ public class MainFrame extends java.awt.Frame {
             }
         });
         add(chooseFile, java.awt.BorderLayout.CENTER);
+
+        jTextArea.setColumns(60);
+        jTextArea.setRows(20);
+        jScrollPane2.setViewportView(jTextArea);
+
+        add(jScrollPane2, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -120,11 +128,12 @@ public class MainFrame extends java.awt.Frame {
                 {
                     DailyEmployeeData data=wed.get(date).get(name);
                     if(data==null)continue;
-                    System.out.print(name+"\t");
-                    System.out.print(date+"\t");
+                    
+                    jTextArea.append(name+"\t");
+                    jTextArea.append(date+"\t");
                     if(data.getIn().getTime().equals(one))
                     {
-                    System.out.println(
+                    jTextArea.append(
                             ""
                             +"\t"
                             +""
@@ -132,12 +141,13 @@ public class MainFrame extends java.awt.Frame {
                             +data.getInTimeString()
                             +"\t"
                             +data.getOutTimeString()
+                            +"\n"
                             );
                     }
                     else
                     if(data.getOut().getTime().equals(twelve))
                     {
-                    System.out.println(
+                    jTextArea.append(
                             data.getInTimeString()
                             +"\t"
                             +data.getOutTimeString()
@@ -145,11 +155,12 @@ public class MainFrame extends java.awt.Frame {
                             +"\t"
                             +""
                             +"\t"
+                            +"\n"
                             );
                     }
                       else
                     {
-                    System.out.println(
+                    jTextArea.append(
                             data.getInTimeString()
                             +"\t"
                             +"1200"
@@ -157,6 +168,7 @@ public class MainFrame extends java.awt.Frame {
                             +"1300"
                             +"\t"
                             +data.getOutTimeString()
+                            +"\n"
                             );
                     }
                     
@@ -221,6 +233,8 @@ public class MainFrame extends java.awt.Frame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton chooseFile;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea;
     // End of variables declaration//GEN-END:variables
 
     private DailyEmployeesData genEmployeeDataMap(ArrayList<TimeRecord> recordlist)
