@@ -5,6 +5,7 @@
 package fingerprint.windows;
 
 import java.io.File;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import javax.swing.JFileChooser;
@@ -105,6 +106,8 @@ public class MainFrame extends java.awt.Frame {
 //            log.append("Open command cancelled by user." + newline);
         }
     }//GEN-LAST:event_chooseFileActionPerformed
+
+    
     TreeMap<String,ArrayList<TimeRecord>> datesmap;
     private void parseFile(File file)
     {
@@ -194,8 +197,35 @@ public class MainFrame extends java.awt.Frame {
                     }
                 }
                 System.out.println(date);
+                Time time;
+                Time twelve=new Time(12,0,0);
+                Time one=new Time(13,0,0);
                 for(DailyEmployeeData edata2:employeedatamap.values())
                 {
+                    //adjust in time to 1:00 if between 12 and 1
+                    time=edata2.getIn().getTime();
+                    if
+                    (
+                        time.after(twelve)
+                        &&
+                        time.before(one)
+                    )
+                    {
+                        edata2.getIn().setTime(one);
+                    }
+                    //adjust out time to 12:00 if between 12 and 1
+                    time=edata2.getOut().getTime();
+                    if
+                    (
+                        time.after(twelve)
+                        &&
+                        time.before(one)
+                    )
+                    {
+                        edata2.getOut().setTime(twelve);
+                    }
+                    
+                    
                     System.out.print(edata2.getIn().getName());
                     System.out.print("-");
                     System.out.print(edata2.getIn().getTime());
