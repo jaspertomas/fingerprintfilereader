@@ -9,8 +9,12 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import javax.swing.JFileChooser;
+import models.Calendar;
 import models.DailyEmployeeData;
 import models.TimeRecord;
+import models.DailyEmployeesData;
+import models.EmployeeNameList;
+import models.WeeklyEmployeesData;
 import utils.fileaccess.FileReader;
 
 /**
@@ -73,38 +77,53 @@ public class MainFrame extends java.awt.Frame {
             //parse file
             File file = fc.getSelectedFile();
 
+            //parse file and create records list
             parseFile(file);
             
+            //create employee name list
+            EmployeeNameList namelist=new EmployeeNameList();
+            Calendar datelist=new Calendar();
+            for(TimeRecord record:records)
+            {
+                if(!namelist.contains(record.getName()))
+                    namelist.add(record.getName());
+                if(!datelist.contains(record.getDate()))
+                    datelist.add(record.getDate());
+            }
+            
+            WeeklyEmployeesData wed=new WeeklyEmployeesData();
             //arrange records into employees, 
             //get earliest and latest record per employee
             //set these as in and out respectively
+            //datesmap is a map with date as key and array of records as value
+            //each array of records contains records of the same date
             for(ArrayList<TimeRecord> recordlist :datesmap.values())
             {
-                TreeMap <String,DailyEmployeeData> edatamap=genEmployeeDataMap(recordlist);
+                //do this for each set of records of the same date
+                
+                //this map has the employee name as key 
+                // and packaged in and out records as data
+                //it is recreated for each date
+                DailyEmployeesData edatamap=genEmployeeDataMap(recordlist);
+//                if(recordlist.size()>0)
+                wed.put(recordlist.get(0).getDate(), edatamap);
             }
-
+            for(String name:namelist)
+            {
+                for(String date:datelist)
+                {
+                    System.out.print(date+"-");
+                    System.out.print(name+"-");
+                    System.out.println(
+                            wed.get(date).get(name).getIn().getTime()
+                            +"-"
+                            +wed.get(date).get(name).getOut().getTime()
+                            );
+                    
+                }
+            }
             
-            
-//            byte[] chars=lines[0].getBytes();
-//            for(int i=0;i<chars.length;i++)
-//                System.out.println(Integer.valueOf(chars[i]));
-//            System.out.println();
-//
-//            chars=lines[1].getBytes();
-//            for(int i=0;i<chars.length;i++)
-//                System.out.println(Integer.valueOf(chars[i]));
-//            System.out.println();
-//            
-//            chars=lines[2].getBytes();
-//            for(int i=0;i<chars.length;i++)
-//                System.out.println(Integer.valueOf(chars[i]));
-//            System.out.println();
-            
-            //This is where a real application would open the file.
-//            log.append("Opening: " + file.getName() + "." + newline);
-        } else {
-//            log.append("Open command cancelled by user." + newline);
-        }
+        } 
     }//GEN-LAST:event_chooseFileActionPerformed
 
     
@@ -164,80 +183,79 @@ public class MainFrame extends java.awt.Frame {
     private javax.swing.JButton chooseFile;
     // End of variables declaration//GEN-END:variables
 
-    private TreeMap <String,DailyEmployeeData> genEmployeeDataMap(ArrayList<TimeRecord> recordlist)
+    private DailyEmployeesData genEmployeeDataMap(ArrayList<TimeRecord> recordlist)
     {
-                String date;
-                TreeMap <String,DailyEmployeeData> employeedatamap;//=new TreeMap <String,DailyEmployeeData>();
-                employeedatamap=new TreeMap <String,DailyEmployeeData>();
-                date=recordlist.get(0).getDate();
+        String date;
+        DailyEmployeesData employeedatamap=new DailyEmployeesData();
+        date=recordlist.get(0).getDate();
 //                System.out.println(date);
-                
-                //process all records, sort by employee
-                DailyEmployeeData edata;
-                for(TimeRecord tr:recordlist)
+
+        //process all records, sort by employee
+        DailyEmployeeData edata;
+        for(TimeRecord tr:recordlist)
+        {
+            if(!employeedatamap.containsKey(tr.getName()))
+            {
+                edata=new DailyEmployeeData();
+                employeedatamap.put(tr.getName(), edata);
+                edata.setIn(tr);
+                edata.setOut(tr);
+            }
+            else
+            {
+                edata=employeedatamap.get(tr.getName());
+                if(edata.getIn().islaterthan(tr))
                 {
-                    if(!employeedatamap.containsKey(tr.getName()))
-                    {
-                        edata=new DailyEmployeeData();
-                        employeedatamap.put(tr.getName(), edata);
-                        edata.setIn(tr);
-                        edata.setOut(tr);
-                    }
-                    else
-                    {
-                        edata=employeedatamap.get(tr.getName());
-                        if(edata.getIn().islaterthan(tr))
-                        {
-                            edata.setIn(tr);
-                        }
-                        else if(edata.getOut().isearlierthan(tr))
-                        {
-                            edata.setOut(tr);
-                        }
-                    }
+                    edata.setIn(tr);
                 }
-                System.out.println(date);
-                Time time;
-                Time twelve=new Time(12,0,0);
-                Time one=new Time(13,0,0);
-                for(DailyEmployeeData edata2:employeedatamap.values())
+                else if(edata.getOut().isearlierthan(tr))
                 {
-                    //adjust in time to 1:00 if between 12 and 1
-                    time=edata2.getIn().getTime();
-                    if
-                    (
-                        time.after(twelve)
-                        &&
-                        time.before(one)
-                    )
-                    {
-                        edata2.getIn().setTime(one);
-                    }
-                    //adjust out time to 12:00 if between 12 and 1
-                    time=edata2.getOut().getTime();
-                    if
-                    (
-                        time.after(twelve)
-                        &&
-                        time.before(one)
-                    )
-                    {
-                        edata2.getOut().setTime(twelve);
-                    }
-                    
-                    
-                    System.out.print(edata2.getIn().getName());
-                    System.out.print("-");
-                    System.out.print(edata2.getIn().getTime());
-                    System.out.print("-");
-                    System.out.print(edata2.getOut().getTime());
-                    if(edata2.getIn().getTime().compareTo(edata2.getOut().getTime())==0)
-                        System.out.print(" only 1 record");
-                    System.out.println();
-                }  
-                System.out.println("----------");
-                
-                return employeedatamap;
+                    edata.setOut(tr);
+                }
+            }
+        }
+        System.out.println(date);
+        Time time;
+        Time twelve=new Time(12,0,0);
+        Time one=new Time(13,0,0);
+        for(DailyEmployeeData edata2:employeedatamap.values())
+        {
+            //adjust in time to 1:00 if between 12 and 1
+            time=edata2.getIn().getTime();
+            if
+            (
+                time.after(twelve)
+                &&
+                time.before(one)
+            )
+            {
+                edata2.getIn().setTime(one);
+            }
+            //adjust out time to 12:00 if between 12 and 1
+            time=edata2.getOut().getTime();
+            if
+            (
+                time.after(twelve)
+                &&
+                time.before(one)
+            )
+            {
+                edata2.getOut().setTime(twelve);
+            }
+
+
+            System.out.print(edata2.getIn().getName());
+            System.out.print("-");
+            System.out.print(edata2.getIn().getTime());
+            System.out.print("-");
+            System.out.print(edata2.getOut().getTime());
+            if(edata2.getIn().getTime().compareTo(edata2.getOut().getTime())==0)
+                System.out.print(" only 1 record");
+            System.out.println();
+        }  
+        System.out.println("----------");
+
+        return employeedatamap;
     }
 
 
