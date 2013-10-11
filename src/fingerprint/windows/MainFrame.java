@@ -26,6 +26,8 @@ public class MainFrame extends java.awt.Frame {
     /**
      * Creates new form MainFrame
      */
+       public final Time twelve=new Time(12,0,0);
+       public final Time one=new Time(13,0,0);
     public MainFrame() {
         initComponents();
     }
@@ -81,6 +83,7 @@ public class MainFrame extends java.awt.Frame {
             parseFile(file);
             
             //create employee name list
+            // and date list
             EmployeeNameList namelist=new EmployeeNameList();
             Calendar datelist=new Calendar();
             for(TimeRecord record:records)
@@ -91,6 +94,7 @@ public class MainFrame extends java.awt.Frame {
                     datelist.add(record.getDate());
             }
             
+            //process data into array structure
             WeeklyEmployeesData wed=new WeeklyEmployeesData();
             //arrange records into employees, 
             //get earliest and latest record per employee
@@ -108,17 +112,52 @@ public class MainFrame extends java.awt.Frame {
 //                if(recordlist.size()>0)
                 wed.put(recordlist.get(0).getDate(), edatamap);
             }
+            
+            //sample output
             for(String name:namelist)
             {
                 for(String date:datelist)
                 {
-                    System.out.print(date+"-");
-                    System.out.print(name+"-");
+                    DailyEmployeeData data=wed.get(date).get(name);
+                    System.out.print(name+"\t");
+                    System.out.print(date+"\t");
+                    if(data.getIn().getTime().equals(one))
+                    {
                     System.out.println(
-                            wed.get(date).get(name).getIn().getTime()
-                            +"-"
-                            +wed.get(date).get(name).getOut().getTime()
+                            ""
+                            +"\t"
+                            +""
+                            +"\t"
+                            +data.getInTimeString()
+                            +"\t"
+                            +data.getOutTimeString()
                             );
+                    }
+                    else
+                    if(data.getOut().getTime().equals(twelve))
+                    {
+                    System.out.println(
+                            data.getInTimeString()
+                            +"\t"
+                            +data.getOutTimeString()
+                            +""
+                            +"\t"
+                            +""
+                            +"\t"
+                            );
+                    }
+                      else
+                    {
+                    System.out.println(
+                            data.getInTimeString()
+                            +"\t"
+                            +"1200"
+                            +"\t"
+                            +"1300"
+                            +"\t"
+                            +data.getOutTimeString()
+                            );
+                    }
                     
                 }
             }
@@ -214,10 +253,8 @@ public class MainFrame extends java.awt.Frame {
                 }
             }
         }
-        System.out.println(date);
+//        System.out.println(date);
         Time time;
-        Time twelve=new Time(12,0,0);
-        Time one=new Time(13,0,0);
         for(DailyEmployeeData edata2:employeedatamap.values())
         {
             //adjust in time to 1:00 if between 12 and 1
@@ -244,16 +281,16 @@ public class MainFrame extends java.awt.Frame {
             }
 
 
-            System.out.print(edata2.getIn().getName());
-            System.out.print("-");
-            System.out.print(edata2.getIn().getTime());
-            System.out.print("-");
-            System.out.print(edata2.getOut().getTime());
-            if(edata2.getIn().getTime().compareTo(edata2.getOut().getTime())==0)
-                System.out.print(" only 1 record");
-            System.out.println();
+//            System.out.print(edata2.getIn().getName());
+//            System.out.print("-");
+//            System.out.print(edata2.getIn().getTime());
+//            System.out.print("-");
+//            System.out.print(edata2.getOut().getTime());
+//            if(edata2.getIn().getTime().compareTo(edata2.getOut().getTime())==0)
+//                System.out.print(" only 1 record");
+//            System.out.println();
         }  
-        System.out.println("----------");
+//        System.out.println("----------");
 
         return employeedatamap;
     }

@@ -4,6 +4,8 @@
  */
 package models;
 
+import java.sql.Time;
+
 /**
  *
  * @author jaspertomas
@@ -25,6 +27,23 @@ public class DailyEmployeeData {
 
     public void setOut(TimeRecord out) {
         this.out = out;
+    }
+    
+    public String getInTimeString()
+    {
+        Time time=in.getTime();
+        return 
+                String.format("%02d", time.getHours())
+//                +"\t"
+                +String.format("%02d", time.getMinutes());
+    }
+    public String getOutTimeString()
+    {
+        Time time=out.getTime();
+        return 
+                String.format("%02d", time.getHours())
+//                +"\t"
+                +String.format("%02d", time.getMinutes());
     }
     
     
