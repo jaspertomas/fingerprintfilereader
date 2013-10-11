@@ -119,6 +119,7 @@ public class MainFrame extends java.awt.Frame {
                 for(String date:datelist)
                 {
                     DailyEmployeeData data=wed.get(date).get(name);
+                    if(data==null)continue;
                     System.out.print(name+"\t");
                     System.out.print(date+"\t");
                     if(data.getIn().getTime().equals(one))
@@ -183,7 +184,7 @@ public class MainFrame extends java.awt.Frame {
         records= new ArrayList<TimeRecord>();
         for(String line:lines)
         {
-            if(!line.contains("APB\tJobCode\tDateTime"))
+            if(line.trim().length()!=0 && !line.contains("APB\tJobCode\tDateTime"))
                 records.add(new TimeRecord(line));
         }
         
