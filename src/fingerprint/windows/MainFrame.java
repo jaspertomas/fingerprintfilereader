@@ -210,24 +210,28 @@ public class MainFrame extends java.awt.Frame {
             //set these as in and out respectively
 
             //each ArrayList contains TimeRecords of the same date
-            for(ArrayList<TimeRecord> recordlist :timerecordsbyemployee.values())
+            for(ArrayList<TimeRecord> timerecordlist :timerecordsbyemployee.values())
             {
                 //do this for each set of records of the same date
                 
                 //this map has the employee name as key 
                 // and packaged in and out records as data
                 //it is recreated for each date
-                CompiledEmployeeData edatamap=genEmployeeDataMap(recordlist);
+                CompiledEmployeeData edatamap=genEmployeeDataMap(timerecordlist);
 //                if(recordlist.size()>0)
-                wed.put(recordlist.get(0).getDate(), edatamap);
+                wed.put(timerecordlist.get(0).getName(), edatamap);
             }
             
             //sample output
+            CompiledEmployeeData edatamap;
+            TimeInOutData data;
             for(String name:employeenamelist)
             {
                 for(String date:calendar)
                 {
-                    TimeInOutData data=wed.get(date).get(name);
+                    edatamap= wed.get(name);
+                    if(edatamap==null)continue;
+                    data=edatamap.get(date);
                     if(data==null)continue;
                     
                     jTextArea.append(name+"\t");
@@ -527,25 +531,29 @@ public class MainFrame extends java.awt.Frame {
 
     private CompiledEmployeeData genEmployeeDataMap(ArrayList<TimeRecord> timerecordlist)
     {
-        String date;
+
         CompiledEmployeeData compiledemployeedata=new CompiledEmployeeData();
-        date=timerecordlist.get(0).getDate();
+        String date=timerecordlist.get(0).getDate();
 //                System.out.println(date);
 
         //process all records, sort by employee
         TimeInOutData inoutdata;
         for(TimeRecord tr:timerecordlist)
         {
-            if(!compiledemployeedata.containsKey(tr.getName()))
+            //if key doesn't exist, create it, 
+            //and set a new Daily Record as its value, with the timerecord's time as both in and out
+            if(!compiledemployeedata.containsKey(tr.getDate()))
             {
                 inoutdata=new TimeInOutData();
-                compiledemployeedata.put(tr.getName(), inoutdata);
+                compiledemployeedata.put(tr.getDate(), inoutdata);
                 inoutdata.setIn(tr);
                 inoutdata.setOut(tr);
             }
+            //else
+            //add time to existing Daily Record as time in or time out
             else
             {
-                inoutdata=compiledemployeedata.get(tr.getName());
+                inoutdata=compiledemployeedata.get(tr.getDate());
                 if(inoutdata.getIn().islaterthan(tr))
                 {
                     inoutdata.setIn(tr);
@@ -556,7 +564,12 @@ public class MainFrame extends java.awt.Frame {
                 }
             }
         }
-//        System.out.println(date);
+        compiledemployeedata=enforceTimeInCeiling(compiledemployeedata);
+        return compiledemployeedata;
+    }
+    
+    private CompiledEmployeeData enforceTimeInCeiling(CompiledEmployeeData compiledemployeedata)
+    {
         Time time;
         for(TimeInOutData edata2:compiledemployeedata.values())
         {
@@ -592,19 +605,7 @@ public class MainFrame extends java.awt.Frame {
             {
                 edata2.getOut().setTime(twelve);
             }
-
-
-//            System.out.print(edata2.getIn().getName());
-//            System.out.print("-");
-//            System.out.print(edata2.getIn().getTime());
-//            System.out.print("-");
-//            System.out.print(edata2.getOut().getTime());
-//            if(edata2.getIn().getTime().compareTo(edata2.getOut().getTime())==0)
-//                System.out.print(" only 1 record");
-//            System.out.println();
         }  
-//        System.out.println("----------");
-
         return compiledemployeedata;
     }
 
