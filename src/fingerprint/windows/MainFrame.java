@@ -175,7 +175,6 @@ public class MainFrame extends java.awt.Frame {
 
     }//GEN-LAST:event_btnGenerateExcelFileActionPerformed
     private JFileChooser fc;
-    File file;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
 
         //Create a file chooser
@@ -185,26 +184,7 @@ public class MainFrame extends java.awt.Frame {
         int returnVal = fc.showOpenDialog(this);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            //parse file
-            file = fc.getSelectedFile();
-
-            //parse file and create records list
-            parseFile(file);
-            
-            //arrange time records into arraylists by employee
-            groupTimeRecordsByEmployee();
-            
-            createNameListAndCalendar();
-            
-            //start to process data into array structure
-            weeklydata=new WeeklyTimeData();
-            for(ArrayList<TimeRecord> timerecordlist :timerecordsbyemployee.values())
-            {
-                CompiledEmployeeData edatamap=genEmployeeDataMap(timerecordlist);
-                weeklydata.put(timerecordlist.get(0).getName(), edatamap);
-            }
-            printSampleOutput();
-            
+            calculate();
         } 
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
 
@@ -253,11 +233,15 @@ public class MainFrame extends java.awt.Frame {
     private void btnRecalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecalculateActionPerformed
         if(!validateDates())return;
 
-        //if file hasn't been selected, do nothing
-        if(file==null)return;
+        //parse file
+        File file = fc.getSelectedFile();
 
-            //parse file
-            file = fc.getSelectedFile();
+        //if file hasn't been selected, do nothing
+        if(file==null)
+        {
+            JOptionPane.showMessageDialog (null, "Please Choose CSV data file", "Error", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
 
             //parse file and create records list
             parseFile(file);
@@ -547,5 +531,30 @@ public class MainFrame extends java.awt.Frame {
                     
                 }
             }
+    }
+    private void calculate()
+    {
+            //parse file
+            File file = fc.getSelectedFile();
+
+            //if file hasn't been selected, do nothing
+            if(file==null)return;
+
+            //parse file and create records list
+            parseFile(file);
+            
+            //arrange time records into arraylists by employee
+            groupTimeRecordsByEmployee();
+            
+            createNameListAndCalendar();
+            
+            //start to process data into array structure
+            weeklydata=new WeeklyTimeData();
+            for(ArrayList<TimeRecord> timerecordlist :timerecordsbyemployee.values())
+            {
+                CompiledEmployeeData edatamap=genEmployeeDataMap(timerecordlist);
+                weeklydata.put(timerecordlist.get(0).getName(), edatamap);
+            }
+            printSampleOutput();
     }
 }
