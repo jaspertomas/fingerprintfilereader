@@ -11,9 +11,9 @@ import java.util.TreeMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import models.Calendar;
-import models.DailyEmployeeData;
+import models.TimeInOutData;
 import models.TimeRecord;
-import models.DailyEmployeesData;
+import models.CompiledEmployeeData;
 import models.DateUtil;
 import models.EmployeeNameList;
 import models.WeeklyEmployeesData;
@@ -24,7 +24,8 @@ import utils.fileaccess.FileReader;
  * @author jaspertomas
  */
 public class MainFrame extends java.awt.Frame {
-
+    //if a line contains this, it's the header - ignore it
+        public final String headerfingerprint="APB\tJobCode\tDateTime";
     /**
      * Creates new form MainFrame
      */
@@ -221,7 +222,7 @@ public class MainFrame extends java.awt.Frame {
                 //this map has the employee name as key 
                 // and packaged in and out records as data
                 //it is recreated for each date
-                DailyEmployeesData edatamap=genEmployeeDataMap(recordlist);
+                CompiledEmployeeData edatamap=genEmployeeDataMap(recordlist);
 //                if(recordlist.size()>0)
                 wed.put(recordlist.get(0).getDate(), edatamap);
             }
@@ -231,7 +232,7 @@ public class MainFrame extends java.awt.Frame {
             {
                 for(String date:calendar)
                 {
-                    DailyEmployeeData data=wed.get(date).get(name);
+                    TimeInOutData data=wed.get(date).get(name);
                     if(data==null)continue;
                     
                     jTextArea.append(name+"\t");
@@ -375,7 +376,7 @@ public class MainFrame extends java.awt.Frame {
                 //this map has the employee name as key 
                 // and packaged in and out records as data
                 //it is recreated for each date
-                DailyEmployeesData edatamap=genEmployeeDataMap(recordlist);
+                CompiledEmployeeData edatamap=genEmployeeDataMap(recordlist);
 //                if(recordlist.size()>0)
                 wed.put(recordlist.get(0).getDate(), edatamap);
             }
@@ -386,7 +387,7 @@ public class MainFrame extends java.awt.Frame {
         {
             for(String date:datelist)
             {
-                DailyEmployeeData data=wed.get(date).get(name);
+                TimeInOutData data=wed.get(date).get(name);
                 if(data==null)continue;
 
                 jTextArea.append(name+"\t");
@@ -453,7 +454,9 @@ public class MainFrame extends java.awt.Frame {
         timerecords= new ArrayList<TimeRecord>();
         for(String line:lines)
         {
-            if(line.trim().length()!=0 && !line.contains("APB\tJobCode\tDateTime"))
+            //ignore the header
+            if(line.contains(headerfingerprint))continue;
+            else if(line.trim().length()!=0 )
                 timerecords.add(new TimeRecord(line));
         }
         
@@ -502,40 +505,40 @@ public class MainFrame extends java.awt.Frame {
     private javax.swing.JTextField txtStartDate;
     // End of variables declaration//GEN-END:variables
 
-    private DailyEmployeesData genEmployeeDataMap(ArrayList<TimeRecord> recordlist)
+    private CompiledEmployeeData genEmployeeDataMap(ArrayList<TimeRecord> timerecordlist)
     {
         String date;
-        DailyEmployeesData employeedatamap=new DailyEmployeesData();
-        date=recordlist.get(0).getDate();
+        CompiledEmployeeData compiledemployeedata=new CompiledEmployeeData();
+        date=timerecordlist.get(0).getDate();
 //                System.out.println(date);
 
         //process all records, sort by employee
-        DailyEmployeeData edata;
-        for(TimeRecord tr:recordlist)
+        TimeInOutData inoutdata;
+        for(TimeRecord tr:timerecordlist)
         {
-            if(!employeedatamap.containsKey(tr.getName()))
+            if(!compiledemployeedata.containsKey(tr.getName()))
             {
-                edata=new DailyEmployeeData();
-                employeedatamap.put(tr.getName(), edata);
-                edata.setIn(tr);
-                edata.setOut(tr);
+                inoutdata=new TimeInOutData();
+                compiledemployeedata.put(tr.getName(), inoutdata);
+                inoutdata.setIn(tr);
+                inoutdata.setOut(tr);
             }
             else
             {
-                edata=employeedatamap.get(tr.getName());
-                if(edata.getIn().islaterthan(tr))
+                inoutdata=compiledemployeedata.get(tr.getName());
+                if(inoutdata.getIn().islaterthan(tr))
                 {
-                    edata.setIn(tr);
+                    inoutdata.setIn(tr);
                 }
-                else if(edata.getOut().isearlierthan(tr))
+                else if(inoutdata.getOut().isearlierthan(tr))
                 {
-                    edata.setOut(tr);
+                    inoutdata.setOut(tr);
                 }
             }
         }
 //        System.out.println(date);
         Time time;
-        for(DailyEmployeeData edata2:employeedatamap.values())
+        for(TimeInOutData edata2:compiledemployeedata.values())
         {
             //adjust in time
             time=edata2.getIn().getTime();
@@ -582,7 +585,7 @@ public class MainFrame extends java.awt.Frame {
         }  
 //        System.out.println("----------");
 
-        return employeedatamap;
+        return compiledemployeedata;
     }
 
 

@@ -10,7 +10,8 @@ import java.sql.Time;
  *
  * @author jaspertomas
  */
-public class DailyEmployeeData {
+public class TimeInOutData {
+    String name,date;
     TimeRecord in,out;
 
     public TimeRecord getIn() {

@@ -13,8 +13,13 @@ import java.util.TreeMap;
  * and DailyEmployeeData contains 2 time records: an in time and an out time
  * it contains all the records from the file
  * example
- * employee 1  2013/01/02  9:00 am  5:00 pm
- * employee 2  2013/01/02  9:00 am  5:00 pm
+ * employee 1  2013/01/01  9:00 am  5:00 pm
+ * employee 2  2013/01/01  9:00 am  5:00 pm
+ * 
+ * turning it into
+ * 2013/01/01  employee 1  9:00 am  5:00 pm
+ * 2013/01/02  employee 1  9:00 am  5:00 pm
+ * 
  */
-public class DailyEmployeesData extends TreeMap<String, DailyEmployeeData>{
+public class CompiledEmployeeData extends TreeMap<String, TimeInOutData>{
 }
