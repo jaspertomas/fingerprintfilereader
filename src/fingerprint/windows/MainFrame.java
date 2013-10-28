@@ -456,10 +456,14 @@ public class MainFrame extends java.awt.Frame {
         {
             //ignore the header
             if(line.contains(headerfingerprint))continue;
-            else if(line.trim().length()!=0 )
+            //ignore empty lines
+            else if(line.trim().length()==0 )continue;
+            else
                 timerecords.add(new TimeRecord(line));
         }
-        
+    }
+    private void groupTimeRecordsByEmployee()
+    {
         //group by date
         ArrayList<TimeRecord> dailyrecordlist; 
         parseresult=new TreeMap<String,ArrayList<TimeRecord>>();
@@ -480,6 +484,28 @@ public class MainFrame extends java.awt.Frame {
 
         }
     }
+//    private void groupTimeRecordsByDate()
+//    {
+//        //group by date
+//        ArrayList<TimeRecord> dailyrecordlist; 
+//        parseresult=new TreeMap<String,ArrayList<TimeRecord>>();
+//        for(TimeRecord record:timerecords)
+//        {
+//            if(!parseresult.containsKey(record.getDate()))
+//            {
+//                dailyrecordlist=new ArrayList<TimeRecord>();
+//                dailyrecordlist.add(record);
+//                parseresult.put(record.getDate(), dailyrecordlist);
+//            }
+//            else
+//            {
+//                dailyrecordlist=parseresult.get(record.getDate());
+//                dailyrecordlist.add(record);
+////                    datesmap.put(record.getDate(), dailyrecords);
+//            }
+//
+//        }
+//    }
     
     /**
      * @param args the command line arguments
