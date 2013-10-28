@@ -256,105 +256,40 @@ public class MainFrame extends java.awt.Frame {
         //if file hasn't been selected, do nothing
         if(file==null)return;
 
-        //parse file and create records list
-        parseFile(file);
+            //parse file
+            file = fc.getSelectedFile();
 
-        //create employee name list
-        // and date list
-        EmployeeNameList namelist=new EmployeeNameList();
-        Calendar datelist=new Calendar();
-        for(TimeRecord record:timerecords)
-        {
-            if(!namelist.contains(record.getName()))
-                namelist.add(record.getName());
-            if(
-                    DateUtil.isLaterThanOrEqualTo(record.getDate(), txtStartDate.getText())
-                    &&
-                    DateUtil.isEarlierThanOrEqualTo(record.getDate(), txtEndDate.getText())
-                    &&
-                    !datelist.contains(record.getDate())
-              )
-                datelist.add(record.getDate());
-        }
-
-        //process data into array structure
-        WeeklyTimeData wed=new WeeklyTimeData();
- 
-        ArrayList<TimeRecord> recordlist;
-        for(String key :timerecordsbyemployee.keySet())
-        {
-            //only process records that fall between the start and end dates
-            if(
-                    DateUtil.isLaterThanOrEqualTo(key, txtStartDate.getText())
-                    &&
-                    DateUtil.isEarlierThanOrEqualTo(key, txtEndDate.getText())
-              )
+            //parse file and create records list
+            parseFile(file);
+            
+            //remove calendar entries that do not fit between startdate and enddate
+            ArrayList<TimeRecord> temp=new ArrayList<TimeRecord>();
+            for(TimeRecord timerecord:timerecords)
             {
-                recordlist=timerecordsbyemployee.get(key);
-                //do this for each set of records of the same date
-
-                //this map has the employee name as key 
-                // and packaged in and out records as data
-                //it is recreated for each date
-                CompiledEmployeeData edatamap=genEmployeeDataMap(recordlist);
-//                if(recordlist.size()>0)
-                wed.put(recordlist.get(0).getDate(), edatamap);
+                if(
+                    DateUtil.isEarlierThan(timerecord.getDate(), txtStartDate.getText())
+                    ||
+                    DateUtil.isLaterThan(timerecord.getDate(), txtEndDate.getText())
+                )
+                    temp.add(timerecord);
             }
-        }
-
-        //sample output
-        for(String name:namelist)
-        {
-            for(String date:datelist)
+            for(TimeRecord timerecord:temp)
+                timerecords.remove(timerecord);
+            
+            //arrange time records into arraylists by employee
+            groupTimeRecordsByEmployee();
+            
+            createNameListAndCalendar();
+            
+            
+            //start to process data into array structure
+            weeklydata=new WeeklyTimeData();
+            for(ArrayList<TimeRecord> timerecordlist :timerecordsbyemployee.values())
             {
-                TimeInOutData data=wed.get(date).get(name);
-                if(data==null)continue;
-
-                jTextArea.append(name+"\t");
-                jTextArea.append(date+"\t");
-                if(data.getIn().getTime().equals(one))
-                {
-                    jTextArea.append(
-                        ""
-                        +"\t"
-                        +""
-                        +"\t"
-                        +data.getInTimeString()
-                        +"\t"
-                        +data.getOutTimeString()
-                        +"\n"
-                        );
-                }
-                else
-                if(data.getOut().getTime().equals(twelve))
-                {
-                    jTextArea.append(
-                        data.getInTimeString()
-                        +"\t"
-                        +data.getOutTimeString()
-                        +""
-                        +"\t"
-                        +""
-                        +"\t"
-                        +"\n"
-                        );
-                }
-                  else
-                {
-                jTextArea.append(
-                        data.getInTimeString()
-                        +"\t"
-                        +"1200"
-                        +"\t"
-                        +"1300"
-                        +"\t"
-                        +data.getOutTimeString()
-                        +"\n"
-                        );
-                }
-
+                CompiledEmployeeData edatamap=genEmployeeDataMap(timerecordlist);
+                weeklydata.put(timerecordlist.get(0).getName(), edatamap);
             }
-        }
+            printSampleOutput();
     }//GEN-LAST:event_btnRecalculateActionPerformed
 
     
@@ -552,6 +487,8 @@ public class MainFrame extends java.awt.Frame {
 
     private void printSampleOutput()
     {
+        //clear the textarea
+        jTextArea.setText("");
 
             //sample output
             CompiledEmployeeData edatamap;
