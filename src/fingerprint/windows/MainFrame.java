@@ -32,6 +32,11 @@ public class MainFrame extends java.awt.Frame {
        public final Time twelve=new Time(12,0,0);
        public final Time one=new Time(13,0,0);
        public final Time eightthirty=new Time(8,30,0);
+
+       //these are string arrays containing all employees and all dates
+    EmployeeNameList employeenamelist;
+    Calendar calendar;
+
        
        //this is a map of TimeRecord array lists
        //it is the result of the parsing.
@@ -39,7 +44,7 @@ public class MainFrame extends java.awt.Frame {
        //regardless of whether they are the first record of the day, or the last, or in between
        //The map's keys are the date
        //The map's values are arraylists, each containing TimeRecords of the same date
-    TreeMap<String,ArrayList<TimeRecord>> parseresult;
+    TreeMap<String,ArrayList<TimeRecord>> timerecordsbyemployee;
        
     public MainFrame() {
         initComponents();
@@ -195,23 +200,8 @@ public class MainFrame extends java.awt.Frame {
             //arrange time records into arraylists by employee
             groupTimeRecordsByEmployee();
             
-            !!!!!!!
+            createNameListAndCalendar();
             
-            //create employee name list
-            // and date list
-            EmployeeNameList employeenamelist=new EmployeeNameList();
-            Calendar calendar=new Calendar();
-            for(TimeRecord timerecord:timerecords)
-            {
-                if(!employeenamelist.contains(timerecord.getName()))
-                    employeenamelist.add(timerecord.getName());
-                if(!calendar.contains(timerecord.getDate()))
-                    calendar.add(timerecord.getDate());
-            }
-            //set date textboxes according to the date range in the calendar
-            txtStartDate.setText(calendar.get(0));
-            txtEndDate.setText(calendar.get(calendar.size()-1));
-                        
             //start to process data into array structure
             WeeklyEmployeesData wed=new WeeklyEmployeesData();
             //arrange records into employees, 
@@ -220,7 +210,7 @@ public class MainFrame extends java.awt.Frame {
             //set these as in and out respectively
 
             //each ArrayList contains TimeRecords of the same date
-            for(ArrayList<TimeRecord> recordlist :parseresult.values())
+            for(ArrayList<TimeRecord> recordlist :timerecordsbyemployee.values())
             {
                 //do this for each set of records of the same date
                 
@@ -366,7 +356,7 @@ public class MainFrame extends java.awt.Frame {
         //datesmap is a map with date as key and array of records as value
         //each array of records contains records of the same date
         ArrayList<TimeRecord> recordlist;
-        for(String key :parseresult.keySet())
+        for(String key :timerecordsbyemployee.keySet())
         {
             //only process records that fall between the start and end dates
             if(
@@ -375,7 +365,7 @@ public class MainFrame extends java.awt.Frame {
                     DateUtil.isEarlierThanOrEqualTo(key, txtEndDate.getText())
               )
             {
-                recordlist=parseresult.get(key);
+                recordlist=timerecordsbyemployee.get(key);
                 //do this for each set of records of the same date
 
                 //this map has the employee name as key 
@@ -471,18 +461,18 @@ public class MainFrame extends java.awt.Frame {
     {
         //group by date
         ArrayList<TimeRecord> dailyrecordlist; 
-        parseresult=new TreeMap<String,ArrayList<TimeRecord>>();
+        timerecordsbyemployee=new TreeMap<String,ArrayList<TimeRecord>>();
         for(TimeRecord record:timerecords)
         {
-            if(!parseresult.containsKey(record.getName()))
+            if(!timerecordsbyemployee.containsKey(record.getName()))
             {
                 dailyrecordlist=new ArrayList<TimeRecord>();
                 dailyrecordlist.add(record);
-                parseresult.put(record.getName(), dailyrecordlist);
+                timerecordsbyemployee.put(record.getName(), dailyrecordlist);
             }
             else
             {
-                dailyrecordlist=parseresult.get(record.getName());
+                dailyrecordlist=timerecordsbyemployee.get(record.getName());
                 dailyrecordlist.add(record);
             }
 
@@ -618,5 +608,21 @@ public class MainFrame extends java.awt.Frame {
         return compiledemployeedata;
     }
 
-
+    private void createNameListAndCalendar()
+    {
+            //create employee name list
+            // and date list
+            employeenamelist=new EmployeeNameList();
+            calendar=new Calendar();
+            for(TimeRecord timerecord:timerecords)
+            {
+                if(!employeenamelist.contains(timerecord.getName()))
+                    employeenamelist.add(timerecord.getName());
+                if(!calendar.contains(timerecord.getDate()))
+                    calendar.add(timerecord.getDate());
+            }
+            //set date textboxes according to the date range in the calendar
+            txtStartDate.setText(calendar.get(0));
+            txtEndDate.setText(calendar.get(calendar.size()-1));
+    }
 }
