@@ -192,6 +192,11 @@ public class MainFrame extends java.awt.Frame {
             //parse file and create records list
             parseFile(file);
             
+            //arrange time records into arraylists by employee
+            groupTimeRecordsByEmployee();
+            
+            !!!!!!!
+            
             //create employee name list
             // and date list
             EmployeeNameList employeenamelist=new EmployeeNameList();
@@ -469,17 +474,16 @@ public class MainFrame extends java.awt.Frame {
         parseresult=new TreeMap<String,ArrayList<TimeRecord>>();
         for(TimeRecord record:timerecords)
         {
-            if(!parseresult.containsKey(record.getDate()))
+            if(!parseresult.containsKey(record.getName()))
             {
                 dailyrecordlist=new ArrayList<TimeRecord>();
                 dailyrecordlist.add(record);
-                parseresult.put(record.getDate(), dailyrecordlist);
+                parseresult.put(record.getName(), dailyrecordlist);
             }
             else
             {
-                dailyrecordlist=parseresult.get(record.getDate());
+                dailyrecordlist=parseresult.get(record.getName());
                 dailyrecordlist.add(record);
-//                    datesmap.put(record.getDate(), dailyrecords);
             }
 
         }
