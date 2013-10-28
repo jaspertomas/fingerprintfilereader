@@ -10,6 +10,6 @@ import java.util.TreeMap;
  *
  * @author jaspertomas
  */
-public class WeeklyEmployeesData extends TreeMap<String, CompiledEmployeeData>{
+public class WeeklyTimeData extends TreeMap<String, CompiledEmployeeData>{
     
 }

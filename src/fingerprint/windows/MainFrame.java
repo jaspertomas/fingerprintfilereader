@@ -16,7 +16,7 @@ import models.TimeRecord;
 import models.CompiledEmployeeData;
 import models.DateUtil;
 import models.EmployeeNameList;
-import models.WeeklyEmployeesData;
+import models.WeeklyTimeData;
 import utils.fileaccess.FileReader;
 
 /**
@@ -26,26 +26,20 @@ import utils.fileaccess.FileReader;
 public class MainFrame extends java.awt.Frame {
     //if a line contains this, it's the header - ignore it
         public final String headerfingerprint="APB\tJobCode\tDateTime";
-    /**
-     * Creates new form MainFrame
-     */
+
        public final Time twelve=new Time(12,0,0);
        public final Time one=new Time(13,0,0);
        public final Time eightthirty=new Time(8,30,0);
 
-       //these are string arrays containing all employees and all dates
+    //this is a string array of all employee names included in the parsed file
     EmployeeNameList employeenamelist;
+    //this is a string array of all dates included in the parsed file
     Calendar calendar;
 
-       
-       //this is a map of TimeRecord array lists
-       //it is the result of the parsing.
-       //it contains all the timerecords from the parsed file, 
-       //regardless of whether they are the first record of the day, or the last, or in between
-       //The map's keys are the date
-       //The map's values are arraylists, each containing TimeRecords of the same date
+    //key = employee
+    //value = all timerecords by a specific employee
     TreeMap<String,ArrayList<TimeRecord>> timerecordsbyemployee;
-       
+    WeeklyTimeData weeklydata;
     public MainFrame() {
         initComponents();
     }
@@ -183,7 +177,7 @@ public class MainFrame extends java.awt.Frame {
     private JFileChooser fc;
     File file;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
-        // TODO add your handling code here:
+
         //Create a file chooser
         fc = new JFileChooser();
         
@@ -203,82 +197,13 @@ public class MainFrame extends java.awt.Frame {
             createNameListAndCalendar();
             
             //start to process data into array structure
-            WeeklyEmployeesData wed=new WeeklyEmployeesData();
-            //arrange records into employees, 
-            //get earliest and latest record per employee
-            //discard the rest
-            //set these as in and out respectively
-
-            //each ArrayList contains TimeRecords of the same date
+            weeklydata=new WeeklyTimeData();
             for(ArrayList<TimeRecord> timerecordlist :timerecordsbyemployee.values())
             {
-                //do this for each set of records of the same date
-                
-                //this map has the employee name as key 
-                // and packaged in and out records as data
-                //it is recreated for each date
                 CompiledEmployeeData edatamap=genEmployeeDataMap(timerecordlist);
-//                if(recordlist.size()>0)
-                wed.put(timerecordlist.get(0).getName(), edatamap);
+                weeklydata.put(timerecordlist.get(0).getName(), edatamap);
             }
-            
-            //sample output
-            CompiledEmployeeData edatamap;
-            TimeInOutData data;
-            for(String name:employeenamelist)
-            {
-                for(String date:calendar)
-                {
-                    edatamap= wed.get(name);
-                    if(edatamap==null)continue;
-                    data=edatamap.get(date);
-                    if(data==null)continue;
-                    
-                    jTextArea.append(name+"\t");
-                    jTextArea.append(date+"\t");
-                    if(data.getIn().getTime().equals(one))
-                    {
-                        jTextArea.append(
-                            ""
-                            +"\t"
-                            +""
-                            +"\t"
-                            +data.getInTimeString()
-                            +"\t"
-                            +data.getOutTimeString()
-                            +"\n"
-                            );
-                    }
-                    else
-                    if(data.getOut().getTime().equals(twelve))
-                    {
-                        jTextArea.append(
-                            data.getInTimeString()
-                            +"\t"
-                            +data.getOutTimeString()
-                            +""
-                            +"\t"
-                            +""
-                            +"\t"
-                            +"\n"
-                            );
-                    }
-                      else
-                    {
-                    jTextArea.append(
-                            data.getInTimeString()
-                            +"\t"
-                            +"1200"
-                            +"\t"
-                            +"1300"
-                            +"\t"
-                            +data.getOutTimeString()
-                            +"\n"
-                            );
-                    }
-                    
-                }
-            }
+            printSampleOutput();
             
         } 
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
@@ -353,12 +278,8 @@ public class MainFrame extends java.awt.Frame {
         }
 
         //process data into array structure
-        WeeklyEmployeesData wed=new WeeklyEmployeesData();
-        //arrange records into employees, 
-        //get earliest and latest record per employee
-        //set these as in and out respectively
-        //datesmap is a map with date as key and array of records as value
-        //each array of records contains records of the same date
+        WeeklyTimeData wed=new WeeklyTimeData();
+ 
         ArrayList<TimeRecord> recordlist;
         for(String key :timerecordsbyemployee.keySet())
         {
@@ -529,28 +450,30 @@ public class MainFrame extends java.awt.Frame {
     private javax.swing.JTextField txtStartDate;
     // End of variables declaration//GEN-END:variables
 
-    private CompiledEmployeeData genEmployeeDataMap(ArrayList<TimeRecord> timerecordlist)
+    private CompiledEmployeeData genEmployeeDataMap(ArrayList<TimeRecord> employeetimerecordlist)
     {
+        //employeetimerecordlist contains many login time records per day, spanning many days
 
         CompiledEmployeeData compiledemployeedata=new CompiledEmployeeData();
-        String date=timerecordlist.get(0).getDate();
-//                System.out.println(date);
 
-        //process all records, sort by employee
+        //process all records, sort by date
+        //for each time record:
         TimeInOutData inoutdata;
-        for(TimeRecord tr:timerecordlist)
+        for(TimeRecord tr:employeetimerecordlist)
         {
-            //if key doesn't exist, create it, 
-            //and set a new Daily Record as its value, with the timerecord's time as both in and out
+            //if the daily record for the time record doesn't exist, create it, 
+            //save the time record as a new daily record, using the recorded time as both in and out
             if(!compiledemployeedata.containsKey(tr.getDate()))
             {
                 inoutdata=new TimeInOutData();
-                compiledemployeedata.put(tr.getDate(), inoutdata);
                 inoutdata.setIn(tr);
                 inoutdata.setOut(tr);
+                compiledemployeedata.put(tr.getDate(), inoutdata);
             }
-            //else
-            //add time to existing Daily Record as time in or time out
+            //else if the daily record exists
+            //set the time as time in if it's earlier than the existing time out
+            //or set the time as time out if it's later than the existing time in
+            //* this works because time in is always earlier than time out
             else
             {
                 inoutdata=compiledemployeedata.get(tr.getDate());
@@ -625,5 +548,67 @@ public class MainFrame extends java.awt.Frame {
             //set date textboxes according to the date range in the calendar
             txtStartDate.setText(calendar.get(0));
             txtEndDate.setText(calendar.get(calendar.size()-1));
+    }
+
+    private void printSampleOutput()
+    {
+
+            //sample output
+            CompiledEmployeeData edatamap;
+            TimeInOutData data;
+            for(String name:employeenamelist)
+            {
+                for(String date:calendar)
+                {
+                    edatamap= weeklydata.get(name);
+                    if(edatamap==null)continue;
+                    data=edatamap.get(date);
+                    if(data==null)continue;
+                    
+                    jTextArea.append(name+"\t");
+                    jTextArea.append(date+"\t");
+                    if(data.getIn().getTime().equals(one))
+                    {
+                        jTextArea.append(
+                            ""
+                            +"\t"
+                            +""
+                            +"\t"
+                            +data.getInTimeString()
+                            +"\t"
+                            +data.getOutTimeString()
+                            +"\n"
+                            );
+                    }
+                    else
+                    if(data.getOut().getTime().equals(twelve))
+                    {
+                        jTextArea.append(
+                            data.getInTimeString()
+                            +"\t"
+                            +data.getOutTimeString()
+                            +""
+                            +"\t"
+                            +""
+                            +"\t"
+                            +"\n"
+                            );
+                    }
+                      else
+                    {
+                    jTextArea.append(
+                            data.getInTimeString()
+                            +"\t"
+                            +"1200"
+                            +"\t"
+                            +"1300"
+                            +"\t"
+                            +data.getOutTimeString()
+                            +"\n"
+                            );
+                    }
+                    
+                }
+            }
     }
 }
