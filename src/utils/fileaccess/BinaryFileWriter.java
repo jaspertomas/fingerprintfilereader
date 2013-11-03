@@ -31,7 +31,7 @@ public final class BinaryFileWriter {
     BufferedOutputStream buffOut;
     DataOutputStream out;
     
-    boolean connectToFile(String filename) {
+    public boolean connectToFile(String filename) {
         this.filename = filename;
         try {
             fout = new FileOutputStream(filename);
@@ -44,7 +44,7 @@ public final class BinaryFileWriter {
         }
     }
 
-    boolean writeInt(Integer i) {
+    public boolean writeInt(Integer i) {
         try {
             out.writeInt(i);
             return true;
@@ -53,7 +53,7 @@ public final class BinaryFileWriter {
             return false;
         }
     }
-    boolean writeDouble(Double d) {
+    public boolean writeDouble(Double d) {
         try {
             out.writeDouble(d);
             return true;
@@ -63,7 +63,7 @@ public final class BinaryFileWriter {
         }
     }
 
-    boolean writeString(String s) {
+    public boolean writeString(String s) {
         try {
             out.writeUTF(s);
             return true;
@@ -93,7 +93,7 @@ public final class BinaryFileWriter {
 //        return new String(buffer);
 //    }
 
-    private void close() {
+    public void close() {
         try {
             out.close();
             fout.close();

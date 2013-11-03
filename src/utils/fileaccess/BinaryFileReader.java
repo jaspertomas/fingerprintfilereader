@@ -33,7 +33,7 @@ public final class BinaryFileReader {
     String filename;
     FileInputStream fin;
     DataInputStream in;
-    boolean connectToFile(String filename) {
+    public boolean connectToFile(String filename) {
         this.filename = filename;
 
         try {
@@ -46,7 +46,7 @@ public final class BinaryFileReader {
         }
     }
 
-    Integer readInt() {
+    public Integer readInt() {
         try {
             return in.readInt();
         } catch (IOException ex) {
@@ -54,7 +54,7 @@ public final class BinaryFileReader {
             return null;
         }
     }
-    Double readDouble() {
+    public Double readDouble() {
         try {
             return in.readDouble();
         } catch (IOException ex) {
@@ -62,7 +62,7 @@ public final class BinaryFileReader {
             return null;
         }
     }    
-    String readString(Integer length) {
+    public String readString(Integer length) {
         try {
             return in.readUTF();
         } catch (IOException ex) {
@@ -91,7 +91,7 @@ public final class BinaryFileReader {
 //        return new String(buffer);
 //    }
 
-    private void close() {
+    public void close() {
         try {
             in.close();
             fin.close();
