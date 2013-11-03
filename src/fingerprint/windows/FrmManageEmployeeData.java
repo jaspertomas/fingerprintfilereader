@@ -5,6 +5,7 @@
 package fingerprint.windows;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import managers.EmployeeFileManager;
@@ -140,8 +141,8 @@ class SharedListSelectionHandler implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        if (e.getValueIsAdjusting()) {
-//            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+        if (!e.getValueIsAdjusting()) {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 //            int firstIndex = e.getFirstIndex();
 //            int lastIndex = e.getLastIndex();
 //            System.out.println("Event for indexes "
@@ -162,7 +163,7 @@ class SharedListSelectionHandler implements ListSelectionListener {
 //                }
 //            }
 //            System.out.println();
-            FrmManageEmployeeData.getInstance().onSelect(e.getFirstIndex());
+            FrmManageEmployeeData.getInstance().onSelect(lsm.getMinSelectionIndex());
         }
     }
 }
