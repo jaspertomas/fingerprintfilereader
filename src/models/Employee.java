@@ -71,5 +71,8 @@ public class Employee {
     public void setMonthlySalary(Double monthlySalary) {
         this.monthlySalary = monthlySalary;
     }
-    
+    public String toString()
+    {
+        return nickname;
+    }
 }

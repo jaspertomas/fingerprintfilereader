@@ -4,8 +4,13 @@
  */
 package fingerprint.windows;
 
+import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import managers.EmployeeFileManager;
+import models.Employee;
+
+
 
 
 /**
@@ -14,17 +19,31 @@ import javax.swing.event.ListSelectionListener;
  */
 public class FrmManageEmployeeData extends javax.swing.JFrame {
     //---------------SINGLETON-------------------
+
     static FrmManageEmployeeData instance;
-    public static FrmManageEmployeeData getInstance(){
-        if(instance==null)instance= new FrmManageEmployeeData();
+
+    public static FrmManageEmployeeData getInstance() {
+        if (instance == null) {
+            instance = new FrmManageEmployeeData();
+        }
         return instance;
     }
+    //---------------VARIABLES---------------------
+    String value = "";
+    //------------------------------------
+
     /**
      * Creates new form frmManageEmployeeData
      */
     public FrmManageEmployeeData() {
         initComponents();
-
+        
+        DefaultListModel model=new DefaultListModel();
+        for(Employee e:EmployeeFileManager.getInstance().getEmployees())
+        {
+            model.addElement(e);
+        }
+        jList1.setModel(model);
         jList1.getSelectionModel().addListSelectionListener(
                 new SharedListSelectionHandler());
 
@@ -108,34 +127,42 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    public void onSelect(Integer index)
+    {
+        
+        Employee e=EmployeeFileManager.getInstance().getEmployees().get(index);
+        System.out.println(e);
+    }
 }
+
 class SharedListSelectionHandler implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-//        ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+        if (e.getValueIsAdjusting()) {
+//            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+//            int firstIndex = e.getFirstIndex();
+//            int lastIndex = e.getLastIndex();
+//            System.out.println("Event for indexes "
+//                    + firstIndex + " - " + lastIndex
+//                    + "; selected indexes:");
 //
-//        int firstIndex = e.getFirstIndex();
-//        int lastIndex = e.getLastIndex();
-//        boolean isAdjusting = e.getValueIsAdjusting();
-//        output.append("Event for indexes "
-//                + firstIndex + " - " + lastIndex
-//                + "; isAdjusting is " + isAdjusting
-//                + "; selected indexes:");
 //
-//        if (lsm.isSelectionEmpty()) {
-//            output.append(" <none>");
-//        } else {
-//            // Find out which indexes are selected.
-//            int minIndex = lsm.getMinSelectionIndex();
-//            int maxIndex = lsm.getMaxSelectionIndex();
-//            for (int i = minIndex; i <= maxIndex; i++) {
-//                if (lsm.isSelectedIndex(i)) {
-//                    output.append(" " + i);
+//            if (lsm.isSelectionEmpty()) {
+//                System.out.println(" <none>");
+//            } else {
+//                // Find out which indexes are selected.
+//                int minIndex = lsm.getMinSelectionIndex();
+//                int maxIndex = lsm.getMaxSelectionIndex();
+//                for (int i = minIndex; i <= maxIndex; i++) {
+//                    if (lsm.isSelectedIndex(i)) {
+//                        System.out.println(" " + i);
+//                    }
 //                }
 //            }
-//        }
-//        output.append(newline);
-        System.out.println("hi");
+//            System.out.println();
+            FrmManageEmployeeData.getInstance().onSelect(e.getFirstIndex());
+        }
     }
 }
