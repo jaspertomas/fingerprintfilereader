@@ -61,6 +61,16 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
+        jLabel1 = new javax.swing.JLabel();
+        txtFname = new javax.swing.JTextField();
+        txtSalary = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtCola = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtMname = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtLname = new javax.swing.JTextField();
+        lblNickname = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,6 +81,28 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
+        jLabel1.setText("Name");
+
+        txtFname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFnameActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Monthly Salary");
+
+        txtCola.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtColaActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Cola");
+
+        jLabel5.setText("Nickname: ");
+
+        lblNickname.setText("Nickname: ");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,18 +110,71 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(518, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel2)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel5)
+                                .add(27, 27, 27)
+                                .add(lblNickname))
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel3)
+                                .add(70, 70, 70)
+                                .add(txtCola)))
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel1)
+                        .add(62, 62, 62)
+                        .add(txtFname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(txtMname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(txtLname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 150, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(78, 78, 78))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel5)
+                            .add(lblNickname))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel1)
+                            .add(txtFname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(txtMname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(txtLname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel2)
+                            .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel3)
+                            .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtFnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFnameActionPerformed
+
+    private void txtColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtColaActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -125,15 +210,31 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 //        });
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNickname;
+    private javax.swing.JTextField txtCola;
+    private javax.swing.JTextField txtFname;
+    private javax.swing.JTextField txtLname;
+    private javax.swing.JTextField txtMname;
+    private javax.swing.JTextField txtSalary;
     // End of variables declaration//GEN-END:variables
 
     public void onSelect(Integer index)
     {
         
         Employee e=EmployeeFileManager.getInstance().getEmployees().get(index);
-        System.out.println(e);
+//        System.out.println(e);
+        lblNickname.setText(e.getNickname());
+        txtFname.setText(e.getFname());
+        txtMname.setText(e.getFname());
+        txtLname.setText(e.getFname());
+        txtSalary.setText(e.getMonthlySalary().toString());
+        txtCola.setText(e.getCola().toString());
     }
 }
 
