@@ -35,7 +35,7 @@ public final class BinaryFileReader {
     DataInputStream in;
     public boolean connectToFile(String filename) {
         this.filename = filename;
-
+        eof=false;
         try {
             fin = new FileInputStream(filename);
             in = new DataInputStream(fin);
@@ -50,6 +50,7 @@ public final class BinaryFileReader {
         try {
             return in.readInt();
         } catch (IOException ex) {
+            eof=true;
             System.out.println("readInt: error reading Integer from file");
             return null;
         }
@@ -58,7 +59,8 @@ public final class BinaryFileReader {
         try {
             return in.readDouble();
         } catch (IOException ex) {
-            System.out.println("readDouble: error reading Double from file");
+            eof=true;
+            System.out.println("readDouble: end of file reached");
             return null;
         }
     }    
@@ -66,6 +68,7 @@ public final class BinaryFileReader {
         try {
             return in.readUTF();
         } catch (IOException ex) {
+            eof=true;
             System.out.println("readString: error reading String from file");
             return null;
         }
@@ -98,5 +101,10 @@ public final class BinaryFileReader {
         } catch (IOException ex) {
             Logger.getLogger(BinaryFileReader.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    boolean eof=false;
+    public boolean notEOF() {
+        return !eof;
     }
 }

@@ -151,19 +151,23 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnGenerateExcelFileActionPerformed
     private JFileChooser fc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
-
-        //Create a file chooser
-        fc = new JFileChooser();
-        
-        //In response to a button click:
-        int returnVal = fc.showOpenDialog(this);
-        
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            //parse file
-            File file = fc.getSelectedFile();
-
-            //if file hasn't been selected, do nothing
-            if(file==null)return;
+//
+//        //Create a file chooser
+//        fc = new JFileChooser();
+//        
+//        //In response to a button click:
+//        int returnVal = fc.showOpenDialog(this);
+//        
+//        if (returnVal == JFileChooser.APPROVE_OPTION) {
+//            //parse file
+//            File file = fc.getSelectedFile();
+//
+//            //if file hasn't been selected, do nothing
+//            if(file==null)return;
+//            
+////            System.out.println(file.getPath());
+        {
+            File file=new File("/Users/jaspertomas/NetBeansProjects/Fingerprint/NewGlog_0001_20130921114600.csv");
 
             EmployeeDataManager.getInstance().calculate(file);
         } 

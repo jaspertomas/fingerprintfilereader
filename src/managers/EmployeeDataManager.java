@@ -33,7 +33,6 @@ public class EmployeeDataManager {
     private EmployeeDataManager() {
     }
 
-    ;
     public static EmployeeDataManager getInstance() {
         return instance;
     }
@@ -205,6 +204,8 @@ public class EmployeeDataManager {
         groupTimeRecordsByEmployee();
 
         createNameListAndCalendar();
+        
+        EmployeeFileManager.getInstance().generateFromStringArray(employeenamelist);
 
         //start to process data into array structure
         weeklydata = new WeeklyTimeData();
