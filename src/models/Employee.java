@@ -9,18 +9,27 @@ package models;
  * @author jaspertomas
  */
 public class Employee {
-    String fname="",mname="",lname="";
+    String nickname="",fname="",mname="",lname="";
     Double cola=0d;
     Double monthlySalary=0d;
 
     public Employee() {}
  
-    public Employee(String fname, String mname, String lname, Double cola, Double monthlySalary) {
+    public Employee(String nickname, String fname, String mname, String lname, Double cola, Double monthlySalary) {
+        this.nickname = nickname;
         this.fname = fname;
         this.mname = mname;
         this.lname = lname;
         this.cola = cola;
         this.monthlySalary = monthlySalary;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getFname() {

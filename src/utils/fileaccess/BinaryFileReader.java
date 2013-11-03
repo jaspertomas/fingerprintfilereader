@@ -24,7 +24,7 @@ public final class BinaryFileReader {
     public static void main(String... aArgs){
         BinaryFileReader test = new BinaryFileReader();
         test.connectToFile(OUTPUT_FILE_NAME);
-        System.out.println(test.readString(26));;
+        System.out.println(test.readString());;
         System.out.println(test.readInt());;
         System.out.println(test.readDouble());;
         test.close();
@@ -64,7 +64,7 @@ public final class BinaryFileReader {
             return null;
         }
     }    
-    public String readString(Integer length) {
+    public String readString() {
         try {
             return in.readUTF();
         } catch (IOException ex) {

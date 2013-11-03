@@ -31,9 +31,9 @@ public class EmployeeFileManager {
     public ArrayList<Employee> getEmployees() {
         return employees;
     }
-    public void clearEmployees() {
-        employees.clear();
-    }
+//    public void clearEmployees() {
+//        employees.clear();
+//    }
         
     public void save()
     {
@@ -42,6 +42,7 @@ public class EmployeeFileManager {
         
         for(Employee employee:employees)
         {
+            writer.writeString(employee.getNickname());
             writer.writeString(employee.getFname());
             writer.writeString(employee.getMname());
             writer.writeString(employee.getLname());
@@ -52,25 +53,34 @@ public class EmployeeFileManager {
     }
     public void load()
     {
+        employees.clear();
+        
+        Employee e;
+                
         BinaryFileReader reader = new BinaryFileReader();
         reader.connectToFile(OUTPUT_FILE_NAME);
         
         while(reader.notEOF())
         {
-//            reader.readString(employee.getFname());
-//            reader.readString(employee.getMname());
-//            reader.readString(employee.getLname());
-//            reader.readDouble(employee.getMonthlySalary());
-//            reader.readDouble(employee.getCola());
-            
+            e=new Employee();
+            e.setNickname(reader.readString());
+            e.setFname(reader.readString());
+            e.setMname(reader.readString());
+            e.setLname(reader.readString());
+            e.setMonthlySalary(reader.readDouble());
+            e.setCola(reader.readDouble());
+            employees.add(e);
         }
         reader.close();        
     }
 
+    //add employees that don't already exist in the employees array
     void generateFromStringArray(EmployeeNameList employeenamelist) {
+        ArrayList<Employee> temp=new ArrayList<Employee>();
         for(String name:employeenamelist)
         {
-            employees.add(new Employee(name,"","",0d,0d));
+            if(!employees.contains(name))
+            temp.add(new Employee(name,"","","",0d,0d));
         }
         save();
     }
