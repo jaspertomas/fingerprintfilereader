@@ -26,6 +26,8 @@ public final class BinaryFileReader {
         test.connectToFile(OUTPUT_FILE_NAME);
         System.out.println(test.readString(26));;
         System.out.println(test.readInt());;
+        System.out.println(test.readDouble());;
+        test.close();
     }
 
     String filename;
@@ -48,10 +50,18 @@ public final class BinaryFileReader {
         try {
             return in.readInt();
         } catch (IOException ex) {
-            System.out.println("readInt: error reading integer from file");
+            System.out.println("readInt: error reading Integer from file");
             return null;
         }
     }
+    Double readDouble() {
+        try {
+            return in.readDouble();
+        } catch (IOException ex) {
+            System.out.println("readDouble: error reading Double from file");
+            return null;
+        }
+    }    
     String readString(Integer length) {
         try {
             return in.readUTF();

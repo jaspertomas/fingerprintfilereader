@@ -22,6 +22,7 @@ public final class BinaryFileWriter {
         test.connectToFile(OUTPUT_FILE_NAME);
         test.writeString("  hello world-- ");//26 chars
         test.writeInt(200);
+        test.writeDouble(5.5);
         test.close();
     }
 
@@ -49,6 +50,15 @@ public final class BinaryFileWriter {
             return true;
         } catch (IOException ex) {
             System.out.println("writeInt: error writing integer "+i.toString()+" to file");
+            return false;
+        }
+    }
+    boolean writeDouble(Double d) {
+        try {
+            out.writeDouble(d);
+            return true;
+        } catch (IOException ex) {
+            System.out.println("writeDouble: error writing double "+d.toString()+" to file");
             return false;
         }
     }
