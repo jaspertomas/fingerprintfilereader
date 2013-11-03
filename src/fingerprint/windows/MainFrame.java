@@ -176,7 +176,8 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
 
     private void btnManageEmployeeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageEmployeeDataActionPerformed
-        EmployeeDataManager.getInstance().validateDates();
+        FrmManageEmployeeData.getInstance().setVisible(true);
+        
     }//GEN-LAST:event_btnManageEmployeeDataActionPerformed
 
     private void btnRecalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecalculateActionPerformed
