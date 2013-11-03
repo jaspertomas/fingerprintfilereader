@@ -6,6 +6,7 @@ package managers;
 
 import java.util.ArrayList;
 import models.Employee;
+import models.EmployeeList;
 import models.EmployeeNameList;
 import utils.fileaccess.BinaryFileReader;
 import utils.fileaccess.BinaryFileWriter;
@@ -26,9 +27,9 @@ public class EmployeeFileManager {
     private static final String OUTPUT_FILE_NAME = "fingerprint.dat";
     //------------------VARIABLES----------------
 
-    ArrayList<Employee> employees = new ArrayList<Employee>();
+    EmployeeList employees = new EmployeeList();
 
-    public ArrayList<Employee> getEmployees() {
+    public EmployeeList getEmployees() {
         return employees;
     }
 //    public void clearEmployees() {
@@ -58,12 +59,20 @@ public class EmployeeFileManager {
         Employee e;
                 
         BinaryFileReader reader = new BinaryFileReader();
-        reader.connectToFile(OUTPUT_FILE_NAME);
+        boolean result=reader.connectToFile(OUTPUT_FILE_NAME);
+        
+        if(!result)
+        {
+            //file not found
+            System.out.println("File fingerprint.dat not found");
+            return;
+        }
         
         while(reader.notEOF())
         {
             e=new Employee();
             e.setNickname(reader.readString());
+            if(!reader.notEOF())break;
             e.setFname(reader.readString());
             e.setMname(reader.readString());
             e.setLname(reader.readString());
@@ -76,11 +85,14 @@ public class EmployeeFileManager {
 
     //add employees that don't already exist in the employees array
     void generateFromStringArray(EmployeeNameList employeenamelist) {
-        ArrayList<Employee> temp=new ArrayList<Employee>();
-        for(String name:employeenamelist)
+//        EmployeeList temp=new EmployeeList();
+        
+        //scan employee list for matching nickname; 
+        //if it doesnt exist, add it
+        for(String nickname:employeenamelist)
         {
-            if(!employees.contains(name))
-            temp.add(new Employee(name,"","","",0d,0d));
+            if(employees.getByNickname(nickname)==null)
+            employees.add(new Employee(nickname,"","","",0d,0d));
         }
         save();
     }

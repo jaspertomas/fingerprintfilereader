@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
+import managers.EmployeeFileManager;
 
 /**
  *
@@ -18,6 +19,7 @@ public class MainFrame extends java.awt.Frame {
         initComponents();
         
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
+        EmployeeFileManager.getInstance().load();
     }
 
     /**

@@ -41,7 +41,7 @@ public final class BinaryFileReader {
             in = new DataInputStream(fin);
             return fin!=null;
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(BinaryFileReader.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BinaryFileReader.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -51,7 +51,7 @@ public final class BinaryFileReader {
             return in.readInt();
         } catch (IOException ex) {
             eof=true;
-            System.out.println("readInt: error reading Integer from file");
+            System.out.println("BinaryFileReader::readInt: end of file reached");
             return null;
         }
     }
@@ -60,7 +60,7 @@ public final class BinaryFileReader {
             return in.readDouble();
         } catch (IOException ex) {
             eof=true;
-            System.out.println("readDouble: end of file reached");
+            System.out.println("BinaryFileReader::readDouble: end of file reached");
             return null;
         }
     }    
@@ -69,7 +69,7 @@ public final class BinaryFileReader {
             return in.readUTF();
         } catch (IOException ex) {
             eof=true;
-            System.out.println("readString: error reading String from file");
+            System.out.println("BinaryFileReader::readString: end of file reached");
             return null;
         }
     }
