@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * <P>Buffering is used when reading and writing files, to minimize the number
  * of interactions with the disk.
  */
-public final class BinaryFileReadWriter {
+public final class BinaryFileReadWriter0 {
 
     /**
      * Change these settings before running this class.
@@ -36,7 +36,7 @@ public final class BinaryFileReadWriter {
      * Run the example.
      */
     public static void main(String... aArgs) throws IOException {
-        BinaryFileReadWriter test = new BinaryFileReadWriter();
+        BinaryFileReadWriter0 test = new BinaryFileReadWriter0();
 
 //        String a = "hello World";
 //        a = padLeft(a, 20);
@@ -44,8 +44,8 @@ public final class BinaryFileReadWriter {
         boolean connected=test.connectToFile(OUTPUT_FILE_NAME);
         if(connected)
         {
-            System.out.println(test.myReadString(10));
-            System.out.println(test.myReadString(10));
+            System.out.println(test.readString(10));
+            System.out.println(test.readString(10));
         }
         test.close();
 //    Integer i=1666661;
@@ -66,20 +66,28 @@ public final class BinaryFileReadWriter {
             return false;
         }           
     }
-    String myReadString(int length) {
+    String readString(int length) {
         try {
             byte[] bytes = new byte[length];
             String s="";
             input.read(bytes);
             return bytesToStringUTFCustom(bytes);
         } catch (IOException ex) {
-//            Logger.getLogger(BinaryFileReadWriter.class.getName()).log(Level.SEVERE, null, ex);
             log("myReadString: IOException");
             return null;
         }
-        
     }
-    
+    String readInt() {
+        try {
+            byte[] bytes = new byte[4];
+            String s="";
+            input.read(bytes);
+            return bytesToStringUTFCustom(bytes);
+        } catch (IOException ex) {
+            log("myReadString: IOException");
+            return null;
+        }
+    }    
     
 
     /**
@@ -212,7 +220,7 @@ public final class BinaryFileReadWriter {
         try {
             input.close();
         } catch (IOException ex) {
-            Logger.getLogger(BinaryFileReadWriter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BinaryFileReadWriter0.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
