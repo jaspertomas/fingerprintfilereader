@@ -13,10 +13,6 @@ import javax.swing.event.ListSelectionListener;
 import managers.EmployeeFileManager;
 import models.Employee;
 
-
-
-
-
 /**
  *
  * @author jaspertomas
@@ -41,20 +37,22 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
      */
     public FrmManageEmployeeData() {
         initComponents();
-        
+
         refreshList();
-        
+
         jList1.getSelectionModel().addListSelectionListener(
                 new SharedListSelectionHandler());
-        
-        DocumentListener doclistener=new DocumentListener() {
-            public void changedUpdate(DocumentEvent e){
+
+        DocumentListener doclistener = new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
                 FrmManageEmployeeData.getInstance().enableButtons(true);
             }
-            public void removeUpdate(DocumentEvent e){
+
+            public void removeUpdate(DocumentEvent e) {
                 FrmManageEmployeeData.getInstance().enableButtons(true);
             }
-            public void insertUpdate(DocumentEvent e){
+
+            public void insertUpdate(DocumentEvent e) {
                 FrmManageEmployeeData.getInstance().enableButtons(true);
             }
         };
@@ -63,6 +61,16 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.getDocument().addDocumentListener(doclistener);
         txtCola.getDocument().addDocumentListener(doclistener);
         txtSalary.getDocument().addDocumentListener(doclistener);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                if(jList1.getComponentCount()!=0)
+                {
+                    jList1.setSelectedIndex(0);
+                    onSelect();
+                }
+            }
+        });
     }
 
     /**
@@ -223,27 +231,26 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFnameActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         enableButtons(false);
-        
-        Employee e=EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
-        
+
+        Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
+
         e.setNickname(lblNickname.getText());
         e.setFname(txtFname.getText());
         e.setMname(txtMname.getText());
         e.setLname(txtLname.getText());
         e.setMonthlySalary(Double.valueOf(txtSalary.getText()));
         e.setCola(Double.valueOf(txtCola.getText()));
-        
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnRevertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertActionPerformed
         enableButtons(false);
         onSelect();
-                
+
     }//GEN-LAST:event_btnRevertActionPerformed
     /**
      * @param args the command line arguments
@@ -297,9 +304,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JTextField txtSalary;
     // End of variables declaration//GEN-END:variables
 
-    public void onSelect()
-    {
-        Employee e=EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
+    public void onSelect() {
+        Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
 //        System.out.println(e);
         lblNickname.setText(e.getNickname());
         txtFname.setText(e.getFname());
@@ -315,14 +321,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }
 
     private void refreshList() {
-        DefaultListModel model=new DefaultListModel();
-        for(Employee e:EmployeeFileManager.getInstance().getEmployees())
-        {
+        DefaultListModel model = new DefaultListModel();
+        for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
             model.addElement(e);
         }
         jList1.setModel(model);
     }
 }
+
 class SharedListSelectionHandler implements ListSelectionListener {
 
     @Override
