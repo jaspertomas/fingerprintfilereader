@@ -247,23 +247,26 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        enableButtons(false);
-
+        try{
         Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
 
         e.setNickname(lblNickname.getText());
         e.setFname(txtFname.getText());
         e.setMname(txtMname.getText());
         e.setLname(txtLname.getText());
-        e.setMonthlySalary(Double.valueOf(txtSalary.getText()));
-        e.setCola(Double.valueOf(txtCola.getText()));
+        e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim()));
+        e.setCola(Double.valueOf(txtCola.getText().trim()));
         
         EmployeeFileManager.getInstance().save();
-
+        
+        onSelect();
+        }
+        catch(java.lang.NumberFormatException e)
+        {
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnRevertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertActionPerformed
-        enableButtons(false);
         onSelect();
 
     }//GEN-LAST:event_btnRevertActionPerformed
@@ -334,6 +337,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.setText(e.getLname());
         txtSalary.setText(e.getMonthlySalary().toString());
         txtCola.setText(e.getCola().toString());
+        enableButtons(false);
     }
 
     public void enableButtons(boolean b) {

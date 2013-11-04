@@ -60,7 +60,8 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        btnGenerateExcelFile.setText("Generate Excel file");
+        btnGenerateExcelFile.setText("Generate output file");
+        btnGenerateExcelFile.setToolTipText("");
         btnGenerateExcelFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerateExcelFileActionPerformed(evt);
@@ -174,7 +175,7 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_exitForm
 
     private void btnGenerateExcelFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateExcelFileActionPerformed
-
+        
     }//GEN-LAST:event_btnGenerateExcelFileActionPerformed
     private JFileChooser fc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
