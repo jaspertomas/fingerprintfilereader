@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import models.Calendar;
 import models.CompiledEmployeeData;
+import models.Constants;
 import models.DateUtil;
 import models.Employee;
 import models.EmployeeNameList;
@@ -200,10 +201,14 @@ public class EmployeeDataManager {
         jTextArea.setText("");
 
         //sample output
-        CompiledEmployeeData edatamap;
+        CompiledEmployeeData edatamap=null;
         TimeInOutData data;
-        Integer regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
+        Double regularrate,overtimerate,cola,regularpay,overtimepay,grosspay,totalcola,deductions,netpay;
+        Integer days,regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
         for (String name : employeenamelist) {
+            totalregularminutes=0;
+            totalovertimeminutes=0;
+            //calculate total regular minutes and total overtime minutes
             for (String date : calendar) {
                 edatamap = weeklydata.get(name);
                 if (edatamap == null) {
@@ -262,12 +267,31 @@ public class EmployeeDataManager {
                 }
                 totalregularminutes+=regularminutes;
                 totalovertimeminutes+=overtimeminutes;
-                //get regular rate and overtime rate
-                
-                
             }
+
+            //get regular rate and overtime rate
+            Employee e=EmployeeFileManager.getInstance().getEmployees().getByNickname(name);
+            regularrate=e.getMonthlySalary();
+            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
+            regularpay=regularrate*totalregularminutes/60/8;
+            overtimepay=overtimerate*totalovertimeminutes/60/8;
+            grosspay=regularpay+overtimepay;
+            cola=e.getCola();
+            totalcola=cola*edatamap.size();
+            deductions=0d;
+            netpay=grosspay+totalcola-deductions;
+            
             jTextArea.append("Regular Minutes: "+totalregularminutes+"\n");
+            jTextArea.append("Regular Rate: "+regularrate+"\n");
+            jTextArea.append("Regular Pay: "+regularpay+"\n");
             jTextArea.append("Overtime Minutes: "+totalovertimeminutes+"\n");
+            jTextArea.append("Overtime Rate: "+overtimerate+"\n");
+            jTextArea.append("Overtime Pay: "+overtimepay+"\n");
+            jTextArea.append("Gross Pay: "+grosspay+"\n");
+            jTextArea.append("Total COLA: "+totalcola+"\n");
+//            jTextArea.append("Deductions: "+deductions+"\n");
+            jTextArea.append("Net Pay: "+netpay+"\n");
+            jTextArea.append("-----------------------------\n\n");
         }
     }
     public void calculate(File file) {
