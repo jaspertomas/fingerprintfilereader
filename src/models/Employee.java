@@ -12,16 +12,18 @@ public class Employee {
     String nickname="",fname="",mname="",lname="";
     Double cola=0d;
     Double monthlySalary=0d;
+    Double deduction=0d;
 
     public Employee() {}
  
-    public Employee(String nickname, String fname, String mname, String lname, Double cola, Double monthlySalary) {
+    public Employee(String nickname, String fname, String mname, String lname, Double cola, Double monthlySalary,Double deduction) {
         this.nickname = nickname;
         this.fname = fname;
         this.mname = mname;
         this.lname = lname;
         this.cola = cola;
         this.monthlySalary = monthlySalary;
+        this.deduction = deduction;
     }
 
     public String getNickname() {
@@ -71,6 +73,16 @@ public class Employee {
     public void setMonthlySalary(Double monthlySalary) {
         this.monthlySalary = monthlySalary;
     }
+
+    public Double getDeduction() {
+        return deduction;
+    }
+
+    public void setDeduction(Double deduction) {
+        this.deduction = deduction;
+    }
+    
+    
     public String toString()
     {
         return nickname;

@@ -49,6 +49,7 @@ public class EmployeeFileManager {
             writer.writeString(employee.getLname());
             writer.writeDouble(employee.getMonthlySalary());
             writer.writeDouble(employee.getCola());
+            writer.writeDouble(employee.getDeduction());
         }
         writer.close(); 
     }
@@ -78,6 +79,7 @@ public class EmployeeFileManager {
             e.setLname(reader.readString());
             e.setMonthlySalary(reader.readDouble());
             e.setCola(reader.readDouble());
+            e.setDeduction(reader.readDouble());
             employees.add(e);
         }
         reader.close();        
@@ -92,7 +94,7 @@ public class EmployeeFileManager {
         for(String nickname:employeenamelist)
         {
             if(employees.getByNickname(nickname)==null)
-            employees.add(new Employee(nickname,"","","",0d,0d));
+            employees.add(new Employee(nickname,"","","",0d,0d,0d));
         }
         save();
     }

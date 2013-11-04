@@ -61,6 +61,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.getDocument().addDocumentListener(doclistener);
         txtCola.getDocument().addDocumentListener(doclistener);
         txtSalary.getDocument().addDocumentListener(doclistener);
+        txtDeduction.getDocument().addDocumentListener(doclistener);
 
 //        addWindowListener(new java.awt.event.WindowAdapter() {
 //            public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -97,6 +98,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         txtCola = new javax.swing.JTextField();
         btnExit = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        txtDeduction = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -153,6 +157,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Deduction");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -161,19 +167,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(jLabel2)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(layout.createSequentialGroup()
-                                .add(jLabel5)
-                                .add(27, 27, 27)
-                                .add(lblNickname)))
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                             .add(layout.createSequentialGroup()
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -198,8 +193,24 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(txtMname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(txtLname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 150, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(78, 78, 78))))
+                                .add(txtLname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 150, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jSeparator1))
+                        .add(78, 78, 78))
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel2)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel5)
+                                .add(27, 27, 27)
+                                .add(lblNickname))
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel4)
+                                .add(28, 28, 28)
+                                .add(txtDeduction, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -225,6 +236,12 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel3)
                             .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel4)
+                            .add(txtDeduction, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(btnRevert)
@@ -270,6 +287,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             e.setLname(txtLname.getText());
             e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim()));
             e.setCola(Double.valueOf(txtCola.getText().trim()));
+            e.setDeduction(Double.valueOf(txtDeduction.getText().trim()));
 
             EmployeeFileManager.getInstance().save();
 
@@ -329,11 +347,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblNickname;
     private javax.swing.JTextField txtCola;
+    private javax.swing.JTextField txtDeduction;
     private javax.swing.JTextField txtFname;
     private javax.swing.JTextField txtLname;
     private javax.swing.JTextField txtMname;
@@ -354,6 +375,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.setText(e.getLname());
         txtSalary.setText(e.getMonthlySalary().toString());
         txtCola.setText(e.getCola().toString());
+        txtDeduction.setText(e.getDeduction().toString());
         enableButtons(false);
     }
 

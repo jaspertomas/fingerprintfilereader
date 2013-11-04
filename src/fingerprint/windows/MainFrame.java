@@ -214,29 +214,7 @@ public class MainFrame extends java.awt.Frame {
                     JOptionPane.YES_NO_OPTION);
 
             if (n == JOptionPane.YES_OPTION) {
-                //write output to file
-                Date date=new Date();
-                String[] datesegments=date.toString().split(" ");
-                String datestring=datesegments[1]+"-"+datesegments[2]+"-"+datesegments[5];
-
-                if(sfc==null)
-                {
-                    sfc = new JFileChooser();
-                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+datestring+"-payroll.txt"));
-                }
-                //In response to a button click:
-                returnVal = sfc.showSaveDialog(this);
-
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    //parse file
-        //            System.out.println(sfc.getSelectedFile().getPath());
-                    File savefile = sfc.getSelectedFile();
-
-                    //if file hasn't been selected, do nothing
-                    if(savefile==null)return;
-
-                    FileWriter.write(savefile.getPath(), jTextArea.getText());
-                }   
+                saveDialog();
             }        
         
         } 
@@ -295,6 +273,34 @@ public class MainFrame extends java.awt.Frame {
     private javax.swing.JTextField txtStartDate;
     // End of variables declaration//GEN-END:variables
 
+    
+       public void saveDialog()
+       {
+
+                //write output to file
+                Date date=new Date();
+                String[] datesegments=date.toString().split(" ");
+                String datestring=datesegments[1]+"-"+datesegments[2]+"-"+datesegments[5];
+
+                if(sfc==null)
+                {
+                    sfc = new JFileChooser();
+                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+datestring+"-payroll.txt"));
+                }
+                //In response to a button click:
+                int returnVal = sfc.showSaveDialog(this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    //parse file
+        //            System.out.println(sfc.getSelectedFile().getPath());
+                    File savefile = sfc.getSelectedFile();
+
+                    //if file hasn't been selected, do nothing
+                    if(savefile==null)return;
+
+                    FileWriter.write(savefile.getPath(), jTextArea.getText());
+                }          
+       }
 }
 class MyFileFilter
 {
@@ -311,4 +317,5 @@ class MyFileFilter
          if(f.isDirectory()) return true;  
          return f.getName().toLowerCase().endsWith(extension);  
        }  
+       
 }

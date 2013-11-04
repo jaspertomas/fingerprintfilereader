@@ -278,7 +278,7 @@ public class EmployeeDataManager {
             grosspay=regularpay+overtimepay;
             cola=e.getCola();
             totalcola=cola*edatamap.size();
-            deductions=0d;
+            deductions=e.getDeduction();
             netpay=grosspay+totalcola-deductions;
             
             jTextArea.append("Regular Minutes: "+totalregularminutes+"\n");
@@ -289,7 +289,7 @@ public class EmployeeDataManager {
             jTextArea.append("Overtime Pay: "+overtimepay+"\n");
             jTextArea.append("Gross Pay: "+grosspay+"\n");
             jTextArea.append("Total COLA: "+totalcola+"\n");
-//            jTextArea.append("Deductions: "+deductions+"\n");
+            jTextArea.append("Deductions: "+deductions+"\n");
             jTextArea.append("Net Pay: "+netpay+"\n");
             jTextArea.append("-----------------------------\n\n");
         }
