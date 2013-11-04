@@ -50,10 +50,10 @@ public class EmployeeDataManager {
     JTextArea jTextArea;
     ArrayList<TimeRecord> timerecords;
     //if a line contains this, it's the header - ignore it
-    public final String headerfingerprint = "APB\tJobCode\tDateTime";
-    public final Time twelve = new Time(12, 0, 0);
-    public final Time one = new Time(13, 0, 0);
-    public final Time eightthirty = new Time(8, 30, 0);
+    public static final String headerfingerprint = "APB\tJobCode\tDateTime";
+    public static final Time twelve = new Time(12, 0, 0);
+    public static final Time one = new Time(13, 0, 0);
+    public static final Time eightthirty = new Time(8, 30, 0);
     
     //this is a string array of all employee names included in the parsed file
     EmployeeNameList employeenamelist;
@@ -195,6 +195,65 @@ public class EmployeeDataManager {
         }
     }
 
+    public void printPayrollOutput() {
+        //clear the textarea
+        jTextArea.setText("");
+
+        //sample output
+        CompiledEmployeeData edatamap;
+        TimeInOutData data;
+        Double totalregular=0d,totalovertime=0d;
+        for (String name : employeenamelist) {
+            for (String date : calendar) {
+                edatamap = weeklydata.get(name);
+                if (edatamap == null) {
+                    continue;
+                }
+                data = edatamap.get(date);
+                if (data == null) {
+                    continue;
+                }
+
+                jTextArea.append(name + "\t");
+                jTextArea.append(date + "\t");
+                if (data.getIn().getTime().equals(one)) {
+                    jTextArea.append(
+                            ""
+                            + "\t"
+                            + ""
+                            + "\t"
+                            + data.getInTimeString()
+                            + "\t"
+                            + data.getOutTimeString()
+                            + "\n");
+                    System.out.println(name+" "+data.getTimeDiffMinutes());
+                } else if (data.getOut().getTime().equals(twelve)) {
+                    jTextArea.append(
+                            data.getInTimeString()
+                            + "\t"
+                            + data.getOutTimeString()
+                            + ""
+                            + "\t"
+                            + ""
+                            + "\t"
+                            + "\n");
+                    System.out.println(name+" "+data.getTimeDiffMinutes());
+                } else {
+                    jTextArea.append(
+                            data.getInTimeString()
+                            + "\t"
+                            + "1200"
+                            + "\t"
+                            + "1300"
+                            + "\t"
+                            + data.getOutTimeString()
+                            + "\n");
+                    System.out.println(name+" "+data.getTimeDiffMinutes());
+                }
+
+            }
+        }
+    }
     public void calculate(File file) {
 
         //parse file and create records list
@@ -213,7 +272,8 @@ public class EmployeeDataManager {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
             weeklydata.put(timerecordlist.get(0).getName(), edatamap);
         }
-        printSampleOutput();
+//        printSampleOutput();
+        printPayrollOutput();
     }
 
     public void recalculate(File file) {
@@ -349,5 +409,41 @@ public class EmployeeDataManager {
             txtEndDate.setText(temp);
         }
         return true;
+    }
+    public String getPayrollText() 
+    {
+        String string="";
+        for(Employee e:EmployeeFileManager.getInstance().getEmployees())
+        {
+            string+=e.getFullName()+"\n";
+//            string+="reg hours rh"++"\n";
+//            string+="reg rate"++"\n";
+//            string+="reg pay "++"\n";
+//            string+="overtime hours oh"++"\n";
+//            string+="overtime rate"++"\n";
+//            string+="overtime pay"++"\n";
+//            string+="holiday pay"++"\n";
+//            string+="gross pay"++"\n";
+//            string+="cola"++"\n";
+//            string+="deductions"++"\n";
+//            string+="net salary"++"\n";
+            /*
+reg hours rh
+reg rate
+reg pay 
+overtime hours oh
+overtime rate
+overtime pay
+holiday pay
+gross pay
+cola
+deductions
+net salary             
+             */
+            
+            
+            string+="\n\n----------------------------------";
+        }
+        return string;
     }
 }

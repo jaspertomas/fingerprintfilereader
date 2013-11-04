@@ -5,6 +5,7 @@
 package models;
 
 import java.sql.Time;
+import managers.EmployeeDataManager;
 
 /**
  *
@@ -45,6 +46,60 @@ public class TimeInOutData {
                 String.format("%02d", time.getHours())
 //                +"\t"
                 +String.format("%02d", time.getMinutes());
+    }
+    public Integer getTimeDiffMinutes()
+    {
+        long difference;
+
+        int minutesbeforelunch=0;
+        int minutesafterlunch=0;
+        
+        //calculate minutesbeforelunch
+        //came in after lunch
+        if(
+            in.getTime().after(EmployeeDataManager.twelve)
+            )
+            minutesbeforelunch=0;
+        else
+        {
+            //early dismissal
+            if(out.getTime().before(EmployeeDataManager.twelve))
+            {
+                difference = out.getTime().getTime()-in.getTime().getTime();
+                minutesbeforelunch=Double.valueOf(difference/1000/60).intValue();
+            }
+            //stayed until lunch or later
+            else
+            {
+                difference = EmployeeDataManager.twelve.getTime()-in.getTime().getTime();
+                minutesbeforelunch=Double.valueOf(difference/1000/60).intValue();
+            }
+        }
+        
+        //calculate minutesafterlunch
+        //left before lunch
+        if(
+            out.getTime().before(EmployeeDataManager.one)
+            )
+            minutesafterlunch=0;
+        else
+        {
+            //came in after lunch
+            if(in.getTime().after(EmployeeDataManager.one))
+            {
+                difference = out.getTime().getTime()-in.getTime().getTime();
+                minutesafterlunch=Double.valueOf(difference/1000/60).intValue();
+            }
+            //came in at lunch or before
+            else
+            {
+                difference = out.getTime().getTime()-EmployeeDataManager.one.getTime();
+                minutesafterlunch=Double.valueOf(difference/1000/60).intValue();
+            }
+        }
+                
+        
+        return minutesbeforelunch+minutesafterlunch;
     }
     
     

@@ -5,10 +5,13 @@
 package fingerprint.windows;
 
 import java.io.File;
+import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
 import managers.EmployeeFileManager;
+import models.Employee;
+import utils.fileaccess.FileWriter;
 
 /**
  *
@@ -175,7 +178,29 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_exitForm
 
     private void btnGenerateExcelFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateExcelFileActionPerformed
+////        FileWriter.write("", "");
+//    JFileChooser saveFile = new JFileChooser();//new save dialog  
+////    saveFile.addChoosableFileFilter(MyFileFilter);          
+//      saveFile.showOpenDialog(this);  
+//Create a file chooser
+        Date date=new Date();
+        String[] datesegments=date.toString().split(" ");
+        String datestring=datesegments[1]+"-"+datesegments[2]+"-"+datesegments[5];
+        JFileChooser sfc = new JFileChooser();
+        sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+datestring+"-payroll.txt"));
+        //In response to a button click:
+        int returnVal = sfc.showSaveDialog(this);
         
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            //parse file
+            System.out.println(sfc.getSelectedFile().getPath());
+            File file = sfc.getSelectedFile();
+
+            //if file hasn't been selected, do nothing
+            if(file==null)return;
+
+            FileWriter.write(file.getPath(), EmployeeDataManager.getInstance().getPayrollText());
+        }         
     }//GEN-LAST:event_btnGenerateExcelFileActionPerformed
     private JFileChooser fc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
@@ -254,4 +279,20 @@ public class MainFrame extends java.awt.Frame {
     private javax.swing.JTextField txtStartDate;
     // End of variables declaration//GEN-END:variables
 
+}
+class MyFileFilter
+{
+
+       String description = "Sorted Files (*.srt)";//the filter you see  
+       String extension = "srt";//the filter passed to program  
+       public String getDescription()  
+       {  
+         return description;  
+       }  
+       public boolean accept(File f)  
+       {  
+         if(f == null) return false;  
+         if(f.isDirectory()) return true;  
+         return f.getName().toLowerCase().endsWith(extension);  
+       }  
 }
