@@ -31,7 +31,7 @@ public class MainFrame extends java.awt.Frame {
     //---------------VARIABLES---------------------    
     public MainFrame() {
         initComponents();
-        
+        btnGenerateExcelFile.setVisible(false);
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
         EmployeeFileManager.getInstance().load();
     }
@@ -182,47 +182,63 @@ public class MainFrame extends java.awt.Frame {
 //    JFileChooser saveFile = new JFileChooser();//new save dialog  
 ////    saveFile.addChoosableFileFilter(MyFileFilter);          
 //      saveFile.showOpenDialog(this);  
-//Create a file chooser
-        Date date=new Date();
-        String[] datesegments=date.toString().split(" ");
-        String datestring=datesegments[1]+"-"+datesegments[2]+"-"+datesegments[5];
-        JFileChooser sfc = new JFileChooser();
-        sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+datestring+"-payroll.txt"));
+//Create a file chooser      
+    }//GEN-LAST:event_btnGenerateExcelFileActionPerformed
+    private JFileChooser fc,sfc;
+    private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
+
+        //Create a file chooser
+        fc = new JFileChooser();
+        
         //In response to a button click:
-        int returnVal = sfc.showSaveDialog(this);
+        int returnVal = fc.showOpenDialog(this);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             //parse file
-            System.out.println(sfc.getSelectedFile().getPath());
-            File file = sfc.getSelectedFile();
+            File file = fc.getSelectedFile();
 
             //if file hasn't been selected, do nothing
             if(file==null)return;
-
-            FileWriter.write(file.getPath(), EmployeeDataManager.getInstance().getPayrollText());
-        }         
-    }//GEN-LAST:event_btnGenerateExcelFileActionPerformed
-    private JFileChooser fc;
-    private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
-//
-//        //Create a file chooser
-//        fc = new JFileChooser();
-//        
-//        //In response to a button click:
-//        int returnVal = fc.showOpenDialog(this);
-//        
-//        if (returnVal == JFileChooser.APPROVE_OPTION) {
-//            //parse file
-//            File file = fc.getSelectedFile();
-//
-//            //if file hasn't been selected, do nothing
-//            if(file==null)return;
-//            
-////            System.out.println(file.getPath());
-        {
-            File file=new File("/Users/jaspertomas/NetBeansProjects/Fingerprint/NewGlog_0001_20130921114600.csv");
+            
+//            System.out.println(file.getPath());
+//            File file=new File("/Users/jaspertomas/NetBeansProjects/Fingerprint/NewGlog_0001_20130921114600.csv");
 
             EmployeeDataManager.getInstance().calculate(file);
+
+
+            //show dialog box to ask whether to save output to file
+            int n = JOptionPane.showConfirmDialog(
+                    null,
+                    "Would you like to save the output to a file?",
+                    "Save output",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (n == JOptionPane.YES_OPTION) {
+                //write output to file
+                Date date=new Date();
+                String[] datesegments=date.toString().split(" ");
+                String datestring=datesegments[1]+"-"+datesegments[2]+"-"+datesegments[5];
+
+                if(sfc==null)
+                {
+                    sfc = new JFileChooser();
+                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+datestring+"-payroll.txt"));
+                }
+                //In response to a button click:
+                returnVal = sfc.showSaveDialog(this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    //parse file
+        //            System.out.println(sfc.getSelectedFile().getPath());
+                    File savefile = sfc.getSelectedFile();
+
+                    //if file hasn't been selected, do nothing
+                    if(savefile==null)return;
+
+                    FileWriter.write(savefile.getPath(), jTextArea.getText());
+                }   
+            }        
+        
         } 
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
 

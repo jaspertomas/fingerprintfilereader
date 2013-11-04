@@ -253,7 +253,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 "Confirm delete employee",
                 JOptionPane.YES_NO_OPTION);
 
-        if (true) {
+        if (n == JOptionPane.YES_OPTION) {
             efm.getEmployees().remove(e);
             efm.save();
             refreshList();
