@@ -52,6 +52,7 @@ public class MainFrame extends java.awt.Frame {
         jLabel3 = new javax.swing.JLabel();
         btnManageEmployeeData = new javax.swing.JButton();
         btnRecalculate = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -99,6 +100,13 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
+        btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -126,6 +134,10 @@ public class MainFrame extends java.awt.Frame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnManageEmployeeData, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 185, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(btnExit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 185, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -146,7 +158,9 @@ public class MainFrame extends java.awt.Frame {
                     .add(btnRecalculate))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 313, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(19, 19, 19))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnExit)
+                .addContainerGap())
         );
 
         pack();
@@ -209,6 +223,10 @@ public class MainFrame extends java.awt.Frame {
         EmployeeDataManager.getInstance().recalculate(file);
     }//GEN-LAST:event_btnRecalculateActionPerformed
 
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -222,6 +240,7 @@ public class MainFrame extends java.awt.Frame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChooseCsvFile;
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnGenerateExcelFile;
     private javax.swing.JButton btnManageEmployeeData;
     private javax.swing.JButton btnRecalculate;
