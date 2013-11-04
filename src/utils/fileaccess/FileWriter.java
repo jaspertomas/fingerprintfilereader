@@ -6,36 +6,35 @@ package utils.fileaccess;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.io.IOException;
 
 /**
  *
  * @author jaspertomas
  */
 public class FileWriter {
-
-
-    public static void main(String[] args) {
+    public static void main(String args[])
+    {
+        FileWriter.write("a.txt", "hi\nhello");
+    }
+    public static boolean write(String filename, String contents) {
+        File file=new File(filename);
         BufferedWriter writer = null;
         try {
-            //create a temporary file
-            String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-            File logFile = new File(timeLog);
-
-            // This will output the full path where the file will be written to...
-            System.out.println(logFile.getCanonicalPath());
-
-//            writer = new BufferedWriter(new FileWriter(logFile));
-            writer.write("Hello world!");
-        } catch (Exception e) {
-            e.printStackTrace();
+            writer = new BufferedWriter(new java.io.FileWriter(file));
+            writer.write(contents);
+        } catch (IOException e) {
+            System.err.println(e);
+            return false;
         } finally {
-            try {
-                // Close the writer regardless of what happens...
-                writer.close();
-            } catch (Exception e) {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.err.println(e);
+                }
             }
-        }
+            return true;
+        }    
     }
 }

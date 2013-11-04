@@ -51,7 +51,7 @@ public final class BinaryFileReader {
             return in.readInt();
         } catch (IOException ex) {
             eof=true;
-            System.out.println("BinaryFileReader::readInt: end of file reached");
+//            System.out.println("BinaryFileReader::readInt: end of file reached");
             return null;
         }
     }
@@ -60,7 +60,7 @@ public final class BinaryFileReader {
             return in.readDouble();
         } catch (IOException ex) {
             eof=true;
-            System.out.println("BinaryFileReader::readDouble: end of file reached");
+//            System.out.println("BinaryFileReader::readDouble: end of file reached");
             return null;
         }
     }    
@@ -69,7 +69,7 @@ public final class BinaryFileReader {
             return in.readUTF();
         } catch (IOException ex) {
             eof=true;
-            System.out.println("BinaryFileReader::readString: end of file reached");
+//            System.out.println("BinaryFileReader::readString: end of file reached");
             return null;
         }
     }

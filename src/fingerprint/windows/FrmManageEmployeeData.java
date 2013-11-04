@@ -243,17 +243,17 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFnameActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        EmployeeFileManager efm=EmployeeFileManager.getInstance();
+        EmployeeFileManager efm = EmployeeFileManager.getInstance();
         Employee e = efm.getEmployees().get(jList1.getSelectedIndex());
 
         //show dialog box to confirm delete 
         int n = JOptionPane.showConfirmDialog(
-            null,
-            "Really delete "+e.getFullName()+"?",
-            "Confirm delete employee",
-            JOptionPane.YES_NO_OPTION);
+                null,
+                "Really delete " + e.getFullName() + "?",
+                "Confirm delete employee",
+                JOptionPane.YES_NO_OPTION);
 
-        if(true){
+        if (true) {
             efm.getEmployees().remove(e);
             efm.save();
             refreshList();
@@ -342,8 +342,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
     public void onSelect() {
         //if no selected employee, do nothing
-        if(jList1.getSelectedIndex()==-1)return;
-        
+        if (jList1.getSelectedIndex() == -1) {
+            return;
+        }
+
         Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
 //        System.out.println(e);
         lblNickname.setText(e.getNickname());
@@ -366,9 +368,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             model.addElement(e);
         }
         jList1.setModel(model);
-                            jList1.setSelectedIndex(0);
-                    onSelect();
-
+        
+        //select first element
+        jList1.setSelectedIndex(0);
+        onSelect();
     }
 }
 
