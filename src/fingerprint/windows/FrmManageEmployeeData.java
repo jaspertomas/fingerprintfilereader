@@ -16,6 +16,7 @@ import models.Employee;
 
 
 
+
 /**
  *
  * @author jaspertomas
@@ -41,24 +42,20 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     public FrmManageEmployeeData() {
         initComponents();
         
-        DefaultListModel model=new DefaultListModel();
-        for(Employee e:EmployeeFileManager.getInstance().getEmployees())
-        {
-            model.addElement(e);
-        }
-        jList1.setModel(model);
+        refreshList();
+        
         jList1.getSelectionModel().addListSelectionListener(
                 new SharedListSelectionHandler());
         
         DocumentListener doclistener=new DocumentListener() {
             public void changedUpdate(DocumentEvent e){
-                System.out.println("changed");
+                FrmManageEmployeeData.getInstance().enableButtons(true);
             }
             public void removeUpdate(DocumentEvent e){
-                System.out.println("remove");
+                FrmManageEmployeeData.getInstance().enableButtons(true);
             }
             public void insertUpdate(DocumentEvent e){
-                System.out.println("insert");
+                FrmManageEmployeeData.getInstance().enableButtons(true);
             }
         };
         txtFname.getDocument().addDocumentListener(doclistener);
@@ -88,9 +85,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtLname = new javax.swing.JTextField();
         lblNickname = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        cmdSave = new javax.swing.JButton();
-        cmdDelete = new javax.swing.JButton();
+        btnRevert = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         txtCola = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -118,16 +115,26 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         lblNickname.setText("Nickname: ");
 
-        jButton1.setText("Revert");
-        jButton1.setEnabled(false);
-
-        cmdSave.setText("Save");
-        cmdSave.setEnabled(false);
-
-        cmdDelete.setText("Delete");
-        cmdDelete.addActionListener(new java.awt.event.ActionListener() {
+        btnRevert.setText("Revert");
+        btnRevert.setEnabled(false);
+        btnRevert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdDeleteActionPerformed(evt);
+                btnRevertActionPerformed(evt);
+            }
+        });
+
+        btnSave.setText("Save");
+        btnSave.setEnabled(false);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -163,13 +170,13 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                             .add(layout.createSequentialGroup()
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(jLabel3)
-                                    .add(jButton1))
+                                    .add(btnRevert))
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(layout.createSequentialGroup()
                                         .add(1, 1, 1)
-                                        .add(cmdSave)
+                                        .add(btnSave)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(cmdDelete))
+                                        .add(btnDelete))
                                     .add(layout.createSequentialGroup()
                                         .add(15, 15, 15)
                                         .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
@@ -180,9 +187,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel5)
@@ -203,10 +208,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                             .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jButton1)
-                            .add(cmdSave)
-                            .add(cmdDelete))
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .add(btnRevert)
+                            .add(btnSave)
+                            .add(btnDelete))
+                        .add(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -216,9 +222,29 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFnameActionPerformed
 
-    private void cmdDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmdDeleteActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        enableButtons(false);
+        
+        Employee e=EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
+        
+        e.setNickname(lblNickname.getText());
+        e.setFname(txtFname.getText());
+        e.setMname(txtMname.getText());
+        e.setLname(txtLname.getText());
+        e.setMonthlySalary(Double.valueOf(txtSalary.getText()));
+        e.setCola(Double.valueOf(txtCola.getText()));
+        
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnRevertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertActionPerformed
+        enableButtons(false);
+        onSelect();
+                
+    }//GEN-LAST:event_btnRevertActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -254,9 +280,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 //        });
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cmdDelete;
-    private javax.swing.JButton cmdSave;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnRevert;
+    private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -271,26 +297,38 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JTextField txtSalary;
     // End of variables declaration//GEN-END:variables
 
-    public void onSelect(Integer index)
+    public void onSelect()
     {
-        
-        Employee e=EmployeeFileManager.getInstance().getEmployees().get(index);
+        Employee e=EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
 //        System.out.println(e);
         lblNickname.setText(e.getNickname());
         txtFname.setText(e.getFname());
-        txtMname.setText(e.getFname());
-        txtLname.setText(e.getFname());
+        txtMname.setText(e.getMname());
+        txtLname.setText(e.getLname());
         txtSalary.setText(e.getMonthlySalary().toString());
         txtCola.setText(e.getCola().toString());
     }
-}
 
+    public void enableButtons(boolean b) {
+        btnRevert.setEnabled(b);
+        btnSave.setEnabled(b);
+    }
+
+    private void refreshList() {
+        DefaultListModel model=new DefaultListModel();
+        for(Employee e:EmployeeFileManager.getInstance().getEmployees())
+        {
+            model.addElement(e);
+        }
+        jList1.setModel(model);
+    }
+}
 class SharedListSelectionHandler implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+//            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 //            int firstIndex = e.getFirstIndex();
 //            int lastIndex = e.getLastIndex();
 //            System.out.println("Event for indexes "
@@ -311,7 +349,8 @@ class SharedListSelectionHandler implements ListSelectionListener {
 //                }
 //            }
 //            System.out.println();
-            FrmManageEmployeeData.getInstance().onSelect(lsm.getMinSelectionIndex());
+//            FrmManageEmployeeData.getInstance().onSelect(lsm.getMinSelectionIndex());
+            FrmManageEmployeeData.getInstance().onSelect();
         }
     }
 }
