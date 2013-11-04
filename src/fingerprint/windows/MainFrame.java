@@ -15,6 +15,17 @@ import managers.EmployeeFileManager;
  * @author jaspertomas
  */
 public class MainFrame extends java.awt.Frame {
+    //---------------SINGLETON-------------------
+
+    static MainFrame instance;
+
+    public static MainFrame getInstance() {
+        if (instance == null) {
+            instance = new MainFrame();
+        }
+        return instance;
+    }
+    //---------------VARIABLES---------------------    
     public MainFrame() {
         initComponents();
         
@@ -176,6 +187,7 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
 
     private void btnManageEmployeeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageEmployeeDataActionPerformed
+        setVisible(false);
         FrmManageEmployeeData.getInstance().setVisible(true);
         
     }//GEN-LAST:event_btnManageEmployeeDataActionPerformed
