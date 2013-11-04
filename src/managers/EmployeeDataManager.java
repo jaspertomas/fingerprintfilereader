@@ -202,7 +202,7 @@ public class EmployeeDataManager {
         //sample output
         CompiledEmployeeData edatamap;
         TimeInOutData data;
-        Double totalregular=0d,totalovertime=0d;
+        Integer regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
         for (String name : employeenamelist) {
             for (String date : calendar) {
                 edatamap = weeklydata.get(name);
@@ -226,7 +226,6 @@ public class EmployeeDataManager {
                             + "\t"
                             + data.getOutTimeString()
                             + "\n");
-                    System.out.println(name+" "+data.getTimeDiffMinutes());
                 } else if (data.getOut().getTime().equals(twelve)) {
                     jTextArea.append(
                             data.getInTimeString()
@@ -237,7 +236,6 @@ public class EmployeeDataManager {
                             + ""
                             + "\t"
                             + "\n");
-                    System.out.println(name+" "+data.getTimeDiffMinutes());
                 } else {
                     jTextArea.append(
                             data.getInTimeString()
@@ -248,10 +246,28 @@ public class EmployeeDataManager {
                             + "\t"
                             + data.getOutTimeString()
                             + "\n");
-                    System.out.println(name+" "+data.getTimeDiffMinutes());
                 }
-
+                
+                //calculate regular and overtime minutes
+                diffminutes=data.getTimeDiffMinutes();
+                if(diffminutes>480)//8 hours*60 min
+                {
+                    regularminutes=480;
+                    overtimeminutes=diffminutes-480;
+                }
+                else
+                {
+                    regularminutes=diffminutes;
+                    overtimeminutes=0;
+                }
+                totalregularminutes+=regularminutes;
+                totalovertimeminutes+=overtimeminutes;
+                //get regular rate and overtime rate
+                
+                
             }
+            jTextArea.append("Regular Minutes: "+totalregularminutes+"\n");
+            jTextArea.append("Overtime Minutes: "+totalovertimeminutes+"\n");
         }
     }
     public void calculate(File file) {
