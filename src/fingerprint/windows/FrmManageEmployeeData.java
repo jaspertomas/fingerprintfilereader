@@ -5,7 +5,7 @@
 package fingerprint.windows;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ListSelectionModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -62,15 +62,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtCola.getDocument().addDocumentListener(doclistener);
         txtSalary.getDocument().addDocumentListener(doclistener);
 
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                if(jList1.getComponentCount()!=0)
-                {
-                    jList1.setSelectedIndex(0);
-                    onSelect();
-                }
-            }
-        });
+//        addWindowListener(new java.awt.event.WindowAdapter() {
+//            public void windowOpened(java.awt.event.WindowEvent evt) {
+//                if (jList1.getComponentCount() != 0) {
+//                    jList1.setSelectedIndex(0);
+//                    onSelect();
+//                }
+//            }
+//        });
     }
 
     /**
@@ -184,9 +183,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                     .add(layout.createSequentialGroup()
                                         .add(1, 1, 1)
                                         .add(btnSave)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(btnDelete)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .add(btnDelete)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                         .add(btnExit))
                                     .add(layout.createSequentialGroup()
                                         .add(15, 15, 15)
@@ -244,25 +243,38 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFnameActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        EmployeeFileManager efm=EmployeeFileManager.getInstance();
+        Employee e = efm.getEmployees().get(jList1.getSelectedIndex());
+
+        //show dialog box to confirm delete 
+        int n = JOptionPane.showConfirmDialog(
+            null,
+            "Really delete "+e.getFullName()+"?",
+            "Confirm delete employee",
+            JOptionPane.YES_NO_OPTION);
+
+        if(true){
+            efm.getEmployees().remove(e);
+            efm.save();
+            refreshList();
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        try{
-        Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
+        try {
+            Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
 
-        e.setNickname(lblNickname.getText());
-        e.setFname(txtFname.getText());
-        e.setMname(txtMname.getText());
-        e.setLname(txtLname.getText());
-        e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim()));
-        e.setCola(Double.valueOf(txtCola.getText().trim()));
-        
-        EmployeeFileManager.getInstance().save();
-        
-        onSelect();
-        }
-        catch(java.lang.NumberFormatException e)
-        {
+            e.setNickname(lblNickname.getText());
+            e.setFname(txtFname.getText());
+            e.setMname(txtMname.getText());
+            e.setLname(txtLname.getText());
+            e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim()));
+            e.setCola(Double.valueOf(txtCola.getText().trim()));
+
+            EmployeeFileManager.getInstance().save();
+
+            onSelect();
+        } catch (java.lang.NumberFormatException e) {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -329,6 +341,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void onSelect() {
+        //if no selected employee, do nothing
+        if(jList1.getSelectedIndex()==-1)return;
+        
         Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
 //        System.out.println(e);
         lblNickname.setText(e.getNickname());
@@ -351,6 +366,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             model.addElement(e);
         }
         jList1.setModel(model);
+                            jList1.setSelectedIndex(0);
+                    onSelect();
+
     }
 }
 

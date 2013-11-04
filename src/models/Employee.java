@@ -75,4 +75,8 @@ public class Employee {
     {
         return nickname;
     }
+
+    public String getFullName() {
+        return fname + " " +mname + " "+lname;
+    }
 }
