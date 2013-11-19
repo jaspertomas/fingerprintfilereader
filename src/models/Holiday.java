@@ -64,7 +64,7 @@ public class Holiday implements Comparable<Holiday> {
     
     if (this.date.before(aThat.getDate())) return BEFORE;
     else if (this.date.after(aThat.getDate())) return AFTER;
-    else return EQUAL;
-
+    //if date is equal, compare by name alphabetically
+    else return this.name.compareTo(aThat.getName());
   }
 }

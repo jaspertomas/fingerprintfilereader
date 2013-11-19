@@ -282,17 +282,22 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         try {
             Holiday h = Holidays.getInstance().getItems().get(listHolidays.getSelectedIndex());
 
-            h.setName(txtName.getText());
-            h.setType(cmbType.getSelectedIndex());
             try {
                 h.setDate(Holidays.dateFormat.parse(txtDate.getText()));
             } catch (ParseException ex) {
 //                ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "This is not a date", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+            h.setName(txtName.getText());
+            h.setType(cmbType.getSelectedIndex());
 
             Holidays.getInstance().save();
-
+            
+            //update list in case holiday name has changed
+//            listHolidays.repaint();
+            
+          
             onSelect();
         } catch (java.lang.NumberFormatException e) {
             e.printStackTrace();
@@ -323,7 +328,13 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+        try {
+            Holiday holiday=new Holiday("--New Holiday--",0,Holidays.dateFormat.parse(Settings.getInstance().getCurrentYear()+"-01-01"));
+            Holidays.getInstance().add(holiday);
+            refreshList();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed

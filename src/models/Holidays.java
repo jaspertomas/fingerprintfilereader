@@ -172,4 +172,12 @@ public class Holidays {
         save();
         items.remove(holiday);
     }
+    public void add(Holiday holiday)
+    {
+        allItems.add(holiday);
+        Collections.sort(allItems);
+        save();
+        items.add(holiday);
+        Collections.sort(items);
+    }    
 }
