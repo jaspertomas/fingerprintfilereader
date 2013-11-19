@@ -283,6 +283,11 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         Date tempdate;
         try {
             tempdate=Holidays.dateFormat.parse(txtDate.getText());
+            if(!Holidays.yearFormat.format(tempdate).contentEquals(Settings.getInstance().getCurrentYear()))
+            {
+                JOptionPane.showMessageDialog(this, "Cannot set this holiday to a different year", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "This is not a date", "Error", JOptionPane.ERROR_MESSAGE);
             return;
