@@ -305,6 +305,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
             onSelect();
         } catch (java.lang.NumberFormatException e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
