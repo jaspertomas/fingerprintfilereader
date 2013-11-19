@@ -47,6 +47,8 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         refreshList();
 
         setButtonMode();
+        
+        btnDownload.setVisible(false);
 
         lblYear.setText(Settings.getInstance().getCurrentYear().toString());
  
@@ -431,7 +433,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         txtDate.setVisible(formenabled);
         cmbType.setVisible(formenabled);
 
-        btnDownload.setVisible(!formenabled);
+//        btnDownload.setVisible(!formenabled);
         btnGenerate.setVisible(!formenabled);
     }
 
