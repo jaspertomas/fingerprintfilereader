@@ -7,6 +7,9 @@ package models;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.fileaccess.BinaryFileReader;
 import utils.fileaccess.BinaryFileWriter;
 
@@ -27,6 +30,10 @@ public class Holidays {
         return instance;
     }
     //---------------VARIABLES---------------------  
+    public static final String REGULAR="R";
+    public static final String SPECIAL="S";
+    public static final String OTHER="O";
+
     private static final String OUTPUT_FILE_NAME = "holidays.dat";
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -87,17 +94,23 @@ public class Holidays {
     }
 
     //add items that don't already exist in the items array
-    void generate(ArrayList<Holiday> items) {
-//        EmployeeList temp=new EmployeeList();
-        
-        //scan employee list for matching nickname; 
-        //if it doesnt exist, add it
-//        for(String name:items)
-//        {
-//            if(items.getByName(name)==null)
-//            items.add(new Holiday(name,"","","",0d,0d,0d));
-//        }
-//        save();
+//    void generate(ArrayList<Holiday> items) {
+////        EmployeeList temp=new EmployeeList();
+//        
+//        //scan employee list for matching nickname; 
+//        //if it doesnt exist, add it
+////        for(String name:items)
+////        {
+////            if(items.getByName(name)==null)
+////            items.add(new Holiday(name,"","","",0d,0d,0d));
+////        }
+////        save();
+//    }
+    public void generate() {
+        try {
+            items.add(new Holiday("Christmas",Holidays.REGULAR,dateFormat.parse("2013-12-25")));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }
-            
 }

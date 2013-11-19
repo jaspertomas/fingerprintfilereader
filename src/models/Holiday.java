@@ -11,9 +11,6 @@ import java.util.Date;
  * @author jaspertomas
  */
 public class Holiday {
-    public final String REGULAR="R";
-    public final String SPECIAL="S";
-    public final String OTHER="O";
     String name="",type="";
     Date date;
 

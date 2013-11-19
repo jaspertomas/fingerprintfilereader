@@ -45,7 +45,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnManageEmployeeData" min="-2" pref="185" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnGenerateExcelFile" min="-2" pref="185" max="-2" attributes="0"/>
+                      <Component id="btnManageHolidays" min="-2" pref="185" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -65,7 +65,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnChooseCsvFile" alignment="3" min="-2" pref="51" max="-2" attributes="0"/>
-                  <Component id="btnGenerateExcelFile" alignment="3" min="-2" pref="51" max="-2" attributes="0"/>
+                  <Component id="btnManageHolidays" alignment="3" min="-2" pref="51" max="-2" attributes="0"/>
                   <Component id="btnManageEmployeeData" alignment="3" min="-2" pref="51" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -86,13 +86,13 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="btnGenerateExcelFile">
+    <Component class="javax.swing.JButton" name="btnManageHolidays">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Generate output file"/>
+        <Property name="text" type="java.lang.String" value="Manage Holidays"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenerateExcelFileActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageHolidaysActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">

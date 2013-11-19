@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
 import managers.EmployeeFileManager;
 import models.Employee;
+import models.Holidays;
 import utils.fileaccess.FileWriter;
 
 /**
@@ -34,7 +35,6 @@ public class MainFrame extends java.awt.Frame {
 
         instance=this;
 
-        btnGenerateExcelFile.setVisible(false);
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
         EmployeeFileManager.getInstance().load();
     }
@@ -47,7 +47,7 @@ public class MainFrame extends java.awt.Frame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnGenerateExcelFile = new javax.swing.JButton();
+        btnManageHolidays = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea = new javax.swing.JTextArea();
         txtStartDate = new javax.swing.JTextField();
@@ -66,11 +66,11 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        btnGenerateExcelFile.setText("Generate output file");
-        btnGenerateExcelFile.setToolTipText("");
-        btnGenerateExcelFile.addActionListener(new java.awt.event.ActionListener() {
+        btnManageHolidays.setText("Manage Holidays");
+        btnManageHolidays.setToolTipText("");
+        btnManageHolidays.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGenerateExcelFileActionPerformed(evt);
+                btnManageHolidaysActionPerformed(evt);
             }
         });
 
@@ -139,7 +139,7 @@ public class MainFrame extends java.awt.Frame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnManageEmployeeData, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 185, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnGenerateExcelFile, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 185, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(btnManageHolidays, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 185, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -154,7 +154,7 @@ public class MainFrame extends java.awt.Frame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnChooseCsvFile, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(btnGenerateExcelFile, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(btnManageHolidays, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(btnManageEmployeeData, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -180,13 +180,10 @@ public class MainFrame extends java.awt.Frame {
         System.exit(0);
     }//GEN-LAST:event_exitForm
 
-    private void btnGenerateExcelFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateExcelFileActionPerformed
-////        FileWriter.write("", "");
-//    JFileChooser saveFile = new JFileChooser();//new save dialog  
-////    saveFile.addChoosableFileFilter(MyFileFilter);          
-//      saveFile.showOpenDialog(this);  
-//Create a file chooser      
-    }//GEN-LAST:event_btnGenerateExcelFileActionPerformed
+    private void btnManageHolidaysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageHolidaysActionPerformed
+        Holidays.getInstance().generate();
+        System.out.println(Holidays.getInstance().getItems().get(0).getDate());
+    }//GEN-LAST:event_btnManageHolidaysActionPerformed
     private JFileChooser fc,sfc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
 
@@ -273,8 +270,8 @@ public class MainFrame extends java.awt.Frame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChooseCsvFile;
     private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnGenerateExcelFile;
     private javax.swing.JButton btnManageEmployeeData;
+    private javax.swing.JButton btnManageHolidays;
     private javax.swing.JButton btnRecalculate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
