@@ -13,8 +13,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import managers.EmployeeFileManager;
-import models.Employee;
 import models.Holiday;
 import models.Holidays;
 
@@ -275,17 +273,12 @@ public class FrmManageHolidays extends javax.swing.JFrame {
             Holiday h = Holidays.getInstance().getItems().get(listHolidays.getSelectedIndex());
 
             h.setName(txtName.getText());
-            if(cmbType.getSelectedItem().toString().contentEquals("Regular Holiday"))
-                h.setType(Holidays.REGULAR);
-            else if(cmbType.getSelectedItem().toString().contentEquals("Special Non-working Holiday"))
-                h.setType(Holidays.SPECIAL);
-            else
-                h.setType(Holidays.OTHER);
+            h.setType(cmbType.getSelectedIndex());
             try {
                 h.setDate(Holidays.dateFormat.parse(txtDate.getText()));
             } catch (ParseException ex) {
 //                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "This is not a date", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
             Holidays.getInstance().save();
@@ -357,8 +350,8 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 
     private void refreshList() {
         DefaultListModel model = new DefaultListModel();
-        for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
-            model.addElement(e);
+        for (Holiday h : Holidays.getInstance().getItems()) {
+            model.addElement(h);
         }
         listHolidays.setModel(model);
         

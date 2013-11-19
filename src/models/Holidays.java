@@ -48,6 +48,7 @@ public class Holidays {
         if(items==null)
         {
             items=new ArrayList<Holiday>();
+            load();
         }
         
         return items;
