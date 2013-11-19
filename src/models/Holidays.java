@@ -7,8 +7,6 @@ package models;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.fileaccess.BinaryFileReader;
 import utils.fileaccess.BinaryFileWriter;
 
@@ -30,7 +28,7 @@ public class Holidays {
     }
     //---------------VARIABLES---------------------  
     private static final String OUTPUT_FILE_NAME = "holidays.dat";
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     
     ArrayList<Holiday> items=new ArrayList<Holiday>();
@@ -51,7 +49,7 @@ public class Holidays {
         {
             writer.writeString(item.getName());
             writer.writeString(item.getType());
-            writer.writeDate(item.getDate());
+            writer.writeString(dateFormat.format(item.getDate()));
         }
         writer.close(); 
     }
