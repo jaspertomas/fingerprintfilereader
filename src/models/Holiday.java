@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author jaspertomas
  */
-public class Holiday {
+public class Holiday implements Comparable<Holiday> {
     String name="",type="";
     Date date;
 
@@ -55,4 +55,15 @@ public class Holiday {
 //    public String getFullName() {
 //        return fname + " " +mname + " "+lname;
 //    }
+
+@Override public int compareTo(Holiday aThat) {
+    final int BEFORE = -1;
+    final int EQUAL = 0;
+    final int AFTER = 1;
+    
+    if (this.date.before(aThat.getDate())) return BEFORE;
+    else if (this.date.after(aThat.getDate())) return AFTER;
+    else return EQUAL;
+
+  }
 }

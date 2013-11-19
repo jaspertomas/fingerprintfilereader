@@ -10,7 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
 import managers.EmployeeFileManager;
-import models.Employee;
+import models.Holiday;
 import models.Holidays;
 import utils.fileaccess.FileWriter;
 
@@ -181,8 +181,12 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_exitForm
 
     private void btnManageHolidaysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageHolidaysActionPerformed
-        Holidays.getInstance().generate();
-        System.out.println(Holidays.getInstance().getItems().get(0).getDate());
+        Holidays.getInstance().generate("2014");
+        for(Holiday holiday:Holidays.getInstance().getItems())
+        {
+            System.out.println(holiday.getName()+" - "+holiday.getDate());
+        }
+
     }//GEN-LAST:event_btnManageHolidaysActionPerformed
     private JFileChooser fc,sfc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
