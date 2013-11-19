@@ -71,7 +71,15 @@ public class Holidays {
         }
         writer.close(); 
     }
+    public void loadAll()
+    {
+        load(false);
+    }
     public void load()
+    {
+        load(true);
+    }
+    private void load(boolean thisyearonly)
     {
         String currentYear=Settings.getInstance().getCurrentYear();
         
@@ -102,7 +110,13 @@ public class Holidays {
 //                Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            if(yearFormat.format(h.getDate()).contentEquals(currentYear))
+            //if loading all holidays for all years
+            if(!thisyearonly)
+                //add all holidays
+                items.add(h);
+            //else if loading only this year's holidays
+            //add holidays only if their year matches this year
+            else if(yearFormat.format(h.getDate()).contentEquals(currentYear))
                 items.add(h);
         }
         Collections.sort(items);
@@ -123,6 +137,7 @@ public class Holidays {
 ////        save();
 //    }
     public void generate(String yearstring) {
+        loadAll();
         try {
             //Regular holidays
             items.add(new Holiday("New Year",Holidays.REGULAR,dateFormat.parse(yearstring+"-01-01")));
