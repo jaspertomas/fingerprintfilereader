@@ -314,11 +314,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
         Holidays.getInstance().generate(Settings.getInstance().getCurrentYear());
-        Holidays.getInstance().load();
-        refreshList();
-        setButtonMode();        
-        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
-        
+        refreshForm();
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
@@ -329,22 +325,21 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 
     private void btnNextYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextYearActionPerformed
         Settings.getInstance().nextYear();
-        Holidays.getInstance().load();
-        refreshList();
-        setButtonMode();        
-        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
- 
+        refreshForm();
     }//GEN-LAST:event_btnNextYearActionPerformed
 
     private void btnPreviousYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousYearActionPerformed
         Settings.getInstance().previousYear();
-        Holidays.getInstance().load();
-        refreshList();
-        setButtonMode();  
-        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
- 
+        refreshForm();
     }//GEN-LAST:event_btnPreviousYearActionPerformed
 
+    private void refreshForm()
+    {
+        Holidays.getInstance().load();
+        refreshList();
+        setButtonMode();        
+        lblYear.setText(Settings.getInstance().getCurrentYear().toString());    
+    }
     /**
      * @param args the command line arguments
      */
