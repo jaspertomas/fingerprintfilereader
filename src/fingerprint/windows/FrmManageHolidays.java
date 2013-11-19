@@ -374,15 +374,11 @@ public class FrmManageHolidays extends javax.swing.JFrame {
             return;
         }
 
-        Employee e = EmployeeFileManager.getInstance().getEmployees().get(listHolidays.getSelectedIndex());
+        Holiday e = Holidays.getInstance().getItems().get(listHolidays.getSelectedIndex());
 //        System.out.println(e);
-        lblName.setText(e.getNickname());
-        txtFname.setText(e.getFname());
-        txtMname.setText(e.getMname());
-        txtLname.setText(e.getLname());
-        txtSalary.setText(e.getMonthlySalary().toString());
-        txtCola.setText(e.getCola().toString());
-        txtDeduction.setText(e.getDeduction().toString());
+        txtName.setText(e.getName());
+        txtDate.setText(Holidays.dateFormat.format(e.getDate()));
+        cmbType.setSelectedItem(e.getType());
         enableButtons(false);
     }
 

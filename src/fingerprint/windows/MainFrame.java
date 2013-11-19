@@ -183,6 +183,8 @@ public class MainFrame extends java.awt.Frame {
     private void btnManageHolidaysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageHolidaysActionPerformed
         setVisible(false);
         FrmManageHolidays.getInstance().setVisible(true);
+//        Holidays.getInstance().generate("2014");
+        
     }//GEN-LAST:event_btnManageHolidaysActionPerformed
     private JFileChooser fc,sfc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed

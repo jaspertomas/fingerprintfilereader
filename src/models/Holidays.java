@@ -31,17 +31,25 @@ public class Holidays {
         return instance;
     }
     //---------------VARIABLES---------------------  
-    public static final String REGULAR="R";
-    public static final String SPECIAL="S";
-    public static final String OTHER="O";
+//    public static final String REGULAR="R";
+//    public static final String SPECIAL="S";
+//    public static final String OTHER="O";
+    public static final Integer REGULAR=0;
+    public static final Integer SPECIAL=1;
+    public static final Integer OTHER=2;
 
     private static final String OUTPUT_FILE_NAME = "holidays.dat";
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     
-    ArrayList<Holiday> items=new ArrayList<Holiday>();
+    ArrayList<Holiday> items;
 
     public ArrayList<Holiday> getItems() {
+        if(items==null)
+        {
+            items=new ArrayList<Holiday>();
+        }
+        
         return items;
     }
 //    public void reset() {
@@ -56,7 +64,7 @@ public class Holidays {
         for(Holiday item:items)
         {
             writer.writeString(item.getName());
-            writer.writeString(item.getType());
+            writer.writeInt(item.getType());
             writer.writeString(dateFormat.format(item.getDate()));
         }
         writer.close(); 
@@ -82,7 +90,7 @@ public class Holidays {
             h=new Holiday();
             h.setName(reader.readString());
             if(!reader.notEOF())break;
-            h.setType(reader.readString());
+            h.setType(reader.readInt());
             try {
                 h.setDate(dateFormat.parse(reader.readString()));
             } catch (ParseException ex) {

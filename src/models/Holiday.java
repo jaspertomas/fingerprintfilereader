@@ -11,12 +11,13 @@ import java.util.Date;
  * @author jaspertomas
  */
 public class Holiday implements Comparable<Holiday> {
-    String name="",type="";
+    String name="";
+    Integer type=0;
     Date date;
 
     public Holiday() {}
  
-    public Holiday(String name,String type, Date date) {
+    public Holiday(String name,Integer type, Date date) {
         this.name = name;
         this.type = type;
         this.date = date;
@@ -30,11 +31,11 @@ public class Holiday implements Comparable<Holiday> {
         this.name = name;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
