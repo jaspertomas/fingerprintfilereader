@@ -65,7 +65,7 @@ public class EmployeeFileManager {
         if(!result)
         {
             //file not found
-            System.out.println("File fingerprint.dat not found");
+            System.out.println("File "+OUTPUT_FILE_NAME+" not found");
             return;
         }
         

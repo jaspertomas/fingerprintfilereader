@@ -4,7 +4,11 @@
  */
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.fileaccess.BinaryFileReader;
 import utils.fileaccess.BinaryFileWriter;
 
@@ -26,6 +30,8 @@ public class Holidays {
     }
     //---------------VARIABLES---------------------  
     private static final String OUTPUT_FILE_NAME = "holidays.dat";
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     
     ArrayList<Holiday> items=new ArrayList<Holiday>();
 
@@ -43,13 +49,9 @@ public class Holidays {
         
         for(Holiday item:items)
         {
-            writer.writeString(item.getNickname());
-            writer.writeString(item.getFname());
-            writer.writeString(item.getMname());
-            writer.writeString(item.getLname());
-            writer.writeDouble(item.getMonthlySalary());
-            writer.writeDouble(item.getCola());
-            writer.writeDouble(item.getDeduction());
+            writer.writeString(item.getName());
+            writer.writeString(item.getType());
+            writer.writeDate(item.getDate());
         }
         writer.close(); 
     }
@@ -65,38 +67,39 @@ public class Holidays {
         if(!result)
         {
             //file not found
-            System.out.println("File fingerprint.dat not found");
+            System.out.println("File "+OUTPUT_FILE_NAME+" not found");
             return;
         }
         
         while(reader.notEOF())
         {
             h=new Holiday();
-            h.setNickname(reader.readString());
+            h.setName(reader.readString());
             if(!reader.notEOF())break;
-            h.setFname(reader.readString());
-            h.setMname(reader.readString());
-            h.setLname(reader.readString());
-            h.setMonthlySalary(reader.readDouble());
-            h.setCola(reader.readDouble());
-            h.setDeduction(reader.readDouble());
+            h.setType(reader.readString());
+            try {
+                h.setDate(dateFormat.parse(reader.readString()));
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+//                Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
+            }
             items.add(h);
         }
         reader.close();        
     }
 
     //add items that don't already exist in the items array
-    void generateFromStringArray(EmployeeNameList employeenamelist) {
+    void generate(ArrayList<Holiday> items) {
 //        EmployeeList temp=new EmployeeList();
         
         //scan employee list for matching nickname; 
         //if it doesnt exist, add it
-        for(String nickname:employeenamelist)
-        {
-            if(items.getByNickname(nickname)==null)
-            items.add(new Holiday(nickname,"","","",0d,0d,0d));
-        }
-        save();
+//        for(String name:items)
+//        {
+//            if(items.getByName(name)==null)
+//            items.add(new Holiday(name,"","","",0d,0d,0d));
+//        }
+//        save();
     }
             
 }

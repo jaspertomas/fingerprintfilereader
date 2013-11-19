@@ -4,91 +4,58 @@
  */
 package models;
 
+import java.util.Date;
+
 /**
  *
  * @author jaspertomas
  */
 public class Holiday {
-    String nickname="",fname="",mname="",lname="";
-    Double cola=0d;
-    Double monthlySalary=0d;
-    Double deduction=0d;
+    public final String REGULAR="R";
+    public final String SPECIAL="S";
+    public final String OTHER="O";
+    String name="",type="";
+    Date date;
 
     public Holiday() {}
  
-    public Holiday(String nickname, String fname, String mname, String lname, Double cola, Double monthlySalary,Double deduction) {
-        this.nickname = nickname;
-        this.fname = fname;
-        this.mname = mname;
-        this.lname = lname;
-        this.cola = cola;
-        this.monthlySalary = monthlySalary;
-        this.deduction = deduction;
+    public Holiday(String name,String type, Date date) {
+        this.name = name;
+        this.type = type;
+        this.date = date;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getName() {
+        return name;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFname() {
-        return fname;
+    public String getType() {
+        return type;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getMname() {
-        return mname;
+    public Date getDate() {
+        return date;
     }
 
-    public void setMname(String mname) {
-        this.mname = mname;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getLname() {
-        return lname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
-
-    public Double getCola() {
-        return cola;
-    }
-
-    public void setCola(Double cola) {
-        this.cola = cola;
-    }
-
-    public Double getMonthlySalary() {
-        return monthlySalary;
-    }
-
-    public void setMonthlySalary(Double monthlySalary) {
-        this.monthlySalary = monthlySalary;
-    }
-
-    public Double getDeduction() {
-        return deduction;
-    }
-
-    public void setDeduction(Double deduction) {
-        this.deduction = deduction;
-    }
-    
     
     public String toString()
     {
-        return nickname;
+        return name;
     }
 
-    public String getFullName() {
-        return fname + " " +mname + " "+lname;
-    }
+//    public String getFullName() {
+//        return fname + " " +mname + " "+lname;
+//    }
 }

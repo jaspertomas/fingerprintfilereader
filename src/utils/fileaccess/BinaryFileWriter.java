@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,6 +64,15 @@ public final class BinaryFileWriter {
         }
     }
 
+    public boolean writeDate(Date d) {
+        try {
+            out.writeDate(d);
+            return true;
+        } catch (IOException ex) {
+            System.out.println("writeInt: error writing integer "+d.toString()+" to file");
+            return false;
+        }
+    }
     public boolean writeString(String s) {
         try {
             out.writeUTF(s);
