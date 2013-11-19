@@ -43,7 +43,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         refreshList();
 
         jList1.getSelectionModel().addListSelectionListener(
-                new SharedListSelectionHandler());
+                new EmployeeListSelectionHandler());
 
         DocumentListener doclistener = new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -412,7 +412,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }
 }
 
-class SharedListSelectionHandler implements ListSelectionListener {
+class EmployeeListSelectionHandler implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {

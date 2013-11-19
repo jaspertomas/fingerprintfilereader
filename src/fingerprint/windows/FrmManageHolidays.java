@@ -13,6 +13,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import models.Holiday;
 import models.Holidays;
 
@@ -46,7 +48,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         btnGenerate.setVisible(false);
 
         listHolidays.getSelectionModel().addListSelectionListener(
-                new SharedListSelectionHandler());
+                new HolidayListSelectionHandler());
 
         DocumentListener doclistener = new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -71,9 +73,6 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         });
  
     }
-    String selectedType;
-    String name;
-    String date;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -371,15 +370,15 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 //        System.out.println(e);
         txtName.setText(e.getName());
         txtDate.setText(Holidays.dateFormat.format(e.getDate()));
-        cmbType.setSelectedItem(e.getType());
+        cmbType.setSelectedIndex(e.getType());
         enableButtons(false);
     }
 
     public void enableButtons(boolean b) {
         btnRevert.setEnabled(b);
         btnSave.setEnabled(b);
-        btnDelete.setEnabled(b);
-        btnAdd.setEnabled(b);
+//        btnDelete.setEnabled(b);
+//        btnAdd.setEnabled(b);
 //        btnRevert.setEnabled(b);
 //        btnSave.setEnabled(b);
     }    
@@ -405,4 +404,14 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
+}
+
+class HolidayListSelectionHandler implements ListSelectionListener {
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            FrmManageHolidays.getInstance().onSelect();
+        }
+    }
 }
