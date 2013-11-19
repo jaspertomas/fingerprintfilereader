@@ -281,12 +281,12 @@ public class EmployeeDataManager {
             deductions=e.getDeduction();
             netpay=grosspay+totalcola-deductions;
             
-            jTextArea.append("Regular Minutes: "+totalregularminutes+"\n");
-            jTextArea.append("Regular Rate: "+regularrate+"\n");
-            jTextArea.append("Regular Pay: "+regularpay+"\n");
-            jTextArea.append("Overtime Minutes: "+totalovertimeminutes+"\n");
-            jTextArea.append("Overtime Rate: "+overtimerate+"\n");
-            jTextArea.append("Overtime Pay: "+overtimepay+"\n");
+            jTextArea.append("Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\n");
+            jTextArea.append("Regular Rate: P"+regularrate+"/day\n");
+            jTextArea.append("Regular Pay: P"+regularpay+"\n");
+            jTextArea.append("Overtime Minutes: "+totalovertimeminutes+" minutes ("+totalovertimeminutes/60+" hours "+totalovertimeminutes%60+" minutes)\n");
+            jTextArea.append("Overtime Rate: P"+overtimerate+"/day\n");
+            jTextArea.append("Overtime Pay: P"+overtimepay+"\n");
             jTextArea.append("Gross Pay: "+grosspay+"\n");
             jTextArea.append("Total COLA: "+totalcola+"\n");
             jTextArea.append("Deductions: "+deductions+"\n");
@@ -345,7 +345,7 @@ public class EmployeeDataManager {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
             weeklydata.put(timerecordlist.get(0).getName(), edatamap);
         }
-        printSampleOutput();
+        printPayrollOutput();
     }
 
     private void parseFile(File file) {

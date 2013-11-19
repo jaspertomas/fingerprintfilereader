@@ -31,6 +31,9 @@ public class MainFrame extends java.awt.Frame {
     //---------------VARIABLES---------------------    
     public MainFrame() {
         initComponents();
+
+        instance=this;
+
         btnGenerateExcelFile.setVisible(false);
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
         EmployeeFileManager.getInstance().load();
@@ -227,22 +230,31 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnManageEmployeeDataActionPerformed
 
     private void btnRecalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecalculateActionPerformed
+        recalculate();
+    }//GEN-LAST:event_btnRecalculateActionPerformed
 
-        if(!EmployeeDataManager.getInstance().validateDates())return;
-
+    public void recalculate()
+    {
+        if(fc==null)return;
+        
         //parse file
         File file = fc.getSelectedFile();
 
         //if file hasn't been selected, do nothing
-        if(file==null)
-        {
-            JOptionPane.showMessageDialog (null, "Please Choose CSV data file", "Error", JOptionPane.PLAIN_MESSAGE);
-            return;
-        }
+        if(file==null)return;
+//        {
+//            JOptionPane.showMessageDialog (null, "Please Choose CSV data file", "Error", JOptionPane.PLAIN_MESSAGE);
+//            return;
+//        }
         
-        EmployeeDataManager.getInstance().recalculate(file);
-    }//GEN-LAST:event_btnRecalculateActionPerformed
+        if(!EmployeeDataManager.getInstance().validateDates())return;
 
+        EmployeeDataManager.getInstance().recalculate(file);    
+        
+        JOptionPane.showMessageDialog(this, "Payroll recalculated");
+        
+    }
+    
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed

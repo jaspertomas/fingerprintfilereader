@@ -1,0 +1,2 @@
+fingerprint.windows.FrmManageEmployeeData
+fingerprint.windows.SharedListSelectionHandler
