@@ -106,11 +106,19 @@ public class Holidays {
 ////        }
 ////        save();
 //    }
-    public void generate() {
+    public void generate(String yearstring) {
         try {
-            items.add(new Holiday("Christmas",Holidays.REGULAR,dateFormat.parse("2013-12-25")));
+            items.add(new Holiday("New Year",Holidays.REGULAR,dateFormat.parse(yearstring+"-01-01")));
+            items.add(new Holiday("Araw ng Kagitingan",Holidays.REGULAR,dateFormat.parse(yearstring+"-4-9")));
+            items.add(new Holiday("Labor Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-5-1")));
+            items.add(new Holiday("Independence Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-6-12")));
+            items.add(new Holiday("Bonifacio Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-11-30")));
+            items.add(new Holiday("Christmas",Holidays.REGULAR,dateFormat.parse(yearstring+"-12-25")));
+            items.add(new Holiday("Rizal Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-12-30")));
+            save();
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+//        load();
     }
 }
