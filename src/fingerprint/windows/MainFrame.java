@@ -181,11 +181,6 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_exitForm
 
     private void btnManageHolidaysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageHolidaysActionPerformed
-        Holidays.getInstance().generate("2014");
-        for(Holiday holiday:Holidays.getInstance().getItems())
-        {
-            System.out.println(holiday.getName()+" - "+holiday.getDate());
-        }
 
     }//GEN-LAST:event_btnManageHolidaysActionPerformed
     private JFileChooser fc,sfc;
