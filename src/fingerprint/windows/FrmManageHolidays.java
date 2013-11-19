@@ -313,7 +313,12 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDownloadActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-        // TODO add your handling code here:
+        Holidays.getInstance().generate(Settings.getInstance().getCurrentYear());
+        Holidays.getInstance().load();
+        refreshList();
+        setButtonMode();        
+        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
+        
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
