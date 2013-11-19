@@ -301,7 +301,25 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+//        listHolidays.getSelectedIndex();
+        
+        Holidays holidays = Holidays.getInstance();
+        Holiday h = holidays.getItems().get(listHolidays.getSelectedIndex());
+
+        //show dialog box to confirm delete 
+        int n = JOptionPane.showConfirmDialog(
+                null,
+                "Really delete " + h.getName() + "?",
+                "Confirm delete employee",
+                JOptionPane.YES_NO_OPTION);
+
+        if (n == JOptionPane.YES_OPTION) {
+            holidays.delete(h);
+            if(holidays.getItems().isEmpty())
+                refreshForm();
+            else
+                refreshList();
+        }        
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
