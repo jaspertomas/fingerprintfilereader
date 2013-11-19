@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import models.Holiday;
 import models.Holidays;
+import models.Settings;
 
 /**
  *
@@ -71,6 +72,8 @@ public class FrmManageHolidays extends javax.swing.JFrame {
                 FrmManageHolidays.getInstance().enableButtons(true);
             }
         });
+        
+        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
  
     }
 
