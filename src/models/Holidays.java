@@ -40,6 +40,7 @@ public class Holidays {
 
     private static final String OUTPUT_FILE_NAME = "holidays.dat";
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
     
     ArrayList<Holiday> items;
@@ -72,6 +73,8 @@ public class Holidays {
     }
     public void load()
     {
+        String currentYear=Settings.getInstance().getCurrentYear();
+        
         items.clear();
         
         Holiday h;
@@ -98,7 +101,9 @@ public class Holidays {
                 ex.printStackTrace();
 //                Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             }
-            items.add(h);
+            
+            if(yearFormat.format(h.getDate()).contentEquals(currentYear))
+                items.add(h);
         }
         Collections.sort(items);
         reader.close();        

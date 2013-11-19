@@ -36,12 +36,17 @@ public class Settings {
 
     Integer currentYear=2013;
 
-    public Integer getCurrentYear() {
-        return currentYear;
+    public String getCurrentYear() {
+        return currentYear.toString();
     }
 
-    public void setCurrentYear(Integer currentYear) {
-        this.currentYear = currentYear;
+    public void previousYear() {
+        this.currentYear--;
+        save();
+    }
+    public void nextYear() {
+        this.currentYear++;
+        save();
     }
     
     

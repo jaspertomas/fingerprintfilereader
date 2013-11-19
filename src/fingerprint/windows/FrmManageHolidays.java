@@ -44,10 +44,11 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         instance=this;
 
         refreshList();
-        
-        btnDownload.setVisible(false);
-        btnGenerate.setVisible(false);
 
+        setButtonMode();
+
+        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
+ 
         listHolidays.getSelectionModel().addListSelectionListener(
                 new HolidayListSelectionHandler());
 
@@ -73,8 +74,6 @@ public class FrmManageHolidays extends javax.swing.JFrame {
             }
         });
         
-        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
- 
     }
 
     /**
@@ -86,18 +85,18 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnPreviousYear = new javax.swing.JButton();
+        btnNextYear = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         lblYear = new javax.swing.JLabel();
-        btnPreviousYear1 = new javax.swing.JButton();
+        btnPreviousYear = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listHolidays = new javax.swing.JList();
         btnSave = new javax.swing.JButton();
         btnRevert = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblType = new javax.swing.JLabel();
+        lblDate = new javax.swing.JLabel();
         txtDate = new javax.swing.JTextField();
         cmbType = new javax.swing.JComboBox();
         btnDelete = new javax.swing.JButton();
@@ -108,7 +107,12 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnPreviousYear.setText("Next Year >>");
+        btnNextYear.setText("Next Year >>");
+        btnNextYear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextYearActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel1.setText("Manage Holidays");
@@ -116,7 +120,12 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         lblYear.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         lblYear.setText("Year");
 
-        btnPreviousYear1.setText("<< Previous Year");
+        btnPreviousYear.setText("<< Previous Year");
+        btnPreviousYear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousYearActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setViewportView(listHolidays);
 
@@ -134,11 +143,11 @@ public class FrmManageHolidays extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Name");
+        lblName.setText("Name");
 
-        jLabel3.setText("Type");
+        lblType.setText("Type");
 
-        jLabel4.setText("Date");
+        lblDate.setText("Date");
 
         cmbType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Regular Holiday", "Special Non-working Holiday", "Other" }));
 
@@ -190,19 +199,14 @@ public class FrmManageHolidays extends javax.swing.JFrame {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                 .add(layout.createSequentialGroup()
-                                    .add(jLabel2)
+                                    .add(lblName)
                                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                     .add(txtName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                 .add(layout.createSequentialGroup()
-                                    .add(jLabel3)
+                                    .add(lblType)
                                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                     .add(cmbType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                 .add(btnDownload, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(layout.createSequentialGroup()
-                                    .add(46, 46, 46)
-                                    .add(jLabel4)
-                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                    .add(txtDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                 .add(btnGenerate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .add(layout.createSequentialGroup()
                                 .add(btnAdd)
@@ -212,14 +216,18 @@ public class FrmManageHolidays extends javax.swing.JFrame {
                                 .add(btnSave)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(btnRevert))
+                            .add(layout.createSequentialGroup()
+                                .add(lblDate)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(txtDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(btnExit)))
                     .add(jLabel1)
                     .add(layout.createSequentialGroup()
-                        .add(btnPreviousYear1)
+                        .add(btnPreviousYear)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(lblYear)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(btnPreviousYear)))
+                        .add(btnNextYear)))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -229,23 +237,23 @@ public class FrmManageHolidays extends javax.swing.JFrame {
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnPreviousYear)
+                    .add(btnNextYear)
                     .add(lblYear)
-                    .add(btnPreviousYear1))
+                    .add(btnPreviousYear))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jScrollPane1)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel2)
+                            .add(lblName)
                             .add(txtName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel3)
+                            .add(lblType)
                             .add(cmbType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel4)
+                            .add(lblDate)
                             .add(txtDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .add(18, 18, 18)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -254,11 +262,11 @@ public class FrmManageHolidays extends javax.swing.JFrame {
                             .add(btnSave)
                             .add(btnRevert))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnExit)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnGenerate)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnDownload)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnExit)
                         .add(0, 9, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -314,6 +322,24 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 //        MainFrame.getInstance().recalculate();
     }//GEN-LAST:event_btnExitActionPerformed
 
+    private void btnNextYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextYearActionPerformed
+        Settings.getInstance().nextYear();
+        Holidays.getInstance().load();
+        refreshList();
+        setButtonMode();        
+        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
+ 
+    }//GEN-LAST:event_btnNextYearActionPerformed
+
+    private void btnPreviousYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousYearActionPerformed
+        Settings.getInstance().previousYear();
+        Holidays.getInstance().load();
+        refreshList();
+        setButtonMode();  
+        lblYear.setText(Settings.getInstance().getCurrentYear().toString());
+ 
+    }//GEN-LAST:event_btnPreviousYearActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -361,6 +387,24 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         listHolidays.setSelectedIndex(0);
         onSelect();
     }
+    
+    private void setButtonMode()
+    {
+        boolean formenabled=!Holidays.getInstance().getItems().isEmpty();
+        btnAdd.setVisible(formenabled);
+        btnDelete.setVisible(formenabled);
+        btnSave.setVisible(formenabled);
+        btnRevert.setVisible(formenabled);
+        lblName.setVisible(formenabled);
+        lblDate.setVisible(formenabled);
+        lblType.setVisible(formenabled);
+        txtName.setVisible(formenabled);
+        txtDate.setVisible(formenabled);
+        cmbType.setVisible(formenabled);
+
+        btnDownload.setVisible(!formenabled);
+        btnGenerate.setVisible(!formenabled);
+    }
 
 
     public void onSelect() {
@@ -392,16 +436,16 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     private javax.swing.JButton btnDownload;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnGenerate;
+    private javax.swing.JButton btnNextYear;
     private javax.swing.JButton btnPreviousYear;
-    private javax.swing.JButton btnPreviousYear1;
     private javax.swing.JButton btnRevert;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox cmbType;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblType;
     private javax.swing.JLabel lblYear;
     private javax.swing.JList listHolidays;
     private javax.swing.JTextField txtDate;
