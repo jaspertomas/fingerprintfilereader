@@ -109,27 +109,36 @@ public class Holidays {
 ////        save();
 //    }
     public void generate(String yearstring) {
-//        try {
-//            //Regular holidays
-//            items.add(new Holiday("New Year",Holidays.REGULAR,dateFormat.parse(yearstring+"-01-01")));
-//            items.add(new Holiday("Araw ng Kagitingan",Holidays.REGULAR,dateFormat.parse(yearstring+"-4-9")));
-//            items.add(new Holiday("Labor Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-5-1")));
-//            items.add(new Holiday("Independence Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-6-12")));
-//            items.add(new Holiday("Bonifacio Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-11-30")));
-//            items.add(new Holiday("Christmas",Holidays.REGULAR,dateFormat.parse(yearstring+"-12-25")));
-//            items.add(new Holiday("Rizal Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-12-30")));
-//
-//            //Special non-working holidays
-//            items.add(new Holiday("Ninoy Aquino Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-8-21")));
-//            items.add(new Holiday("All Saints' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-11-1")));
-//            items.add(new Holiday("All Souls' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-11-2")));
-//            items.add(new Holiday("Christmas Eve",Holidays.SPECIAL,dateFormat.parse(yearstring+"-12-24")));
-//            items.add(new Holiday("Last Day of the Year",Holidays.SPECIAL,dateFormat.parse(yearstring+"-12-31")));
-//            
-//            save();
-//        } catch (ParseException ex) {
-//            ex.printStackTrace();
-//        }
-        load();
+        try {
+            //Regular holidays
+            items.add(new Holiday("New Year",Holidays.REGULAR,dateFormat.parse(yearstring+"-01-01")));
+            items.add(new Holiday("Araw ng Kagitingan",Holidays.REGULAR,dateFormat.parse(yearstring+"-4-9")));
+            items.add(new Holiday("Labor Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-5-1")));
+            items.add(new Holiday("Independence Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-6-12")));
+            items.add(new Holiday("Bonifacio Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-11-30")));
+            items.add(new Holiday("Christmas",Holidays.REGULAR,dateFormat.parse(yearstring+"-12-25")));
+            items.add(new Holiday("Rizal Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-12-30")));
+
+            //movable regular holidays for 2014
+            if(yearstring.contentEquals("2014"))
+            {
+                items.add(new Holiday("Maundy Thursday",Holidays.REGULAR,dateFormat.parse(yearstring+"-4-17")));
+                items.add(new Holiday("Good Friday",Holidays.REGULAR,dateFormat.parse(yearstring+"-4-18")));
+                items.add(new Holiday("National Heroes' Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-8-25")));
+            }
+
+            //Special non-working holidays
+            items.add(new Holiday("Ninoy Aquino Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-8-21")));
+            items.add(new Holiday("All Saints' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-11-1")));
+            items.add(new Holiday("All Souls' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-11-2")));
+            items.add(new Holiday("Christmas Eve",Holidays.SPECIAL,dateFormat.parse(yearstring+"-12-24")));
+            items.add(new Holiday("Last Day of the Year",Holidays.SPECIAL,dateFormat.parse(yearstring+"-12-31")));
+    
+            Collections.sort(items);
+            save();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+//        load();
     }
 }
