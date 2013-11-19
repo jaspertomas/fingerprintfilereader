@@ -180,4 +180,15 @@ public class Holidays {
         items.add(holiday);
         Collections.sort(items);
     }    
+    public void edit(Holiday h,String name, Integer type, Date date)
+    {
+        
+        h.setName(name);
+        h.setType(type);
+        h.setDate(date);
+        
+        Collections.sort(allItems);
+        save();
+        Collections.sort(items);
+    }      
 }

@@ -7,6 +7,7 @@ package fingerprint.windows;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -279,29 +280,23 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevertActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        Date tempdate;
         try {
-            Holiday h = Holidays.getInstance().getItems().get(listHolidays.getSelectedIndex());
-
-            try {
-                h.setDate(Holidays.dateFormat.parse(txtDate.getText()));
-            } catch (ParseException ex) {
-//                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "This is not a date", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            h.setName(txtName.getText());
-            h.setType(cmbType.getSelectedIndex());
-
-            Holidays.getInstance().save();
-            
-            //update list in case holiday name has changed
-//            listHolidays.repaint();
-            
-          
-            onSelect();
-        } catch (java.lang.NumberFormatException e) {
-            e.printStackTrace();
+            tempdate=Holidays.dateFormat.parse(txtDate.getText());
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "This is not a date", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        Holiday h = Holidays.getInstance().getItems().get(listHolidays.getSelectedIndex());
+        Holidays.getInstance().edit(h, txtName.getText(), cmbType.getSelectedIndex(), tempdate);
+
+        //update list in case holiday name has changed
+//            listHolidays.repaint();
+        Integer listindex=Holidays.getInstance().getItems().indexOf(h);
+        refreshList();
+        listHolidays.setSelectedIndex(listindex);
+        onSelect();
 
     }//GEN-LAST:event_btnSaveActionPerformed
 
