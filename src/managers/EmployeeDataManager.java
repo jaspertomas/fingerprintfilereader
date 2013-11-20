@@ -199,7 +199,8 @@ public class EmployeeDataManager {
     public void printPayrollOutput() {
         //clear the textarea
         jTextArea.setText("");
-        String tempstring="",prefix="";
+        String tempstring="",prefix1="",prefix2="",problemdatestring="";
+        ArrayList<String> problemdates=new ArrayList<String>();
         
         //sample output
         CompiledEmployeeData edatamap=null;
@@ -208,8 +209,8 @@ public class EmployeeDataManager {
         Integer days,regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
         for (String name : employeenamelist) 
         {
-            prefix="";
-            tempstring="";
+            prefix1=prefix2=problemdatestring=tempstring="";
+            problemdates.clear();
 
             totalregularminutes=0;
             totalovertimeminutes=0;
@@ -230,14 +231,17 @@ public class EmployeeDataManager {
                 
                 //if missing time in or missing time out
                 if (data.getIn().getTime().equals(data.getOut().getTime())) {
-                    prefix+="Error: Missing time in or time out: "+date+"\n";
+                    prefix1="Error: Missing time in or time out: ";
+                    prefix2="\nPlease go to the Manage Employee Data page to make corrections\n";
+                    problemdates.add(date);
+                    
                     if(data.getIn().getTime().after(one))
                         tempstring+=
                                 ""
                                 + "\t"
                                 + ""
                                 + "\t"
-                                + "1300"
+                                + data.getOutTimeString()
                                 + "\t"
                                 + data.getOutTimeString()
                                 + "\n";
@@ -245,7 +249,7 @@ public class EmployeeDataManager {
                         tempstring+=
                                 data.getOutTimeString()
                                 + "\t"
-                                + "1200"
+                                + data.getOutTimeString()
                                 + "\t"
                                 + ""
                                 + "\t"
@@ -326,7 +330,13 @@ public class EmployeeDataManager {
             tempstring+="Net Pay: "+netpay+"\n";
             tempstring+="-----------------------------\n\n";
 
-            jTextArea.append(prefix+tempstring);
+            for(int i=0;i<problemdates.size();i++)
+            {
+                if(i!=0)problemdatestring+=", ";
+                problemdatestring+=problemdates.get(i);
+            }
+            problemdatestring=prefix1+problemdatestring+prefix2;
+            jTextArea.append(problemdatestring+tempstring);
         }
     }
     public void calculate(File file) {
