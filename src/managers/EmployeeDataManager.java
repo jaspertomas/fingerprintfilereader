@@ -199,13 +199,18 @@ public class EmployeeDataManager {
     public void printPayrollOutput() {
         //clear the textarea
         jTextArea.setText("");
-
+        String tempstring="",prefix="";
+        
         //sample output
         CompiledEmployeeData edatamap=null;
         TimeInOutData data;
         Double regularrate,overtimerate,cola,regularpay,overtimepay,grosspay,totalcola,deductions,netpay;
         Integer days,regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
-        for (String name : employeenamelist) {
+        for (String name : employeenamelist) 
+        {
+            prefix="";
+            tempstring="";
+
             totalregularminutes=0;
             totalovertimeminutes=0;
             //calculate total regular minutes and total overtime minutes
@@ -219,12 +224,37 @@ public class EmployeeDataManager {
                     continue;
                 }
 
-                jTextArea.append(name + "\t");
-                jTextArea.append(date + "\t");
+                tempstring+=name + "\t";
+                tempstring+=date + "\t";
                 
+                
+                //if missing time in or missing time out
+                if (data.getIn().getTime().equals(data.getOut().getTime())) {
+                    prefix+="Error: Missing time in or time out: "+date+"\n";
+                    if(data.getIn().getTime().after(one))
+                        tempstring+=
+                                ""
+                                + "\t"
+                                + ""
+                                + "\t"
+                                + "1300"
+                                + "\t"
+                                + data.getOutTimeString()
+                                + "\n";
+                    else
+                        tempstring+=
+                                data.getOutTimeString()
+                                + "\t"
+                                + "1200"
+                                + "\t"
+                                + ""
+                                + "\t"
+                                + ""
+                                + "\n";
+                } else                       
                 //came to work at lunch break or after
                 if (data.getIn().getTime().equals(one) || data.getIn().getTime().after(one)) {
-                    jTextArea.append(
+                    tempstring+=
                             ""
                             + "\t"
                             + ""
@@ -232,10 +262,10 @@ public class EmployeeDataManager {
                             + data.getInTimeString()
                             + "\t"
                             + data.getOutTimeString()
-                            + "\n");
+                            + "\n";
                 //left work at lunch break
                 } else if (data.getOut().getTime().equals(twelve) || data.getOut().getTime().before(twelve)) {
-                    jTextArea.append(
+                    tempstring+=
                             data.getInTimeString()
                             + "\t"
                             + data.getOutTimeString()
@@ -243,9 +273,9 @@ public class EmployeeDataManager {
                             + "\t"
                             + ""
                             + "\t"
-                            + "\n");
+                            + "\n";
                 } else {
-                    jTextArea.append(
+                    tempstring+=
                             data.getInTimeString()
                             + "\t"
                             + "1200"
@@ -253,7 +283,7 @@ public class EmployeeDataManager {
                             + "1300"
                             + "\t"
                             + data.getOutTimeString()
-                            + "\n");
+                            + "\n";
                 }
                 
                 //calculate regular and overtime minutes
@@ -284,17 +314,19 @@ public class EmployeeDataManager {
             deductions=e.getDeduction();
             netpay=grosspay+totalcola-deductions;
             
-            jTextArea.append("Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\n");
-            jTextArea.append("Regular Rate: P"+regularrate+"/day\n");
-            jTextArea.append("Regular Pay: P"+regularpay+"\n");
-            jTextArea.append("Overtime Minutes: "+totalovertimeminutes+" minutes ("+totalovertimeminutes/60+" hours "+totalovertimeminutes%60+" minutes)\n");
-            jTextArea.append("Overtime Rate: P"+overtimerate+"/day\n");
-            jTextArea.append("Overtime Pay: P"+overtimepay+"\n");
-            jTextArea.append("Gross Pay: "+grosspay+"\n");
-            jTextArea.append("Total COLA: "+totalcola+"\n");
-            jTextArea.append("Deductions: "+deductions+"\n");
-            jTextArea.append("Net Pay: "+netpay+"\n");
-            jTextArea.append("-----------------------------\n\n");
+            tempstring+="Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\n";
+            tempstring+="Regular Rate: P"+regularrate+"/day\n";
+            tempstring+="Regular Pay: P"+regularpay+"\n";
+            tempstring+="Overtime Minutes: "+totalovertimeminutes+" minutes ("+totalovertimeminutes/60+" hours "+totalovertimeminutes%60+" minutes)\n";
+            tempstring+="Overtime Rate: P"+overtimerate+"/day\n";
+            tempstring+="Overtime Pay: P"+overtimepay+"\n";
+            tempstring+="Gross Pay: "+grosspay+"\n";
+            tempstring+="Total COLA: "+totalcola+"\n";
+            tempstring+="Deductions: "+deductions+"\n";
+            tempstring+="Net Pay: "+netpay+"\n";
+            tempstring+="-----------------------------\n\n";
+
+            jTextArea.append(prefix+tempstring);
         }
     }
     public void calculate(File file) {
