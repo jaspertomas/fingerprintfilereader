@@ -33,7 +33,8 @@ public class TimeRecord {
 //                time=datesegments[1];
                 
                 String[] timesegments=datesegments[1].split(":");
-                time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),Integer.valueOf(timesegments[2]));
+//                time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),Integer.valueOf(timesegments[2]));
+                time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),0);
                 
                 
             }
