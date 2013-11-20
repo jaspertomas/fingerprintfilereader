@@ -221,7 +221,9 @@ public class EmployeeDataManager {
 
                 jTextArea.append(name + "\t");
                 jTextArea.append(date + "\t");
-                if (data.getIn().getTime().equals(one)) {
+                
+                //came to work at lunch break or after
+                if (data.getIn().getTime().equals(one) || data.getIn().getTime().after(one)) {
                     jTextArea.append(
                             ""
                             + "\t"
@@ -231,7 +233,8 @@ public class EmployeeDataManager {
                             + "\t"
                             + data.getOutTimeString()
                             + "\n");
-                } else if (data.getOut().getTime().equals(twelve)) {
+                //left work at lunch break
+                } else if (data.getOut().getTime().equals(twelve) || data.getOut().getTime().before(twelve)) {
                     jTextArea.append(
                             data.getInTimeString()
                             + "\t"
