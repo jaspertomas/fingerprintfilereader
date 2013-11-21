@@ -191,4 +191,13 @@ public class Holidays {
         save();
         Collections.sort(items);
     }      
+
+    public Holiday getByDate(Date date) {
+        for(Holiday h:items)
+        {
+            if(h.getDate().equals(date))
+                return h;
+        }
+        return null;
+    }
 }

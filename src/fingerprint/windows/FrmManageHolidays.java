@@ -283,8 +283,15 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         Date tempdate;
+        
+        //validate that date is set to the current year
         try {
-            tempdate=Holidays.dateFormat.parse(txtDate.getText());
+            //do a little character conversion
+            String temp=txtDate.getText();
+            temp=temp.replace("/", "-");
+            temp=temp.replace("\\", "-");
+            
+            tempdate=Holidays.dateFormat.parse(temp);
             if(!Holidays.yearFormat.format(tempdate).contentEquals(Settings.getInstance().getCurrentYear()))
             {
                 JOptionPane.showMessageDialog(this, "Cannot set this holiday to a different year", "Error", JOptionPane.ERROR_MESSAGE);
@@ -292,6 +299,14 @@ public class FrmManageHolidays extends javax.swing.JFrame {
             }
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "This is not a date", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        //validate that new date will not conflict with existing dates
+        Holiday conflictholiday=Holidays.getInstance().getByDate(tempdate);
+        if(conflictholiday!=null && Holidays.getInstance().getItems().indexOf(conflictholiday)!=listHolidays.getSelectedIndex())
+        {
+            JOptionPane.showMessageDialog(this, "A holiday for "+Holidays.dateFormat.format(tempdate)+" already exists.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
