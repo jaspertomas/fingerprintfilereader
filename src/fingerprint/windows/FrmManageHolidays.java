@@ -345,13 +345,9 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            Holiday holiday=new Holiday("--New Holiday--",0,Holidays.dateFormat.parse(Settings.getInstance().getCurrentYear()+"-01-01"));
-            Holidays.getInstance().add(holiday);
-            refreshList();
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        Holiday holiday=new Holiday("--New Holiday--",0,Holidays.getInstance().getFreeDate());
+        Holidays.getInstance().add(holiday);
+        refreshList();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed

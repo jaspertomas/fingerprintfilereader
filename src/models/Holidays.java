@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.fileaccess.BinaryFileReader;
 import utils.fileaccess.BinaryFileWriter;
 
@@ -200,4 +198,27 @@ public class Holidays {
         }
         return null;
     }
+    public Date getFreeDate() {
+        Date date;
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        
+        try {
+            date = dateFormat.parse(Settings.getInstance().getCurrentYear()+"-01-01");
+            boolean found=false;
+            while(found==false)
+            {
+                if(getByDate(date)==null)
+                {
+                    return date;
+                }
+
+                c.setTime(date);
+                c.add(java.util.Calendar.DATE, 1);  // number of days to add
+                date=c.getTime();
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }        
 }
