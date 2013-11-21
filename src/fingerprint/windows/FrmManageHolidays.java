@@ -306,7 +306,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         Holiday conflictholiday=Holidays.getInstance().getByDate(tempdate);
         if(conflictholiday!=null && Holidays.getInstance().getItems().indexOf(conflictholiday)!=listHolidays.getSelectedIndex())
         {
-            JOptionPane.showMessageDialog(this, "A holiday for "+Holidays.dateFormat.format(tempdate)+" already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, Holidays.dateFormat.format(tempdate)+" is already set for "+conflictholiday.getName()+".\nPlease use a different date.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -345,7 +345,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        Holiday holiday=new Holiday("--New Holiday--",0,Holidays.getInstance().getFreeDate());
+        Holiday holiday=new Holiday("--New Holiday--",Holidays.OTHER,Holidays.getInstance().getFreeDate());
         Holidays.getInstance().add(holiday);
         refreshList();
     }//GEN-LAST:event_btnAddActionPerformed
