@@ -319,6 +319,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
             return;
         }
 
+        //fetch holiday to edit
         Holiday h = Holidays.getInstance().getItems().get(listHolidays.getSelectedIndex());
         Holidays.getInstance().edit(h, txtName.getText(), cmbType.getSelectedIndex(), tempdate);
 

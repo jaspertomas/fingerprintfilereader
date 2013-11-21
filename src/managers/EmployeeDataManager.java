@@ -11,7 +11,7 @@ import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import models.Calendar;
+import models.Dates;
 import models.CompiledEmployeeData;
 import models.Constants;
 import models.DateUtil;
@@ -59,7 +59,6 @@ public class EmployeeDataManager {
     //this is a string array of all employee names included in the parsed file
     EmployeeNameList employeenamelist;
     //this is a string array of all dates included in the parsed file
-    Calendar calendar;
     //key = employee
     //value = all timerecords by a specific employee
     TreeMap<String, ArrayList<TimeRecord>> timerecordsbyemployee;
@@ -126,21 +125,24 @@ public class EmployeeDataManager {
         //create employee name list
         // and date list
         employeenamelist = new EmployeeNameList();
-        calendar = new Calendar();
+        ArrayList<String> dates=Dates.getInstance().getItems();
         for (TimeRecord timerecord : timerecords) {
             if (!employeenamelist.contains(timerecord.getName())) {
                 employeenamelist.add(timerecord.getName());
             }
-            if (!calendar.contains(timerecord.getDate())) {
-                calendar.add(timerecord.getDate());
+            if (!dates.contains(timerecord.getDate())) {
+                dates.add(timerecord.getDate());
             }
         }
         //set date textboxes according to the date range in the calendar
-        txtStartDate.setText(calendar.get(0));
-        txtEndDate.setText(calendar.get(calendar.size() - 1));
+        txtStartDate.setText(dates.get(0));
+        txtEndDate.setText(dates.get(dates.size() - 1));
     }
 
     public void printSampleOutput() {
+        
+        ArrayList<String> dates=Dates.getInstance().getItems();
+
         //clear the textarea
         jTextArea.setText("");
 
@@ -148,7 +150,7 @@ public class EmployeeDataManager {
         CompiledEmployeeData edatamap;
         TimeInOutData data;
         for (String name : employeenamelist) {
-            for (String date : calendar) {
+            for (String date : dates) {
                 edatamap = weeklydata.get(name);
                 if (edatamap == null) {
                     continue;
@@ -201,6 +203,7 @@ public class EmployeeDataManager {
         jTextArea.setText("");
         String tempstring="",prefix1="",prefix2="",problemdatestring="";
         ArrayList<String> problemdates=new ArrayList<String>();
+        ArrayList<String> dates=Dates.getInstance().getItems();
         
         //sample output
         CompiledEmployeeData edatamap=null;
@@ -215,7 +218,7 @@ public class EmployeeDataManager {
             totalregularminutes=0;
             totalovertimeminutes=0;
             //calculate total regular minutes and total overtime minutes
-            for (String date : calendar) {
+            for (String date : dates) {
                 edatamap = weeklydata.get(name);
                 if (edatamap == null) {
                     continue;

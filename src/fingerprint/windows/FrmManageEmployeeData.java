@@ -4,6 +4,9 @@
  */
 package fingerprint.windows;
 
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -11,6 +14,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import managers.EmployeeFileManager;
+import models.Dates;
 import models.Employee;
 
 /**
@@ -84,6 +88,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
@@ -104,6 +109,19 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtDeduction = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listDates = new javax.swing.JList();
+        lblDate = new javax.swing.JLabel();
+        txtSalary1 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtSalary2 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        btnRevert1 = new javax.swing.JButton();
+        btnSave1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        lblNickname2 = new javax.swing.JLabel();
+        btnExit2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,6 +183,46 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel6.setText("Manage Employees");
 
+        listDates.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(listDates);
+
+        lblDate.setText("Date");
+
+        jLabel7.setText("Time In: ");
+
+        jLabel8.setText("Time Out:");
+
+        btnRevert1.setText("Revert");
+        btnRevert1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRevert1ActionPerformed(evt);
+            }
+        });
+
+        btnSave1.setText("Save");
+        btnSave1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave1ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel9.setText("Adjust Time In / Out: ");
+
+        lblNickname2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        lblNickname2.setText("Employee Nickname");
+
+        btnExit2.setText("Exit");
+        btnExit2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExit2ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -220,8 +278,36 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                         .add(txtDeduction, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .add(layout.createSequentialGroup()
-                        .add(jLabel6)
-                        .add(0, 0, Short.MAX_VALUE))))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel6)
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel9)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(lblNickname2)))
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(layout.createSequentialGroup()
+                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(lblDate)
+                                    .add(layout.createSequentialGroup()
+                                        .add(jLabel7)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                        .add(txtSalary1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(layout.createSequentialGroup()
+                                        .add(jLabel8)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                        .add(txtSalary2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(layout.createSequentialGroup()
+                                        .add(btnRevert1)
+                                        .add(1, 1, 1)
+                                        .add(btnSave1)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .add(btnExit2))))
+                            .add(jSeparator3))
+                        .add(78, 78, 78))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -229,7 +315,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jLabel6)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel5)
@@ -260,8 +346,32 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                             .add(btnSave)
                             .add(btnDelete)
                             .add(btnExit)))
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 243, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                    .add(jScrollPane1))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jSeparator3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel9)
+                    .add(lblNickname2))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(lblDate)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel7)
+                            .add(txtSalary1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel8)
+                            .add(txtSalary2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(btnRevert1)
+                            .add(btnSave1)
+                            .add(btnExit2))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -315,10 +425,27 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevertActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        exit();
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void exit()
+    {
         setVisible(false);
         MainFrame.getInstance().setVisible(true);
         MainFrame.getInstance().recalculate();
-    }//GEN-LAST:event_btnExitActionPerformed
+    }
+    
+    private void btnRevert1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevert1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRevert1ActionPerformed
+
+    private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSave1ActionPerformed
+
+    private void btnExit2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit2ActionPerformed
+        exit();
+    }//GEN-LAST:event_btnExit2ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -356,24 +483,38 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnExit2;
     private javax.swing.JButton btnRevert;
+    private javax.swing.JButton btnRevert1;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSave1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblNickname;
+    private javax.swing.JLabel lblNickname2;
+    private javax.swing.JList listDates;
     private javax.swing.JTextField txtCola;
     private javax.swing.JTextField txtDeduction;
     private javax.swing.JTextField txtFname;
     private javax.swing.JTextField txtLname;
     private javax.swing.JTextField txtMname;
     private javax.swing.JTextField txtSalary;
+    private javax.swing.JTextField txtSalary1;
+    private javax.swing.JTextField txtSalary2;
     // End of variables declaration//GEN-END:variables
 
     public void onSelect() {
@@ -392,6 +533,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtCola.setText(e.getCola().toString());
         txtDeduction.setText(e.getDeduction().toString());
         enableButtons(false);
+
+        //for time in / out adjustment
+        lblNickname2.setText(e.getNickname());
+//        lblDate.setText(e.getNickname());
+    
     }
 
     public void enableButtons(boolean b) {
@@ -410,6 +556,39 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         jList1.setSelectedIndex(0);
         onSelect();
     }
+    
+    
+    public void onDateSelect() {
+        //if no selected employee, do nothing
+        if (listDates.getSelectedIndex() == -1) {
+            return;
+        }
+
+        Employee e = EmployeeFileManager.getInstance().getEmployees().get(listDates.getSelectedIndex());
+//        System.out.println(e);
+        lblNickname.setText(e.getNickname());
+        txtFname.setText(e.getFname());
+        txtMname.setText(e.getMname());
+        txtLname.setText(e.getLname());
+        txtSalary.setText(e.getMonthlySalary().toString());
+        txtCola.setText(e.getCola().toString());
+        txtDeduction.setText(e.getDeduction().toString());
+        enableButtons(false);
+
+    
+    }    
+
+    private void refreshDateList() {
+        DefaultListModel model = new DefaultListModel();
+        for (String e : Dates.getInstance().getItems()) {
+            model.addElement(e);
+        }
+        jList1.setModel(model);
+        
+        //select first element
+        jList1.setSelectedIndex(0);
+        onSelect();
+    }    
 }
 
 class EmployeeListSelectionHandler implements ListSelectionListener {
@@ -443,3 +622,25 @@ class EmployeeListSelectionHandler implements ListSelectionListener {
         }
     }
 }
+
+
+class DateListSelectionHandler implements ListSelectionListener {
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            FrmManageEmployeeData.getInstance().onDateSelect();
+        }
+    }
+}
+
+
+//class DateWrapper extends Date {
+//    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//    
+//    @Override
+//    public String toString()
+//    {
+//        return dateFormat.format(this);
+//    }
+//}
