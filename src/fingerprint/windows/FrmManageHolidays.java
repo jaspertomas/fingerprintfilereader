@@ -283,6 +283,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         Date tempdate;
+        String tempname;
         
         //validate that date is set to the current year
         try {
@@ -299,6 +300,14 @@ public class FrmManageHolidays extends javax.swing.JFrame {
             }
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "This is not a date", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        //validate holiday name is not duplicate
+        tempname=txtName.getText();
+        if(Holidays.getInstance().getByName(tempname)!=null)
+        {
+            JOptionPane.showMessageDialog(this, tempname+" already exists.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -345,7 +354,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        Holiday holiday=new Holiday("--New Holiday--",Holidays.OTHER,Holidays.getInstance().getFreeDate());
+        Holiday holiday=new Holiday(Holidays.getInstance().getFreeHolidayName(),Holidays.OTHER,Holidays.getInstance().getFreeDate());
         Holidays.getInstance().add(holiday);
         refreshList();
     }//GEN-LAST:event_btnAddActionPerformed

@@ -198,14 +198,24 @@ public class Holidays {
         }
         return null;
     }
+
+    public Holiday getByName(String name) {
+        for(Holiday h:items)
+        {
+            if(h.getName().equals(name))
+                return h;
+        }
+        return null;
+    }    
     public Date getFreeDate() {
         Date date;
         java.util.Calendar c = java.util.Calendar.getInstance();
+        String year=Settings.getInstance().getCurrentYear();
         
         try {
             date = dateFormat.parse(Settings.getInstance().getCurrentYear()+"-01-01");
-            boolean found=false;
-            while(found==false)
+            
+            while(yearFormat.format(date).contentEquals(year))
             {
                 if(getByDate(date)==null)
                 {
@@ -220,5 +230,18 @@ public class Holidays {
             ex.printStackTrace();
         }
         return null;
+    }        
+    public String getFreeHolidayName() {
+        String name="--New Holiday--";
+        Integer counter=1;
+        while(true)
+        {
+            if(getByName(name)==null)
+            {
+                return name;
+            }
+            counter++;
+            name="--New Holiday"+counter.toString()+"--";
+        }
     }        
 }
