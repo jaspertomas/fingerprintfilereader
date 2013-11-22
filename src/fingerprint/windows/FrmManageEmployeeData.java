@@ -789,9 +789,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
+        //write date label
         lblDate.setText(prettydatestring);
+        
+        //operation start
         WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
         CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
+        if(edatamap==null)return;
+        
         TimeInOutData data = edatamap.get(datestring);
         if (data == null) {
             txtTimeIn.setText("(Absent)");
