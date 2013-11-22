@@ -275,7 +275,7 @@ public class EmployeeDataManager {
                     
 //                    if(data.getIn().getTime().after(one))
                         tempstring+=
-                                "Missing time in or time out. Fingerprint login at "+data.getOutTimeString()
+                                "Missing time in or time out. Fingerprint login at "+data.getPrettyInTimeString()
                                 + "\t"
                                 + ""
                                 + "\t"
@@ -310,16 +310,16 @@ public class EmployeeDataManager {
                             + "\t"
                             + ""
                             + "\t"
-                            + data.getInTimeString()
+                            + data.getPrettyInTimeString()
                             + "\t"
-                            + data.getOutTimeString()
+                            + data.getPrettyOutTimeString()
                             + "\r\n";
                 //left work at lunch break
                 } else if (data.getOut().getTime().equals(twelve) || data.getOut().getTime().before(twelve)) {
                     tempstring+=
-                            data.getInTimeString()
+                            data.getPrettyInTimeString()
                             + "\t"
-                            + data.getOutTimeString()
+                            + data.getPrettyOutTimeString()
                             + ""
                             + "\t"
                             + ""
@@ -327,13 +327,15 @@ public class EmployeeDataManager {
                             + "\r\n";
                 } else {
                     tempstring+=
-                            data.getInTimeString()
+                            data.getPrettyInTimeString()
                             + "\t"
-                            + "1200"
+//                            + "1200"
+                            + "12:00 PM"
                             + "\t"
-                            + "1300"
+//                            + "1300"
+                            + "01:00 PM"
                             + "\t"
-                            + data.getOutTimeString()
+                            + data.getPrettyOutTimeString()
                             + "\r\n";
                 }
                 

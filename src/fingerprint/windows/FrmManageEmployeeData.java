@@ -843,8 +843,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         }       
         else
         {
-            timeinstring=data.getSplitInTimeString();
-            timeoutstring=data.getSplitOutTimeString();
+            timeinstring=data.getPrettyInTimeString();
+            timeoutstring=data.getPrettyOutTimeString();
         }
         //overwrite data if adjustments exist
         if(inAdj!=null)

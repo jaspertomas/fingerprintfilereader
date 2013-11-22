@@ -50,7 +50,7 @@ public class TimeInOutData {
                 +String.format("%02d", time.getMinutes());
     }
 
-    public String getSplitInTimeString()
+    public String getPrettyInTimeString()
     {
         Time time=in.getTime();
 //        return 
@@ -59,7 +59,7 @@ public class TimeInOutData {
 //                +String.format("%02d", time.getMinutes());
         return Adjustments.prettyTimeFormat.format(time);
     }
-    public String getSplitOutTimeString()
+    public String getPrettyOutTimeString()
     {
         Time time=out.getTime();
 //        return 
