@@ -139,80 +139,82 @@ public class EmployeeDataManager {
         txtEndDate.setText(dates.get(dates.size() - 1));
     }
 
-    public void printSampleOutput() {
-        
-        ArrayList<String> dates=Dates.getInstance().getItems();
-
-        //clear the textarea
-        jTextArea.setText("");
-
-        //sample output
-        CompiledEmployeeData edatamap;
-        TimeInOutData data;
-        for (String name : employeenamelist) {
-            for (String date : dates) {
-                edatamap = weeklydata.get(name);
-                if (edatamap == null) {
-                    continue;
-                }
-                data = edatamap.get(date);
-                if (data == null) {
-                    continue;
-                }
-
-                jTextArea.append(name + "\t");
-                jTextArea.append(date + "\t");
-                if (data.getIn().getTime().equals(one)) {
-                    jTextArea.append(
-                            ""
-                            + "\t"
-                            + ""
-                            + "\t"
-                            + data.getInTimeString()
-                            + "\t"
-                            + data.getOutTimeString()
-                            + "\n");
-                } else if (data.getOut().getTime().equals(twelve)) {
-                    jTextArea.append(
-                            data.getInTimeString()
-                            + "\t"
-                            + data.getOutTimeString()
-                            + ""
-                            + "\t"
-                            + ""
-                            + "\t"
-                            + "\n");
-                } else {
-                    jTextArea.append(
-                            data.getInTimeString()
-                            + "\t"
-                            + "1200"
-                            + "\t"
-                            + "1300"
-                            + "\t"
-                            + data.getOutTimeString()
-                            + "\n");
-                }
-
-            }
-        }
-    }
+//    public void printSampleOutput() {
+//        
+//        ArrayList<String> dates=Dates.getInstance().getItems();
+//
+//        //clear the textarea
+//        jTextArea.setText("");
+//
+//        //sample output
+//        CompiledEmployeeData edatamap;
+//        TimeInOutData data;
+//        for (String name : employeenamelist) {
+//            for (String date : dates) {
+//                edatamap = weeklydata.get(name);
+//                if (edatamap == null) {
+//                    continue;
+//                }
+//                data = edatamap.get(date);
+//                if (data == null) {
+//                    continue;
+//                }
+//
+//                jTextArea.append(name + "\t");
+//                jTextArea.append(date + "\t");
+//                if (data.getIn().getTime().equals(one)) {
+//                    jTextArea.append(
+//                            ""
+//                            + "\t"
+//                            + ""
+//                            + "\t"
+//                            + data.getInTimeString()
+//                            + "\t"
+//                            + data.getOutTimeString()
+//                            + "\n");
+//                } else if (data.getOut().getTime().equals(twelve)) {
+//                    jTextArea.append(
+//                            data.getInTimeString()
+//                            + "\t"
+//                            + data.getOutTimeString()
+//                            + ""
+//                            + "\t"
+//                            + ""
+//                            + "\t"
+//                            + "\n");
+//                } else {
+//                    jTextArea.append(
+//                            data.getInTimeString()
+//                            + "\t"
+//                            + "1200"
+//                            + "\t"
+//                            + "1300"
+//                            + "\t"
+//                            + data.getOutTimeString()
+//                            + "\n");
+//                }
+//
+//            }
+//        }
+//    }
 
     public void printPayrollOutput() {
         //clear the textarea
         jTextArea.setText("");
-        String tempstring="",prefix1="",prefix2="",problemdatestring="";
+        String tempstring="";//,prefix1="",prefix2="",problemdatestring="";
         ArrayList<String> problemdates=new ArrayList<String>();
         ArrayList<String> dates=Dates.getInstance().getItems();
         
         //sample output
+        
         CompiledEmployeeData edatamap=null;
         TimeInOutData data;
         Double regularrate,overtimerate,cola,regularpay,overtimepay,grosspay,totalcola,deductions,netpay;
         Integer days,regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
         for (String name : employeenamelist) 
         {
-            prefix1=prefix2=problemdatestring=tempstring="";
+//            prefix1=prefix2=problemdatestring=
+            tempstring="";
             problemdates.clear();
 
             totalregularminutes=0;
@@ -234,30 +236,39 @@ public class EmployeeDataManager {
                 
                 //if missing time in or missing time out
                 if (data.getIn().getTime().equals(data.getOut().getTime())) {
-                    prefix1="Error: Missing time in or time out: ";
-                    prefix2="\nPlease go to the Manage Employee Data page to make corrections\n";
+//                    prefix1="Error: Missing time in or time out: ";
+//                    prefix2="\nPlease go to the Manage Employee Data page to make corrections\n";
                     problemdates.add(date);
                     
-                    if(data.getIn().getTime().after(one))
+//                    if(data.getIn().getTime().after(one))
                         tempstring+=
-                                ""
+                                "Error: Missing time in or time out. Login entry at "+data.getOutTimeString()
                                 + "\t"
                                 + ""
-                                + "\t"
-                                + data.getOutTimeString()
-                                + "\t"
-                                + data.getOutTimeString()
-                                + "\n";
-                    else
-                        tempstring+=
-                                data.getOutTimeString()
-                                + "\t"
-                                + data.getOutTimeString()
                                 + "\t"
                                 + ""
                                 + "\t"
                                 + ""
                                 + "\n";
+//                        tempstring+=
+//                                ""
+//                                + "\t"
+//                                + ""
+//                                + "\t"
+//                                + data.getOutTimeString()
+//                                + "\t"
+//                                + data.getOutTimeString()
+//                                + "\n";
+//                    else
+//                        tempstring+=
+//                                data.getOutTimeString()
+//                                + "\t"
+//                                + data.getOutTimeString()
+//                                + "\t"
+//                                + ""
+//                                + "\t"
+//                                + ""
+//                                + "\n";
                 } else                       
                 //came to work at lunch break or after
                 if (data.getIn().getTime().equals(one) || data.getIn().getTime().after(one)) {
@@ -333,13 +344,14 @@ public class EmployeeDataManager {
             tempstring+="Net Pay: "+netpay+"\n";
             tempstring+="-----------------------------\n\n";
 
-            for(int i=0;i<problemdates.size();i++)
-            {
-                if(i!=0)problemdatestring+=", ";
-                problemdatestring+=problemdates.get(i);
-            }
-            problemdatestring=prefix1+problemdatestring+prefix2;
-            jTextArea.append(problemdatestring+tempstring);
+//            for(int i=0;i<problemdates.size();i++)
+//            {
+//                if(i!=0)problemdatestring+=", ";
+//                problemdatestring+=problemdates.get(i);
+//            }
+//            problemdatestring=prefix1+problemdatestring+prefix2;
+//            jTextArea.append(problemdatestring+tempstring);
+            jTextArea.append(tempstring);
         }
     }
     public void calculate(File file) {
@@ -534,4 +546,11 @@ net salary
         }
         return string;
     }
+
+    public WeeklyTimeData getWeeklydata() {
+        return weeklydata;
+    }
+
+    
+
 }

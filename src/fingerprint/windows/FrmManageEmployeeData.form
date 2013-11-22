@@ -108,23 +108,26 @@
                               <Component id="jScrollPane2" min="-2" pref="115" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblDate" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtSalary1" min="-2" pref="141" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtSalary2" min="-2" pref="141" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="btnRevert1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnRevertTimes" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                      <Component id="btnSave1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnSaveTimes" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="btnExit2" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblDatelbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txtTimeIn" min="-2" pref="141" max="-2" attributes="0"/>
+                                          <Component id="lblDate" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtTimeOut" min="-2" pref="141" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -193,21 +196,24 @@
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="jScrollPane2" min="-2" pref="113" max="-2" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="lblDate" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblDatelbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtSalary1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtTimeIn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtSalary2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtTimeOut" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnRevert1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnSave1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnRevertTimes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSaveTimes" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnExit2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -353,39 +359,39 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblDate">
+    <Component class="javax.swing.JLabel" name="lblDatelbl">
       <Properties>
         <Property name="text" type="java.lang.String" value="Date"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtSalary1">
+    <Component class="javax.swing.JTextField" name="txtTimeIn">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
         <Property name="text" type="java.lang.String" value="Time In: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtSalary2">
+    <Component class="javax.swing.JTextField" name="txtTimeOut">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
         <Property name="text" type="java.lang.String" value="Time Out:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnRevert1">
+    <Component class="javax.swing.JButton" name="btnRevertTimes">
       <Properties>
         <Property name="text" type="java.lang.String" value="Revert"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRevert1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRevertTimesActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnSave1">
+    <Component class="javax.swing.JButton" name="btnSaveTimes">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSave1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveTimesActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
@@ -411,6 +417,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExit2ActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDate">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Date"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
