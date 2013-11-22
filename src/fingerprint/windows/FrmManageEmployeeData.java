@@ -536,12 +536,20 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             //if they contain "absent", this will be considered an error at this point
             Time timein=null, timeout=null;
             try {
+                String[] segments=timeinstring.split(":");
+                Integer hour=Integer.valueOf(segments[0]);
+                if(hour>12)throw new ParseException("",0);
+                
                 timein=new Time(Adjustments.prettyTimeFormat.parse(timeinstring).getTime());
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format for Time In, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             try {
+                String[] segments=timeinstring.split(":");
+                Integer hour=Integer.valueOf(segments[0]);
+                if(hour>12)throw new ParseException("",0);
+                
                 timeout=new Time(Adjustments.prettyTimeFormat.parse(timeoutstring).getTime());
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format for Time Out, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
