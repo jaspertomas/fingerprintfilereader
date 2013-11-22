@@ -7,8 +7,6 @@ package fingerprint.windows;
 import java.sql.Time;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -603,6 +601,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 }
             }            
         }
+        refreshDateList();
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
     private void modifyAdjustment(Adjustment existingadj,String nickname, Integer type,Date date, Time time) {
@@ -830,7 +829,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             timeoutstring=Adjustments.prettyTimeFormat.format(outAdj.getTime());
         }        
 
-        if(timeinstring.contentEquals(timeoutstring))
+        if(timeinstring.contentEquals(timeoutstring)&&!timeinstring.contentEquals("(Absent)"))
             warningstring=" (Missing Time In or Time Out)";
         
         txtTimeIn.setText(timeinstring);
@@ -841,23 +840,49 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }    
 
     private void refreshDateList() {
+        Adjustments adjustments=Adjustments.getInstance();
+        Adjustment inAdj,outAdj;
+        String nickname=lblNickname.getText();
+        Date date;
+        
         String temp;
         DefaultListModel model = new DefaultListModel();
         for (String datestring : Dates.getInstance().getItems()) {
             temp=datestring;
+            
+            //all this effort is to determine if the date needs adjustment
+            try {
+                date=Holidays.dateFormat.parse(datestring);
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+                return;
+            }
             WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
-            CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
+            CompiledEmployeeData edatamap = weeklydata.get(nickname);
             if(edatamap!=null)
             {
-                TimeInOutData data = edatamap.get(datestring);
-                if(data!=null)
+                inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
+                outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+
+                //adjustments go first
+                if(inAdj!=null&&outAdj!=null&&!inAdj.getTime().equals(outAdj.getTime()))
                 {
-                    //if data time in is equal to data time out, show exclamation point to date display
-                    if(data.getInTimeString().contentEquals(data.getOutTimeString()))
+                    temp+=" (!)";
+                }
+                else
+                {
+                    //if no adjustments, use employee data
+                    TimeInOutData data = edatamap.get(datestring);
+                    if(data!=null)
                     {
-                        temp+=" (!)";
+                        //if data time in is equal to data time out, show exclamation point to date display
+                        if(data.getInTimeString().contentEquals(data.getOutTimeString()))
+                        {
+                            temp+=" (!)";
+                        }
                     }
                 }
+                
             }
             
             model.addElement(temp);            
