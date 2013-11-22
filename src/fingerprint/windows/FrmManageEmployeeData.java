@@ -52,6 +52,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         jList1.getSelectionModel().addListSelectionListener(
                 new EmployeeListSelectionHandler());
+        listDates.getSelectionModel().addListSelectionListener(
+                new DateListSelectionHandler());
 
         DocumentListener doclistener = new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -586,8 +588,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         TimeInOutData data;
         data = edatamap.get(datestring);
         if (data == null) {
-            txtTimeIn.setText("");
-            txtTimeOut.setText("");
+            txtTimeIn.setText("(Absent)");
+            txtTimeOut.setText("(Absent)");
         }       
         else
         {
