@@ -806,26 +806,37 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         Adjustment inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
         Adjustment outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
         
-        //operation start
-        if()
+        String timeinstring="",timeoutstring="",warningstring="";
         
+        
+        //operation start
         if (data == null) {
-            txtTimeIn.setText("(Absent)");
-            txtTimeOut.setText("(Absent)");
-            lblWarning.setText("");
+            timeinstring="(Absent)";
+            timeoutstring="(Absent)";
+            warningstring="";
         }       
         else
         {
-//        System.out.println(e);
-            txtTimeIn.setText(data.getSplitInTimeString());
-            txtTimeOut.setText(data.getSplitOutTimeString());
-            
-            if(data.getInTimeString().contentEquals(data.getOutTimeString()))
-                lblWarning.setText(" (Missing Time In or Time Out)");
-            else
-                lblWarning.setText("");
-                
+            timeinstring=data.getSplitInTimeString();
+            timeoutstring=data.getSplitOutTimeString();
         }
+        //overwrite data if adjustments exist
+        if(inAdj!=null)
+        {
+            timeinstring=Adjustments.prettyTimeFormat.format(inAdj.getTime());
+        }
+        if(outAdj!=null)
+        {
+            timeoutstring=Adjustments.prettyTimeFormat.format(outAdj.getTime());
+        }        
+
+        if(timeinstring.contentEquals(timeoutstring))
+            warningstring=" (Missing Time In or Time Out)";
+        
+        txtTimeIn.setText(timeinstring);
+        txtTimeOut.setText(timeoutstring);
+        lblWarning.setText(warningstring);
+        
         enableButtons(false);
     }    
 
