@@ -13,12 +13,15 @@ import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import models.Adjustment;
+import models.Adjustments;
 import models.Dates;
 import models.CompiledEmployeeData;
 import models.Constants;
 import models.DateUtil;
 import models.Employee;
 import models.EmployeeNameList;
+import models.Holidays;
 import models.TimeInOutData;
 import models.TimeRecord;
 import models.WeeklyTimeData;
@@ -402,7 +405,9 @@ public class EmployeeDataManager {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
             weeklydata.put(timerecordlist.get(0).getName(), edatamap);
         }
-//        printSampleOutput();
+        
+        applyAdjustments();
+
         printPayrollOutput();
     }
 
@@ -431,12 +436,29 @@ public class EmployeeDataManager {
 
         //start to process data into array structure
         weeklydata = new WeeklyTimeData();
-        for (ArrayList<TimeRecord> timerecordlist : timerecordsbyemployee.values()) {
+        for (ArrayList<TimeRecord> timerecordlist : timerecordsbyemployee.values()) 
+        {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
             if(edatamap!=null)
                 weeklydata.put(timerecordlist.get(0).getName(), edatamap);
         }
+        
+        applyAdjustments();
+        
         printPayrollOutput();
+    }
+    
+    private void applyAdjustments()
+    {
+        for(Adjustment a:Adjustments.getInstance().getItems())
+        {
+            CompiledEmployeeData edatamap = weeklydata.get(a.getEmployeeNickname());
+            TimeInOutData data = edatamap.get(Holidays.dateFormat.format(a.getDate()));
+            if(a.getType()==Adjustment.IN)
+                data.getIn().setTime(a.getTime());
+            else if(a.getType()==Adjustment.OUT)
+                data.getOut().setTime(a.getTime());
+        }    
     }
 
     private void parseFile(File file) {

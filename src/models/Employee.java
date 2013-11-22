@@ -26,6 +26,10 @@ public class Employee implements Comparable<Employee> {
         this.deduction = deduction;
     }
 
+    public String getFormalname() {
+        return lname+", "+fname+" "+mname;
+    }
+
     public String getNickname() {
         return nickname;
     }

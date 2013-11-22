@@ -601,6 +601,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 }
             }            
         }
+        
         refreshDateList();
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
@@ -890,7 +891,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         listDates.setModel(model);
         
         //select first element
-        listDates.setSelectedIndex(0);
+//        listDates.setSelectedIndex(0);
         onDateSelect();
     }
 
