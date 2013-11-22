@@ -214,7 +214,7 @@ public class EmployeeDataManager {
         String tempstring="";//,prefix1="",prefix2="",problemdatestring="";
         ArrayList<String> problemdates=new ArrayList<String>();
         ArrayList<String> dates=Dates.getInstance().getItems();
-        Employee e;
+//        Employee e;
         
         //sample output
         
@@ -222,15 +222,17 @@ public class EmployeeDataManager {
         TimeInOutData data;
         Double regularrate,overtimerate,cola,regularpay,overtimepay,grosspay,totalcola,deductions,netpay;
         Integer days,regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
-        for (String name : employeenamelist) 
+//        for (String name : employeenamelist) 
+        for(Employee e:EmployeeFileManager.getInstance().getEmployees())
         {
+            String name=e.getNickname();
 //            prefix1=prefix2=problemdatestring=
             problemdates.clear();
 
             totalregularminutes=0;
             totalovertimeminutes=0;
             
-            e=EmployeeFileManager.getInstance().getEmployees().getByNickname(name);
+//            e=EmployeeFileManager.getInstance().getEmployees().getByNickname(name);
             if(e==null)
             {
                 tempstring="Employee with nickname \""+name+"\" removed from Employee Data"+"\r\n";

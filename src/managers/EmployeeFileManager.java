@@ -4,7 +4,7 @@
  */
 package managers;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import models.Employee;
 import models.EmployeeList;
 import models.EmployeeNameList;
@@ -38,6 +38,8 @@ public class EmployeeFileManager {
         
     public void save()
     {
+        Collections.sort(employees);
+        
         BinaryFileWriter writer = new BinaryFileWriter();
         writer.connectToFile(OUTPUT_FILE_NAME);
         
