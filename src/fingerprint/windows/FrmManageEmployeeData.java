@@ -15,6 +15,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import managers.EmployeeDataManager;
 import managers.EmployeeFileManager;
+import models.Adjustments;
 import models.CompiledEmployeeData;
 import models.Dates;
 import models.Employee;
@@ -131,6 +132,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         lblNickname2 = new javax.swing.JLabel();
         btnExit2 = new javax.swing.JButton();
         lblDate = new javax.swing.JLabel();
+        btnRevertAll = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -234,6 +236,13 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         lblDate.setText("Date");
 
+        btnRevertAll.setText("Revert All");
+        btnRevertAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRevertAllActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -307,6 +316,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                         .add(1, 1, 1)
                                         .add(btnSaveTimes)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .add(btnRevertAll)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                         .add(btnExit2))
                                     .add(layout.createSequentialGroup()
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -385,7 +396,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(btnRevertTimes)
                             .add(btnSaveTimes)
-                            .add(btnExit2))))
+                            .add(btnExit2)
+                            .add(btnRevertAll))))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -461,6 +473,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private void btnExit2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit2ActionPerformed
         exit();
     }//GEN-LAST:event_btnExit2ActionPerformed
+
+    private void btnRevertAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertAllActionPerformed
+        Adjustments.getInstance().reset();
+    }//GEN-LAST:event_btnRevertAllActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -500,6 +516,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnExit2;
     private javax.swing.JButton btnRevert;
+    private javax.swing.JButton btnRevertAll;
     private javax.swing.JButton btnRevertTimes;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSaveTimes;
