@@ -51,18 +51,20 @@ public class TimeInOutData {
     public String getSplitInTimeString()
     {
         Time time=in.getTime();
-        return 
-                String.format("%02d", time.getHours())
-                +":"
-                +String.format("%02d", time.getMinutes());
+//        return 
+//                String.format("%02d", time.getHours())
+//                +":"
+//                +String.format("%02d", time.getMinutes());
+        return Adjustments.prettyTimeFormat.format(time);
     }
     public String getSplitOutTimeString()
     {
         Time time=out.getTime();
-        return 
-                String.format("%02d", time.getHours())
-                +":"
-                +String.format("%02d", time.getMinutes());
+//        return 
+//                String.format("%02d", time.getHours())
+//                +":"
+//                +String.format("%02d", time.getMinutes());
+        return Adjustments.prettyTimeFormat.format(time);
     }    
     public Integer getTimeDiffMinutes()
     {

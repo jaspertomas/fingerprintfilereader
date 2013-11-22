@@ -7,9 +7,6 @@ package fingerprint.windows;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -471,7 +468,13 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevertTimesActionPerformed
 
     private void btnSaveTimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTimesActionPerformed
-        // TODO add your handling code here:
+        try {
+            Adjustments.timeFormat.parse(txtTimeIn.getText());
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Improper time format", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
     private void btnExit2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit2ActionPerformed
@@ -641,14 +644,19 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             temp=datestring;
             WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
             CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
+            if(edatamap==null)continue;
+            
             TimeInOutData data = edatamap.get(datestring);
-
+            if(data==null)continue;
+            
             //if data time in is equal to data time out, show exclamation point to date display
-            if(data!=null && data.getInTimeString().contentEquals(data.getOutTimeString()))
+            if(data.getInTimeString().contentEquals(data.getOutTimeString()))
             {
                 temp+=" (!)";
             }
-            model.addElement(temp);
+            model.addElement(temp);            
+            
+
         }
         listDates.setModel(model);
         
