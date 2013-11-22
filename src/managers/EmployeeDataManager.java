@@ -370,7 +370,7 @@ public class EmployeeDataManager {
             tempstring+="Total COLA: "+totalcola+"\r\n";
             tempstring+="Deductions: "+deductions+"\r\n";
             tempstring+="- - - - - - - - - - - - - - - \r\n";
-            tempstring+="NET SALARY: "+format.format(netpay) +"\r\n";
+            tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
             tempstring+="==============================\n\n";
 
 //            for(int i=0;i<problemdates.size();i++)
