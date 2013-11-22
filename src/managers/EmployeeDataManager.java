@@ -6,6 +6,7 @@ package managers;
 
 import java.io.File;
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
@@ -199,6 +200,9 @@ public class EmployeeDataManager {
 //    }
 
     public void printPayrollOutput() {
+        
+        DecimalFormat format = new DecimalFormat("##0.00");
+        
         //clear the textarea
         jTextArea.setText("");
         String tempstring="";//,prefix1="",prefix2="",problemdatestring="";
@@ -242,7 +246,7 @@ public class EmployeeDataManager {
                     
 //                    if(data.getIn().getTime().after(one))
                         tempstring+=
-                                "Error: Missing time in or time out. Login entry at "+data.getOutTimeString()
+                                "Error: Missing time in or time out. Login at "+data.getOutTimeString()
                                 + "\t"
                                 + ""
                                 + "\t"
@@ -341,7 +345,7 @@ public class EmployeeDataManager {
             tempstring+="Gross Pay: "+grosspay+"\n";
             tempstring+="Total COLA: "+totalcola+"\n";
             tempstring+="Deductions: "+deductions+"\n";
-            tempstring+="Net Pay: "+netpay+"\n";
+            tempstring+="Net Pay: "+format.format(netpay) +"\n";
             tempstring+="-----------------------------\n\n";
 
 //            for(int i=0;i<problemdates.size();i++)

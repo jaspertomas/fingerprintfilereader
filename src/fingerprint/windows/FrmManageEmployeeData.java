@@ -585,8 +585,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         lblDate.setText(datestring);
         WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
         CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
-        TimeInOutData data;
-        data = edatamap.get(datestring);
+        TimeInOutData data = edatamap.get(datestring);
         if (data == null) {
             txtTimeIn.setText("(Absent)");
             txtTimeOut.setText("(Absent)");
@@ -596,14 +595,30 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 //        System.out.println(e);
             txtTimeIn.setText(data.getInTimeString());
             txtTimeOut.setText(data.getOutTimeString());
+            
+            if(data.getInTimeString().contentEquals(data.getOutTimeString()))
+            {
+                lblDate.setText(datestring+" (Requires Adjustment!)");
+            }
         }
         enableButtons(false);
     }    
 
     private void refreshDateList() {
+        String temp;
         DefaultListModel model = new DefaultListModel();
-        for (String e : Dates.getInstance().getItems()) {
-            model.addElement(e);
+        for (String datestring : Dates.getInstance().getItems()) {
+            temp=datestring;
+            WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+            CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
+            TimeInOutData data = edatamap.get(datestring);
+
+            //if data time in is equal to data time out, show exclamation point to date display
+            if(data!=null && data.getInTimeString().contentEquals(data.getOutTimeString()))
+            {
+                temp+=" (!)";
+            }
+            model.addElement(temp);
         }
         listDates.setModel(model);
         
