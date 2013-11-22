@@ -8,7 +8,7 @@ package models;
  *
  * @author jaspertomas
  */
-public class Employee {
+public class Employee implements Comparable<Employee> {
     String nickname="",fname="",mname="",lname="";
     Double cola=0d;
     Double monthlySalary=0d;
@@ -90,5 +90,13 @@ public class Employee {
 
     public String getFullName() {
         return fname + " " +mname + " "+lname;
+    }
+
+    @Override
+    public int compareTo(Employee aThat) {
+        if(lname.contentEquals(aThat.getLname()))
+            return fname.compareTo(aThat.getFname());
+        else
+            return lname.compareTo(aThat.getLname());
     }
 }
