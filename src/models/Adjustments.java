@@ -27,6 +27,7 @@ public class Adjustments {
     //---------------VARIABLES---------------------  
     public static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     public static final SimpleDateFormat prettyTimeFormat = new SimpleDateFormat("hh:mm a");
+    public static final SimpleDateFormat prettyDateTimeFormat = new SimpleDateFormat("EE, MMMM dd, yyyy hh:mm a");
     
     ArrayList<Adjustment> items;//,allItems=new ArrayList<Adjustment>();
 

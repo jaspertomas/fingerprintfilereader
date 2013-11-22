@@ -6,6 +6,8 @@ package fingerprint.windows;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -134,6 +136,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         btnExit2 = new javax.swing.JButton();
         lblDate = new javax.swing.JLabel();
         btnRevertAll = new javax.swing.JButton();
+        lblDate1 = new javax.swing.JLabel();
+        lblWarning = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -244,6 +248,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             }
         });
 
+        lblDate1.setText("* Both textboxes empty = Absent");
+
+        lblWarning.setText("Date");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -273,7 +281,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                                 .add(15, 15, 15)
                                                 .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                                     .add(layout.createSequentialGroup()
-                                        .add(0, 0, Short.MAX_VALUE)
+                                        .add(0, 29, Short.MAX_VALUE)
                                         .add(jLabel1)
                                         .add(62, 62, 62)
                                         .add(txtFname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -322,14 +330,20 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                         .add(btnExit2))
                                     .add(layout.createSequentialGroup()
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(jLabel8)
-                                            .add(lblDatelbl)
-                                            .add(jLabel7))
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(txtTimeIn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                            .add(lblDate)
-                                            .add(txtTimeOut, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                            .add(layout.createSequentialGroup()
+                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                    .add(jLabel8)
+                                                    .add(lblDatelbl)
+                                                    .add(jLabel7))
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                    .add(txtTimeIn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                    .add(txtTimeOut, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                    .add(layout.createSequentialGroup()
+                                                        .add(lblDate)
+                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                        .add(lblWarning))))
+                                            .add(lblDate1))
                                         .add(0, 0, Short.MAX_VALUE))))
                             .add(jSeparator3))
                         .add(78, 78, 78))))
@@ -379,12 +393,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     .add(jLabel9)
                     .add(lblNickname2))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(32, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(lblDatelbl)
-                            .add(lblDate))
+                            .add(lblDate)
+                            .add(lblWarning))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel7)
@@ -393,13 +410,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel8)
                             .add(txtTimeOut, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(lblDate1)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(btnRevertTimes)
                             .add(btnSaveTimes)
                             .add(btnExit2)
-                            .add(btnRevertAll))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                            .add(btnRevertAll)))))
         );
 
         pack();
@@ -469,17 +487,35 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
     private void btnSaveTimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTimesActionPerformed
         String intime=txtTimeIn.getText().trim();
+        String outtime=txtTimeOut.getText().trim();
         
-        if (intime.isEmpty())
+        if (intime.isEmpty() && outtime.isEmpty())
         {
+//            //mark employee as absent
+            int n = JOptionPane.showConfirmDialog(
+                    null,
+                    "Mark as absent?",
+                    "Save Adjustment",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (n == JOptionPane.YES_OPTION) {
+                newAbsentAdjustment();
+            }   
+        
         }
-        else if(intime.toLowerCase().contains("absent"))
+        else if(intime.toLowerCase().contains("absent") && outtime.toLowerCase().contains("absent"))
         {
+            newAbsentAdjustment();
         }
+        else if(intime.isEmpty() || outtime.isEmpty())
+        {
+            JOptionPane.showMessageDialog (this, "Please fill in both Time In and Time Out", "Error", JOptionPane.PLAIN_MESSAGE);
+        }        
         else
         {
             try {
-                Adjustments.timeFormat.parse(txtTimeIn.getText());
+                Date datein=Adjustments.prettyDateTimeFormat.parse(lblDate.getText()+" "+intime);
+                Date dateout=Adjustments.prettyDateTimeFormat.parse(lblDate.getText()+" "+outtime);
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -487,6 +523,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
+    private void newAbsentAdjustment()
+    {
+    }
+    
     private void btnExit2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit2ActionPerformed
         exit();
     }//GEN-LAST:event_btnExit2ActionPerformed
@@ -553,9 +593,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblDate1;
     private javax.swing.JLabel lblDatelbl;
     private javax.swing.JLabel lblNickname;
     private javax.swing.JLabel lblNickname2;
+    private javax.swing.JLabel lblWarning;
     private javax.swing.JList listDates;
     private javax.swing.JTextField txtCola;
     private javax.swing.JTextField txtDeduction;
@@ -632,6 +674,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         if (data == null) {
             txtTimeIn.setText("(Absent)");
             txtTimeOut.setText("(Absent)");
+            lblWarning.setText("");
         }       
         else
         {
@@ -640,9 +683,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             txtTimeOut.setText(data.getSplitOutTimeString());
             
             if(data.getInTimeString().contentEquals(data.getOutTimeString()))
-            {
-                lblDate.setText(datestring+" (Requires Adjustment!)");
-            }
+                lblWarning.setText(" (Missing Time In or Time Out)");
+            else
+                lblWarning.setText("");
+                
         }
         enableButtons(false);
     }    
