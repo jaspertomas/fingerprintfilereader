@@ -11,33 +11,34 @@ import java.sql.Time;
  * @author jaspertomas
  */
 public class TimeRecord {
-    String no,dn,uid ,name ,status,action,apb,jobcode,datetime,date;
+    String line,no,dn,uid ,name ,status,action,apb,jobcode,datetime,date;
     Time time;
     public TimeRecord(String line)
     {
-            String[] segments=line.split("\t");
-            for(int i=0;i<segments.length;i++)
-            {
-                no=segments[0];
-                dn=segments[1];
-                uid=segments[2];
-                name=segments[3];
-                status=segments[4];
-                action=segments[5];
-                apb=segments[6];
-                jobcode=segments[7];
-                datetime=segments[8];
-                
-                String[] datesegments=datetime.split(" ");
-                date=datesegments[0];
+        this.line=line;
+        String[] segments=line.split("\t");
+        for(int i=0;i<segments.length;i++)
+        {
+            no=segments[0];
+            dn=segments[1];
+            uid=segments[2];
+            name=segments[3];
+            status=segments[4];
+            action=segments[5];
+            apb=segments[6];
+            jobcode=segments[7];
+            datetime=segments[8];
+
+            String[] datesegments=datetime.split(" ");
+            date=datesegments[0];
 //                time=datesegments[1];
-                
-                String[] timesegments=datesegments[1].split(":");
+
+            String[] timesegments=datesegments[1].split(":");
 //                time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),Integer.valueOf(timesegments[2]));
-                time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),0);
-                
-                
-            }
+            time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),0);
+
+
+        }
     }
 
     public String getNo() {
@@ -138,6 +139,9 @@ public class TimeRecord {
         if(time.compareTo(tr.getTime())>0)return true;
         else return false;
     }
-    
+    public TimeRecord copy()
+    {
+        return new TimeRecord(line);
+    }
     
 }

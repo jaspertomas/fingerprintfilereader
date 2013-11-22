@@ -84,7 +84,7 @@ public class EmployeeDataManager {
             if (!compiledemployeedata.containsKey(tr.getDate())) {
                 inoutdata = new TimeInOutData();
                 inoutdata.setIn(tr);
-                inoutdata.setOut(tr);
+                inoutdata.setOut(tr.copy());
                 compiledemployeedata.put(tr.getDate(), inoutdata);
             } //else if the daily record exists
             //set the time as time in if it's earlier than the existing time out
@@ -460,6 +460,8 @@ public class EmployeeDataManager {
                 data.getIn().setTime(a.getTime());
             else if(a.getType()==Adjustment.OUT)
                 data.getOut().setTime(a.getTime());
+            System.out.println(data.getIn().getTime().toString());
+            System.out.println(data.getOut().getTime().toString());
         }    
     }
 
