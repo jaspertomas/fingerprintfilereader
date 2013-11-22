@@ -45,7 +45,7 @@ public class Adjustments {
         items.remove(holiday);
     }
 
-    public void edit(Adjustment a,String name, Integer type, Date date, String time)
+    public void edit(Adjustment a,String name, Integer type, Date date, String time,Boolean absent)
     {
         if(a==null)
         {
@@ -55,6 +55,7 @@ public class Adjustments {
         a.setType(type);
         a.setDate(date);
         a.setTime(time);
+        a.setAbsent(absent);
         
     }      
 

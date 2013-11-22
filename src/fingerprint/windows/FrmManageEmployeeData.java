@@ -468,13 +468,23 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevertTimesActionPerformed
 
     private void btnSaveTimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTimesActionPerformed
-        try {
-            Adjustments.timeFormat.parse(txtTimeIn.getText());
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(this, "Improper time format", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        String intime=txtTimeIn.getText().trim();
+        
+        if (intime.isEmpty())
+        {
         }
-
+        else if(intime.toLowerCase().contains("absent"))
+        {
+        }
+        else
+        {
+            try {
+                Adjustments.timeFormat.parse(txtTimeIn.getText());
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(this, "Improper time format, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
     private void btnExit2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit2ActionPerformed

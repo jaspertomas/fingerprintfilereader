@@ -18,16 +18,17 @@ public class Adjustment {//implements Comparable<Adjustment>
     Integer type;
     Date date;
     String time;
+    Boolean absent=false;
 
     public Adjustment() {
     }
 
-    public Adjustment(String employeeNickname, Date date, Integer type, String time) {
-        this.employeeNickname = employeeNickname;
-        this.type = type;
-        this.date = date;
-        this.time = time;
-    }
+//    public Adjustment(String employeeNickname, Date date, Integer type, String time) {
+//        this.employeeNickname = employeeNickname;
+//        this.type = type;
+//        this.date = date;
+//        this.time = time;
+//    }
 
     public String getEmployeeNickname() {
         return employeeNickname;
@@ -66,5 +67,13 @@ public class Adjustment {//implements Comparable<Adjustment>
 //    {
 //        return employeeNickname;
 //    }
+
+    public Boolean getAbsent() {
+        return absent;
+    }
+
+    public void setAbsent(Boolean absent) {
+        this.absent = absent;
+    }
 
 }
