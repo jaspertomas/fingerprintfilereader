@@ -644,16 +644,19 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             temp=datestring;
             WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
             CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
-            if(edatamap==null)continue;
-            
-            TimeInOutData data = edatamap.get(datestring);
-            if(data==null)continue;
-            
-            //if data time in is equal to data time out, show exclamation point to date display
-            if(data.getInTimeString().contentEquals(data.getOutTimeString()))
+            if(edatamap!=null)
             {
-                temp+=" (!)";
+                TimeInOutData data = edatamap.get(datestring);
+                if(data!=null)
+                {
+                    //if data time in is equal to data time out, show exclamation point to date display
+                    if(data.getInTimeString().contentEquals(data.getOutTimeString()))
+                    {
+                        temp+=" (!)";
+                    }
+                }
             }
+            
             model.addElement(temp);            
             
 
