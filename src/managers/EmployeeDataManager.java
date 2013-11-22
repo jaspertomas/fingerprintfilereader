@@ -246,7 +246,7 @@ public class EmployeeDataManager {
                     
 //                    if(data.getIn().getTime().after(one))
                         tempstring+=
-                                "Error: Missing time in or time out. Login at "+data.getOutTimeString()
+                                "Error: Missing time in or time out. Fingerprint login at "+data.getOutTimeString()
                                 + "\t"
                                 + ""
                                 + "\t"
@@ -336,17 +336,19 @@ public class EmployeeDataManager {
             deductions=e.getDeduction();
             netpay=grosspay+totalcola-deductions;
             
+            tempstring+="- - - - - - - - - - - - - - - \n";
             tempstring+="Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\n";
             tempstring+="Regular Rate: P"+regularrate+"/day\n";
             tempstring+="Regular Pay: P"+regularpay+"\n";
             tempstring+="Overtime Minutes: "+totalovertimeminutes+" minutes ("+totalovertimeminutes/60+" hours "+totalovertimeminutes%60+" minutes)\n";
             tempstring+="Overtime Rate: P"+overtimerate+"/day\n";
             tempstring+="Overtime Pay: P"+overtimepay+"\n";
-            tempstring+="Gross Pay: "+grosspay+"\n";
+            tempstring+="Gross Salary: "+grosspay+"\n";
             tempstring+="Total COLA: "+totalcola+"\n";
             tempstring+="Deductions: "+deductions+"\n";
-            tempstring+="Net Pay: "+format.format(netpay) +"\n";
-            tempstring+="-----------------------------\n\n";
+            tempstring+="- - - - - - - - - - - - - - - \n";
+            tempstring+="NET SALARY: "+format.format(netpay) +"\n";
+            tempstring+="==============================\n\n";
 
 //            for(int i=0;i<problemdates.size();i++)
 //            {
