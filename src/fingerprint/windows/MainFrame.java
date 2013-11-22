@@ -60,6 +60,7 @@ public class MainFrame extends java.awt.Frame {
         btnExit = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         cmbFontSize = new javax.swing.JComboBox();
+        btnSaveText = new javax.swing.JButton();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -126,6 +127,13 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
+        btnSaveText.setText("Save Output to File");
+        btnSaveText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveTextActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -134,9 +142,6 @@ public class MainFrame extends java.awt.Frame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(btnExit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 63, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
@@ -160,7 +165,11 @@ public class MainFrame extends java.awt.Frame {
                                 .add(jLabel4)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(cmbFontSize, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(0, 0, Short.MAX_VALUE)))
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(btnSaveText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 219, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(btnExit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -187,7 +196,9 @@ public class MainFrame extends java.awt.Frame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnExit)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnExit)
+                    .add(btnSaveText))
                 .addContainerGap())
         );
 
@@ -229,16 +240,16 @@ public class MainFrame extends java.awt.Frame {
             EmployeeDataManager.getInstance().calculate(file);
 
 
-            //show dialog box to ask whether to save output to file
-            int n = JOptionPane.showConfirmDialog(
-                    null,
-                    "Would you like to save the output to a file?",
-                    "Save output",
-                    JOptionPane.YES_NO_OPTION);
-
-            if (n == JOptionPane.YES_OPTION) {
-                saveDialog();
-            }        
+//            //show dialog box to ask whether to save output to file
+//            int n = JOptionPane.showConfirmDialog(
+//                    null,
+//                    "Would you like to save the output to a file?",
+//                    "Save output",
+//                    JOptionPane.YES_NO_OPTION);
+//
+//            if (n == JOptionPane.YES_OPTION) {
+//                saveDialog();
+//            }        
         
         } 
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
@@ -283,6 +294,13 @@ public class MainFrame extends java.awt.Frame {
         jTextArea.setFont(new Font(jTextArea.getFont().getFontName(),Font.PLAIN,Integer.valueOf(cmbFontSize.getSelectedItem().toString())));
     }//GEN-LAST:event_cmbFontSizeActionPerformed
 
+    private void btnSaveTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTextActionPerformed
+        if(jTextArea.getText().isEmpty())
+            JOptionPane.showMessageDialog (this, "Nothing to save", "Error", JOptionPane.PLAIN_MESSAGE);
+        else    
+            saveDialog();
+    }//GEN-LAST:event_btnSaveTextActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -300,6 +318,7 @@ public class MainFrame extends java.awt.Frame {
     private javax.swing.JButton btnManageEmployeeData;
     private javax.swing.JButton btnManageHolidays;
     private javax.swing.JButton btnRecalculate;
+    private javax.swing.JButton btnSaveText;
     private javax.swing.JComboBox cmbFontSize;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
