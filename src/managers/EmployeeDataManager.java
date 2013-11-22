@@ -247,12 +247,12 @@ public class EmployeeDataManager {
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             
             //calculate total regular minutes and total overtime minutes
+            edatamap = weeklydata.get(name);
+            if (edatamap == null) {
+                continue;
+            }
             for (String date : dates) 
             {
-                edatamap = weeklydata.get(name);
-                if (edatamap == null) {
-                    continue;
-                }
                 data = edatamap.get(date);
                 if (data == null) {
                     continue;
