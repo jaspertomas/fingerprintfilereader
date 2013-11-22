@@ -4,14 +4,13 @@
  */
 package fingerprint.windows;
 
+import java.awt.Font;
 import java.io.File;
 import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
 import managers.EmployeeFileManager;
-import models.Holiday;
-import models.Holidays;
 import utils.fileaccess.FileWriter;
 
 /**
@@ -59,6 +58,8 @@ public class MainFrame extends java.awt.Frame {
         btnManageEmployeeData = new javax.swing.JButton();
         btnRecalculate = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        cmbFontSize = new javax.swing.JComboBox();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -75,6 +76,7 @@ public class MainFrame extends java.awt.Frame {
         });
 
         jTextArea.setColumns(60);
+        jTextArea.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jTextArea.setRows(20);
         jScrollPane2.setViewportView(jTextArea);
 
@@ -114,6 +116,16 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
+        jLabel4.setText("Font Size");
+
+        cmbFontSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10", "12", "14", "16", "18", "20", "22", "24" }));
+        cmbFontSize.setSelectedIndex(2);
+        cmbFontSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFontSizeActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,6 +134,9 @@ public class MainFrame extends java.awt.Frame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(0, 0, Short.MAX_VALUE)
+                        .add(btnExit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 63, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
@@ -140,11 +155,12 @@ public class MainFrame extends java.awt.Frame {
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(btnManageEmployeeData, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 185, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(btnManageHolidays, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 185, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(0, 0, Short.MAX_VALUE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(btnExit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 63, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                .add(btnManageHolidays, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 185, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel4)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(cmbFontSize, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -165,7 +181,11 @@ public class MainFrame extends java.awt.Frame {
                     .add(txtEndDate)
                     .add(btnRecalculate))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel4)
+                    .add(cmbFontSize, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnExit)
                 .addContainerGap())
@@ -259,6 +279,10 @@ public class MainFrame extends java.awt.Frame {
         System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
+    private void cmbFontSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFontSizeActionPerformed
+        jTextArea.setFont(new Font(jTextArea.getFont().getFontName(),Font.PLAIN,Integer.valueOf(cmbFontSize.getSelectedItem().toString())));
+    }//GEN-LAST:event_cmbFontSizeActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -276,9 +300,11 @@ public class MainFrame extends java.awt.Frame {
     private javax.swing.JButton btnManageEmployeeData;
     private javax.swing.JButton btnManageHolidays;
     private javax.swing.JButton btnRecalculate;
+    private javax.swing.JComboBox cmbFontSize;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextField txtEndDate;
