@@ -504,7 +504,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         Adjustment inadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
         Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
 
-        
+        //textboxes are empty - absent
         if (timeinstring.isEmpty() && timeoutstring.isEmpty())
         {
 //            //mark employee as absent
@@ -518,23 +518,37 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 newAbsentAdjustment(inadjustment,outadjustment, nickname, date);
             }   
         }
+        //string "absent" explicitly written in both textboxes
         else if(timeinstring.toLowerCase().contains("absent") && timeoutstring.toLowerCase().contains("absent"))
         {
             newAbsentAdjustment(inadjustment,outadjustment, nickname, date);
         }
+        //ambiguous - one is empty, the other is not
         else if(timeinstring.isEmpty() || timeoutstring.isEmpty())
         {
             JOptionPane.showMessageDialog (this, "Please fill in both Time In and Time Out", "Error", JOptionPane.PLAIN_MESSAGE);
         }        
         else
         {
+            //assured by this time that neither of the timestrings are empty
+            //test strings for time format
+            //if they contain "absent", this will be considered an error at this point
+            Time timein=null, timeout=null;
             try {
-//                Date datetimein=Adjustments.prettyDateTimeFormat.parse(lblDate.getText()+" "+intime);
-//                Date datetimeout=Adjustments.prettyDateTimeFormat.parse(lblDate.getText()+" "+outtime);
-                
-                //assured by this time that neither of the timestrings are empty
-                Time timein=new Time(Adjustments.prettyTimeFormat.parse(timeinstring).getTime());
-                Time timeout=new Time(Adjustments.prettyTimeFormat.parse(timeoutstring).getTime());
+                timein=new Time(Adjustments.prettyTimeFormat.parse(timeinstring).getTime());
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(this, "Improper time format for Time In, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            try {
+                timeout=new Time(Adjustments.prettyTimeFormat.parse(timeoutstring).getTime());
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(this, "Improper time format for Time Out, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            /*
+             
 
                 WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
                 CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
@@ -558,10 +572,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                         }
                         //employee time data exists but 
                         //not equal to input - adjustment required
-                        //2 possibilities - new time, or absent
-                        //possibility 1: absent
-                        else if()
+                        else 
                         {
+                            
                         }
                         
                         if(timeout.equals(data.getOutTime()))
@@ -569,14 +582,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                             if(outadjustment!=null)
                                 Adjustments.getInstance().delete(inadjustment);
                         }
+                        else 
+                        {
+                        }                        
                     }
                 }
                 
-                
-            } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(this, "Improper time format, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                             
+             */
         }
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
