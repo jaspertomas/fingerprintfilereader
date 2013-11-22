@@ -822,11 +822,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         //overwrite data if adjustments exist
         if(inAdj!=null)
         {
-            timeinstring=Adjustments.prettyTimeFormat.format(inAdj.getTime());
+            timeinstring=inAdj.getPrettyTimeString();
         }
         if(outAdj!=null)
         {
-            timeoutstring=Adjustments.prettyTimeFormat.format(outAdj.getTime());
+            timeoutstring=outAdj.getPrettyTimeString();
         }        
 
         if(timeinstring.contentEquals(timeoutstring)&&!timeinstring.contentEquals("(Absent)"))
@@ -843,12 +843,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         Adjustments adjustments=Adjustments.getInstance();
         Adjustment inAdj,outAdj;
         String nickname=lblNickname.getText();
+        String timeinstring,timeoutstring;
         Date date;
         
         String temp;
         DefaultListModel model = new DefaultListModel();
         for (String datestring : Dates.getInstance().getItems()) {
             temp=datestring;
+            timeinstring=timeoutstring="";
             
             //all this effort is to determine if the date needs adjustment
             try {
@@ -861,28 +863,24 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             CompiledEmployeeData edatamap = weeklydata.get(nickname);
             if(edatamap!=null)
             {
+                TimeInOutData data = edatamap.get(datestring);
+                if(data!=null)
+                {   
+                    timeinstring=data.getInTimeString();
+                    timeoutstring=data.getOutTimeString();
+                }
+
                 inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
                 outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
 
-                //adjustments go first
-                if(inAdj!=null&&outAdj!=null&&!inAdj.getTime().equals(outAdj.getTime()))
+                if(inAdj!=null)timeinstring=inAdj.getPrettyTimeString();
+                if(outAdj!=null)timeoutstring=outAdj.getPrettyTimeString();
+                
+                //if data time in is equal to data time out, show exclamation point to date display
+                if(timeinstring.contentEquals(timeoutstring) && !timeinstring.isEmpty())
                 {
                     temp+=" (!)";
                 }
-                else
-                {
-                    //if no adjustments, use employee data
-                    TimeInOutData data = edatamap.get(datestring);
-                    if(data!=null)
-                    {
-                        //if data time in is equal to data time out, show exclamation point to date display
-                        if(data.getInTimeString().contentEquals(data.getOutTimeString()))
-                        {
-                            temp+=" (!)";
-                        }
-                    }
-                }
-                
             }
             
             model.addElement(temp);            

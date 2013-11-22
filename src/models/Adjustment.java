@@ -77,4 +77,8 @@ public class Adjustment {//implements Comparable<Adjustment>
         this.absent = absent;
     }
 
+    public String getPrettyTimeString() {
+        return Adjustments.prettyTimeFormat.format(time);
+    }
+
 }
