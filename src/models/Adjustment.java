@@ -64,10 +64,10 @@ public class Adjustment {//implements Comparable<Adjustment>
     }
 
     
-//    public String toString()
-//    {
-//        return employeeNickname;
-//    }
+    public String toString()
+    {
+         return "Nickname: "+employeeNickname+"; Date:"+date+"; Type:"+(type==1?"in":"out")+"; time"+time+"; absent"+absent;
+    }
 
     public Boolean getAbsent() {
         return absent;

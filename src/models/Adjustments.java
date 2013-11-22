@@ -42,6 +42,15 @@ public class Adjustments {
     }
     public void reset() {
         items.clear();
+//        dump();
+        
+    }
+    public void dump()
+    {
+        for(Adjustment a:items)
+        {
+            System.out.println(a);
+        }
     }
 
     public void add(Adjustment holiday)
