@@ -605,11 +605,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         SimpleDateFormat prettyDateFormat = new SimpleDateFormat("EE, MMMM dd, yyyy");
 
         String datestring = Dates.getInstance().getItems().get(listDates.getSelectedIndex());
-//        try {
-//            datestring=prettyDateFormat.format(Holidays.dateFormat.parse(datestring));
-//        } catch (ParseException ex) {
-//            ex.printStackTrace();
-//        }
+        try {
+            datestring=prettyDateFormat.format(Holidays.dateFormat.parse(datestring));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
         
         lblDate.setText(datestring);
         WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
