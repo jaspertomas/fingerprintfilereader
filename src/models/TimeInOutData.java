@@ -47,6 +47,23 @@ public class TimeInOutData {
 //                +"\t"
                 +String.format("%02d", time.getMinutes());
     }
+
+    public String getSplitInTimeString()
+    {
+        Time time=in.getTime();
+        return 
+                String.format("%02d", time.getHours())
+                +":"
+                +String.format("%02d", time.getMinutes());
+    }
+    public String getSplitOutTimeString()
+    {
+        Time time=out.getTime();
+        return 
+                String.format("%02d", time.getHours())
+                +":"
+                +String.format("%02d", time.getMinutes());
+    }    
     public Integer getTimeDiffMinutes()
     {
         long difference;

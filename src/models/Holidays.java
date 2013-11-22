@@ -37,7 +37,7 @@ public class Holidays {
     public static final Integer OTHER=2;
 
     private static final String OUTPUT_FILE_NAME = "holidays.dat";
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
     public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
     
@@ -126,35 +126,35 @@ public class Holidays {
     public void generate(String yearstring) {
         try {
             //Regular holidays
-            allItems.add(new Holiday("New Year",Holidays.REGULAR,dateFormat.parse(yearstring+"-01-01")));
-            allItems.add(new Holiday("Araw ng Kagitingan",Holidays.REGULAR,dateFormat.parse(yearstring+"-4-9")));
-            allItems.add(new Holiday("Labor Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-5-1")));
-            allItems.add(new Holiday("Independence Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-6-12")));
-            allItems.add(new Holiday("Bonifacio Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-11-30")));
-            allItems.add(new Holiday("Christmas",Holidays.REGULAR,dateFormat.parse(yearstring+"-12-25")));
-            allItems.add(new Holiday("Rizal Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-12-30")));
+            allItems.add(new Holiday("New Year",Holidays.REGULAR,dateFormat.parse(yearstring+"/01/01")));
+            allItems.add(new Holiday("Araw ng Kagitingan",Holidays.REGULAR,dateFormat.parse(yearstring+"/4/9")));
+            allItems.add(new Holiday("Labor Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/5/1")));
+            allItems.add(new Holiday("Independence Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/6/12")));
+            allItems.add(new Holiday("Bonifacio Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/11/30")));
+            allItems.add(new Holiday("Christmas",Holidays.REGULAR,dateFormat.parse(yearstring+"/12/25")));
+            allItems.add(new Holiday("Rizal Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/12/30")));
 
             //movable regular holidays for 2014
             if(yearstring.contentEquals("2014"))
             {
-                allItems.add(new Holiday("Maundy Thursday",Holidays.REGULAR,dateFormat.parse(yearstring+"-4-17")));
-                allItems.add(new Holiday("Good Friday",Holidays.REGULAR,dateFormat.parse(yearstring+"-4-18")));
-                allItems.add(new Holiday("National Heroes' Day",Holidays.REGULAR,dateFormat.parse(yearstring+"-8-25")));
+                allItems.add(new Holiday("Maundy Thursday",Holidays.REGULAR,dateFormat.parse(yearstring+"/4/17")));
+                allItems.add(new Holiday("Good Friday",Holidays.REGULAR,dateFormat.parse(yearstring+"/4/18")));
+                allItems.add(new Holiday("National Heroes' Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/8/25")));
             }
 
-            //Special non-working holidays
-            allItems.add(new Holiday("Ninoy Aquino Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-8-21")));
-            allItems.add(new Holiday("All Saints' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-11-1")));
-//            allItems.add(new Holiday("All Souls' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"-11-2")));
-            allItems.add(new Holiday("Christmas Eve",Holidays.SPECIAL,dateFormat.parse(yearstring+"-12-24")));
-            allItems.add(new Holiday("Day after Christmas",Holidays.SPECIAL,dateFormat.parse(yearstring+"-12-26")));
-            allItems.add(new Holiday("Last Day of the Year",Holidays.SPECIAL,dateFormat.parse(yearstring+"-12-31")));
+            //Special non/working holidays
+            allItems.add(new Holiday("Ninoy Aquino Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"/8/21")));
+            allItems.add(new Holiday("All Saints' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"/11/1")));
+//            allItems.add(new Holiday("All Souls' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"/11/2")));
+            allItems.add(new Holiday("Christmas Eve",Holidays.SPECIAL,dateFormat.parse(yearstring+"/12/24")));
+            allItems.add(new Holiday("Day after Christmas",Holidays.SPECIAL,dateFormat.parse(yearstring+"/12/26")));
+            allItems.add(new Holiday("Last Day of the Year",Holidays.SPECIAL,dateFormat.parse(yearstring+"/12/31")));
 
             //movable special holidays for 2014
             if(yearstring.contentEquals("2014"))
             {
-                allItems.add(new Holiday("Chinese New Year",Holidays.SPECIAL,dateFormat.parse(yearstring+"-1-31")));
-                allItems.add(new Holiday("Black Saturday",Holidays.SPECIAL,dateFormat.parse(yearstring+"-4-19")));
+                allItems.add(new Holiday("Chinese New Year",Holidays.SPECIAL,dateFormat.parse(yearstring+"/1/31")));
+                allItems.add(new Holiday("Black Saturday",Holidays.SPECIAL,dateFormat.parse(yearstring+"/4/19")));
             }
     
             Collections.sort(allItems);

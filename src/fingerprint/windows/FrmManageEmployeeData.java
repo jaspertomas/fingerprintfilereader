@@ -4,9 +4,12 @@
  */
 package fingerprint.windows;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -19,6 +22,7 @@ import models.Adjustments;
 import models.CompiledEmployeeData;
 import models.Dates;
 import models.Employee;
+import models.Holidays;
 import models.TimeInOutData;
 import models.WeeklyTimeData;
 
@@ -598,7 +602,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             return;
         }
         
+        SimpleDateFormat prettyDateFormat = new SimpleDateFormat("EE, MMMM dd, yyyy");
+
         String datestring = Dates.getInstance().getItems().get(listDates.getSelectedIndex());
+//        try {
+//            datestring=prettyDateFormat.format(Holidays.dateFormat.parse(datestring));
+//        } catch (ParseException ex) {
+//            ex.printStackTrace();
+//        }
+        
         lblDate.setText(datestring);
         WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
         CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
@@ -610,8 +622,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         else
         {
 //        System.out.println(e);
-            txtTimeIn.setText(data.getInTimeString());
-            txtTimeOut.setText(data.getOutTimeString());
+            txtTimeIn.setText(data.getSplitInTimeString());
+            txtTimeOut.setText(data.getSplitOutTimeString());
             
             if(data.getInTimeString().contentEquals(data.getOutTimeString()))
             {

@@ -289,8 +289,8 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         try {
             //do a little character conversion
             String temp=txtDate.getText();
-            temp=temp.replace("/", "-");
-            temp=temp.replace("\\", "-");
+            temp=temp.replace("-", "/");
+            temp=temp.replace("\\", "/");
             
             tempdate=Holidays.dateFormat.parse(temp);
             if(!Holidays.yearFormat.format(tempdate).contentEquals(Settings.getInstance().getCurrentYear()))
@@ -305,7 +305,8 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         
         //validate holiday name is not duplicate
         tempname=txtName.getText();
-        if(Holidays.getInstance().getByName(tempname)!=null)
+        Holiday duplicateholiday=Holidays.getInstance().getByName(tempname);
+        if(duplicateholiday!=null && Holidays.getInstance().getItems().indexOf(duplicateholiday)!=listHolidays.getSelectedIndex())
         {
             JOptionPane.showMessageDialog(this, tempname+" already exists.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
