@@ -28,8 +28,10 @@ public class Adjustments {
     public static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     public static final SimpleDateFormat prettyTimeFormat = new SimpleDateFormat("hh:mm a");
     public static final SimpleDateFormat prettyDateTimeFormat = new SimpleDateFormat("EE, MMMM dd, yyyy hh:mm a");
+    public static final SimpleDateFormat prettyDateFormat = new SimpleDateFormat("EE, MMMM dd, yyyy");
+
     
-    ArrayList<Adjustment> items;//,allItems=new ArrayList<Adjustment>();
+    ArrayList<Adjustment> items=new ArrayList<Adjustment>();
 
     public ArrayList<Adjustment> getItems() {
         if(items==null)
@@ -41,6 +43,10 @@ public class Adjustments {
         items.clear();
     }
 
+    public void add(Adjustment holiday)
+    {
+        items.add(holiday);
+    }
     public void delete(Adjustment holiday)
     {
         items.remove(holiday);

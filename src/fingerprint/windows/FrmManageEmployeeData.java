@@ -4,10 +4,11 @@
  */
 package fingerprint.windows;
 
+import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -17,6 +18,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import managers.EmployeeDataManager;
 import managers.EmployeeFileManager;
+import models.Adjustment;
 import models.Adjustments;
 import models.CompiledEmployeeData;
 import models.Dates;
@@ -486,10 +488,24 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevertTimesActionPerformed
 
     private void btnSaveTimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTimesActionPerformed
-        String intime=txtTimeIn.getText().trim();
-        String outtime=txtTimeOut.getText().trim();
+        //variable definition, aka fetching data from all over the place
+        String nickname=lblNickname.getText();
+        Date date=null;
+        try {
+            date = Adjustments.prettyDateFormat.parse(lblDate.getText());
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            return;
+        }
+
+        String timeinstring=txtTimeIn.getText().trim();
+        String timeoutstring=txtTimeOut.getText().trim();
         
-        if (intime.isEmpty() && outtime.isEmpty())
+        Adjustment inadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
+        Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+
+        
+        if (timeinstring.isEmpty() && timeoutstring.isEmpty())
         {
 //            //mark employee as absent
             int n = JOptionPane.showConfirmDialog(
@@ -499,23 +515,64 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
             if (n == JOptionPane.YES_OPTION) {
-                newAbsentAdjustment();
+                newAbsentAdjustment(inadjustment,outadjustment, nickname, date);
             }   
-        
         }
-        else if(intime.toLowerCase().contains("absent") && outtime.toLowerCase().contains("absent"))
+        else if(timeinstring.toLowerCase().contains("absent") && timeoutstring.toLowerCase().contains("absent"))
         {
-            newAbsentAdjustment();
+            newAbsentAdjustment(inadjustment,outadjustment, nickname, date);
         }
-        else if(intime.isEmpty() || outtime.isEmpty())
+        else if(timeinstring.isEmpty() || timeoutstring.isEmpty())
         {
             JOptionPane.showMessageDialog (this, "Please fill in both Time In and Time Out", "Error", JOptionPane.PLAIN_MESSAGE);
         }        
         else
         {
             try {
-                Date datein=Adjustments.prettyDateTimeFormat.parse(lblDate.getText()+" "+intime);
-                Date dateout=Adjustments.prettyDateTimeFormat.parse(lblDate.getText()+" "+outtime);
+//                Date datetimein=Adjustments.prettyDateTimeFormat.parse(lblDate.getText()+" "+intime);
+//                Date datetimeout=Adjustments.prettyDateTimeFormat.parse(lblDate.getText()+" "+outtime);
+                
+                //assured by this time that neither of the timestrings are empty
+                Time timein=new Time(Adjustments.prettyTimeFormat.parse(timeinstring).getTime());
+                Time timeout=new Time(Adjustments.prettyTimeFormat.parse(timeoutstring).getTime());
+
+                WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+                CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
+                
+                //not absent
+                if(edatamap!=null)
+                {
+                    TimeInOutData data = edatamap.get(Holidays.dateFormat.format(date));
+    
+                    //not absent
+                    if(data!=null)
+                    {
+                        //time input is same as employee time data - no adjustment
+                        if(timein.equals(data.getInTime()))
+                        {
+//                            System.out.println("match");
+                            //there should be no adjustment
+                            //if there is, remove it
+                            if(inadjustment!=null)
+                                Adjustments.getInstance().delete(inadjustment);
+                        }
+                        //employee time data exists but 
+                        //not equal to input - adjustment required
+                        //2 possibilities - new time, or absent
+                        //possibility 1: absent
+                        else if()
+                        {
+                        }
+                        
+                        if(timeout.equals(data.getOutTime()))
+                        {
+                            if(outadjustment!=null)
+                                Adjustments.getInstance().delete(inadjustment);
+                        }
+                    }
+                }
+                
+                
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -523,8 +580,46 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
-    private void newAbsentAdjustment()
+    private void newAbsentAdjustment(Adjustment existinginadj,Adjustment existingoutadj,String nickname,Date date)
     {
+        Adjustment a;
+        
+        //if no adjustment exists, create it and add to list
+        if(existinginadj==null)
+        {
+            a=new Adjustment();
+            Adjustments.getInstance().add(a);
+        }
+        //else change value of existing adjustment
+        else
+        {
+            a=existinginadj;
+        }
+        
+        a.setEmployeeNickname(nickname);
+        a.setType(Adjustment.IN);
+        a.setDate(date);
+        a.setTime(null);
+        a.setAbsent(true);
+        
+        //if no adjustment exists, create it and add to list
+        if(existingoutadj==null)
+        {
+            a=new Adjustment();
+            Adjustments.getInstance().add(a);
+        }
+        //else change value of existing adjustment
+        else
+        {
+            a=existingoutadj;
+        }
+        
+        a.setEmployeeNickname(nickname);
+        a.setType(Adjustment.OUT);
+        a.setDate(date);
+        a.setTime(null);
+        a.setAbsent(true);
+        
     }
     
     private void btnExit2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit2ActionPerformed
@@ -657,12 +752,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             return;
         }
         
-        SimpleDateFormat prettyDateFormat = new SimpleDateFormat("EE, MMMM dd, yyyy");
-
         String datestring = Dates.getInstance().getItems().get(listDates.getSelectedIndex());
         String prettydatestring="";
         try {
-            prettydatestring=prettyDateFormat.format(Holidays.dateFormat.parse(datestring));
+            prettydatestring=Adjustments.prettyDateFormat.format(Holidays.dateFormat.parse(datestring));
         } catch (ParseException ex) {
             ex.printStackTrace();
         }

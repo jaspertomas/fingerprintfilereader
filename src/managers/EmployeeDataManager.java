@@ -433,7 +433,8 @@ public class EmployeeDataManager {
         weeklydata = new WeeklyTimeData();
         for (ArrayList<TimeRecord> timerecordlist : timerecordsbyemployee.values()) {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
-            weeklydata.put(timerecordlist.get(0).getName(), edatamap);
+            if(edatamap!=null)
+                weeklydata.put(timerecordlist.get(0).getName(), edatamap);
         }
         printPayrollOutput();
     }

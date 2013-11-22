@@ -5,6 +5,8 @@
 package models;
 
 import java.sql.Time;
+import java.util.Date;
+import java.util.Date;
 import managers.EmployeeDataManager;
 
 /**
@@ -66,6 +68,14 @@ public class TimeInOutData {
 //                +String.format("%02d", time.getMinutes());
         return Adjustments.prettyTimeFormat.format(time);
     }    
+    public Date getInTime()
+    {
+        return in.getTime();
+    }
+    public Date getOutTime()
+    {
+        return out.getTime();
+    }        
     public Integer getTimeDiffMinutes()
     {
         long difference;
