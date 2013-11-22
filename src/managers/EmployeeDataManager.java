@@ -460,8 +460,6 @@ public class EmployeeDataManager {
                 data.getIn().setTime(a.getTime());
             else if(a.getType()==Adjustment.OUT)
                 data.getOut().setTime(a.getTime());
-            System.out.println(data.getIn().getTime().toString());
-            System.out.println(data.getOut().getTime().toString());
         }    
     }
 
