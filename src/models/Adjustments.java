@@ -41,8 +41,8 @@ public class Adjustments {
         return items;
     }
     public void reset() {
-//        items.clear();
-        dump();
+        items.clear();
+//        dump();
         
     }
     public void dump()

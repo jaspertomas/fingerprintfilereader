@@ -781,23 +781,34 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             return;
         }
         
+        String nickname=lblNickname.getText();
+        Date date=null;
+
+        //write date label
         String datestring = Dates.getInstance().getItems().get(listDates.getSelectedIndex());
         String prettydatestring="";
         try {
-            prettydatestring=Adjustments.prettyDateFormat.format(Holidays.dateFormat.parse(datestring));
+            date=Holidays.dateFormat.parse(datestring);
+            prettydatestring=Adjustments.prettyDateFormat.format(date);
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
-        
-        //write date label
         lblDate.setText(prettydatestring);
         
-        //operation start
+        
         WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
-        CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
+        CompiledEmployeeData edatamap = weeklydata.get(nickname);
         if(edatamap==null)return;
         
         TimeInOutData data = edatamap.get(datestring);
+        
+        Adjustments adjustments=Adjustments.getInstance();
+        Adjustment inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
+        Adjustment outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+        
+        //operation start
+        if()
+        
         if (data == null) {
             txtTimeIn.setText("(Absent)");
             txtTimeOut.setText("(Absent)");
