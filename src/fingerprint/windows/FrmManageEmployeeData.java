@@ -547,49 +547,54 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 return;
             }
             
-            /*
-             
+            WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+            CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
 
-                WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
-                CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
-                
-                //not absent
-                if(edatamap!=null)
+            //process starts
+            
+            //if completely absent in employee data
+            if(edatamap==null)
+            {
+                //do nothing - no payroll
+            }
+            else
+            {
+                TimeInOutData data = edatamap.get(Holidays.dateFormat.format(date));
+
+                //if absent in employee data (?)
+                if(data==null)
                 {
-                    TimeInOutData data = edatamap.get(Holidays.dateFormat.format(date));
-    
-                    //not absent
-                    if(data!=null)
-                    {
-                        //time input is same as employee time data - no adjustment
-                        if(timein.equals(data.getInTime()))
-                        {
-//                            System.out.println("match");
-                            //there should be no adjustment
-                            //if there is, remove it
-                            if(inadjustment!=null)
-                                Adjustments.getInstance().delete(inadjustment);
-                        }
-                        //employee time data exists but 
-                        //not equal to input - adjustment required
-                        else 
-                        {
-                            
-                        }
-                        
-                        if(timeout.equals(data.getOutTime()))
-                        {
-                            if(outadjustment!=null)
-                                Adjustments.getInstance().delete(inadjustment);
-                        }
-                        else 
-                        {
-                        }                        
-                    }
+                    //create adjustment
                 }
-                
-                             
-             */
+                //if not absent in employee data
+                else
+                {
+                    //time input is same as employee time data - no adjustment
+                    if(timein.equals(data.getInTime()))
+                    {
+//                            System.out.println("match");
+                        //there should be no adjustment
+                        //if there is, remove it
+                        if(inadjustment!=null)
+                            Adjustments.getInstance().delete(inadjustment);
+                    }
+                    //employee time data exists but 
+                    //not equal to input - adjustment required
+                    else 
+                    {
+
+                    }
+
+                    if(timeout.equals(data.getOutTime()))
+                    {
+                        if(outadjustment!=null)
+                            Adjustments.getInstance().delete(inadjustment);
+                    }
+                    else 
+                    {
+                    }                        
+                }
+            }            
         }
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
