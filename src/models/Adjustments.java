@@ -25,6 +25,7 @@ public class Adjustments {
         return instance;
     }
     //---------------VARIABLES---------------------  
+    public static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     
     ArrayList<Adjustment> items;//,allItems=new ArrayList<Adjustment>();
 
@@ -42,35 +43,33 @@ public class Adjustments {
     {
         items.remove(holiday);
     }
-    public void add(Adjustment holiday)
+
+    public void edit(Adjustment a,String name, Integer type, Date date, String time)
     {
-        items.add(holiday);
-    }    
-    public void edit(Adjustment h,String name, Integer type, Date date)
-    {
-        
-        h.setName(name);
-        h.setType(type);
-        h.setDate(date);
+        if(a==null)
+        {
+            a=new Adjustment();
+        }
+        a.setEmployeeNickname(name);
+        a.setType(type);
+        a.setDate(date);
+        a.setTime(time);
         
     }      
 
-    public Adjustment getByDate(Date date) {
-        for(Adjustment h:items)
+    public Adjustment getByNicknameTypeAndDate(String name, Integer type, Date date) {
+        for(Adjustment a:items)
         {
-            if(h.getDate().equals(date))
-                return h;
+            if(
+                    a.getEmployeeNickname().contentEquals(name)
+                    &&
+                    a.getType()==type
+                    &&
+                    a.getDate().equals(date)
+                )
+                return a;
         }
         return null;
-    }
-
-    public Adjustment getByName(String name) {
-        for(Adjustment h:items)
-        {
-            if(h.getName().equals(name))
-                return h;
-        }
-        return null;
-    }    
+    }   
 
 }

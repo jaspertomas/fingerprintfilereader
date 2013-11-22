@@ -11,24 +11,30 @@ import java.util.Date;
  * @author jaspertomas
  */
 public class Adjustment {//implements Comparable<Adjustment> 
-    String name="";
-    Integer type=0;
+    public static final Integer IN=1;
+    public static final Integer OUT=2;
+    
+    String employeeNickname;
+    Integer type;
     Date date;
+    String time;
 
-    public Adjustment() {}
- 
-    public Adjustment(String name,Integer type, Date date) {
-        this.name = name;
+    public Adjustment() {
+    }
+
+    public Adjustment(String employeeNickname, Date date, Integer type, String time) {
+        this.employeeNickname = employeeNickname;
         this.type = type;
         this.date = date;
+        this.time = time;
     }
 
-    public String getName() {
-        return name;
+    public String getEmployeeNickname() {
+        return employeeNickname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmployeeNickname(String employeeNickname) {
+        this.employeeNickname = employeeNickname;
     }
 
     public Integer getType() {
@@ -47,24 +53,18 @@ public class Adjustment {//implements Comparable<Adjustment>
         this.date = date;
     }
 
-    
-    public String toString()
-    {
-        return name;
+    public String getTime() {
+        return time;
     }
 
-//    public String getFullName() {
-//        return fname + " " +mname + " "+lname;
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    
+//    public String toString()
+//    {
+//        return employeeNickname;
 //    }
 
-//@Override public int compareTo(Adjustment aThat) {
-//    final int BEFORE = -1;
-//    final int EQUAL = 0;
-//    final int AFTER = 1;
-//    
-//    if (this.date.before(aThat.getDate())) return BEFORE;
-//    else if (this.date.after(aThat.getDate())) return AFTER;
-//    //if date is equal, compare by name alphabetically
-//    else return this.name.compareTo(aThat.getName());
-//  }
 }
