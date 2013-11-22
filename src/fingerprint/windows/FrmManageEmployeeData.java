@@ -242,7 +242,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         lblDate.setText("Date");
 
-        btnRevertAll.setText("Revert All");
+        btnRevertAll.setText("Revert All Adjustments");
         btnRevertAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRevertAllActionPerformed(evt);
@@ -326,7 +326,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                         .add(1, 1, 1)
                                         .add(btnSaveTimes)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .add(btnRevertAll)
+                                        .add(btnRevertAll, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                         .add(btnExit2))
                                     .add(layout.createSequentialGroup()
@@ -556,6 +556,12 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 return;
             }
             
+            if(timeout.before(timein))
+            {
+                JOptionPane.showMessageDialog(this, "Time Out must not be earlier than Time In", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
             CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
 
@@ -748,8 +754,19 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         }
 
         Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
-//        System.out.println(e);
-        lblNickname.setText(e.getNickname());
+        String nickname=e.getNickname();
+
+        if(nickname.trim().isEmpty())
+        {
+            lblNickname.setText("(Nickname not set!)");
+            lblNickname2.setText("(Nickname not set!)");
+        }
+        else
+        {
+            lblNickname.setText(e.getNickname());
+            lblNickname2.setText(e.getNickname());
+        }
+        
         txtFname.setText(e.getFname());
         txtMname.setText(e.getMname());
         txtLname.setText(e.getLname());
@@ -759,7 +776,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         enableButtons(false);
 
         //for time in / out adjustment
-        lblNickname2.setText(e.getNickname());
         refreshDateList();
         txtTimeIn.setText("");
         txtTimeOut.setText("");
