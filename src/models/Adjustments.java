@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,7 +53,7 @@ public class Adjustments {
         items.remove(holiday);
     }
 
-    public void edit(Adjustment a,String name, Integer type, Date date, String time,Boolean absent)
+    public void edit(Adjustment a,String name, Integer type, Date date, Time time,Boolean absent)
     {
         if(a==null)
         {

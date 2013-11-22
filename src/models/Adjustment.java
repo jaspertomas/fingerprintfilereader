@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -17,7 +18,7 @@ public class Adjustment {//implements Comparable<Adjustment>
     String employeeNickname;
     Integer type;
     Date date;
-    String time;
+    Time time;
     Boolean absent=false;
 
     public Adjustment() {
@@ -54,11 +55,11 @@ public class Adjustment {//implements Comparable<Adjustment>
         this.date = date;
     }
 
-    public String getTime() {
+    public Time getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Time time) {
         this.time = time;
     }
 

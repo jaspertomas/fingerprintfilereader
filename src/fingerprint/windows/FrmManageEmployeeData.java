@@ -27,6 +27,7 @@ import models.Holidays;
 import models.TimeInOutData;
 import models.WeeklyTimeData;
 
+
 /**
  *
  * @author jaspertomas
@@ -515,13 +516,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
             if (n == JOptionPane.YES_OPTION) {
-                newAbsentAdjustment(inadjustment,outadjustment, nickname, date);
+                newAbsentAdjustment(inadjustment, nickname, Adjustment.IN,date);
+                newAbsentAdjustment(outadjustment, nickname, Adjustment.OUT,date);
             }   
         }
         //string "absent" explicitly written in both textboxes
         else if(timeinstring.toLowerCase().contains("absent") && timeoutstring.toLowerCase().contains("absent"))
         {
-            newAbsentAdjustment(inadjustment,outadjustment, nickname, date);
+            newAbsentAdjustment(inadjustment, nickname, Adjustment.IN,date);
+            newAbsentAdjustment(outadjustment, nickname, Adjustment.OUT,date);
         }
         //ambiguous - one is empty, the other is not
         else if(timeinstring.isEmpty() || timeoutstring.isEmpty())
@@ -565,11 +568,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 if(data==null)
                 {
                     //create adjustment
+                    //in
+                    modifyAdjustment( inadjustment, nickname,  Adjustment.IN, date,  timein);
+                    modifyAdjustment( outadjustment, nickname,  Adjustment.OUT, date,  timeout);
                 }
                 //if not absent in employee data
                 else
                 {
-                    //time input is same as employee time data - no adjustment
+                    //if time input is same as employee time data - no adjustment
                     if(timein.equals(data.getInTime()))
                     {
 //                            System.out.println("match");
@@ -582,7 +588,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     //not equal to input - adjustment required
                     else 
                     {
-
+                        modifyAdjustment( inadjustment, nickname,  Adjustment.IN, date,  timein);
                     }
 
                     if(timeout.equals(data.getOutTime()))
@@ -592,18 +598,41 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     }
                     else 
                     {
+                        modifyAdjustment( outadjustment, nickname,  Adjustment.OUT, date,  timeout);
                     }                        
                 }
             }            
         }
     }//GEN-LAST:event_btnSaveTimesActionPerformed
 
-    private void newAbsentAdjustment(Adjustment existinginadj,Adjustment existingoutadj,String nickname,Date date)
+    private void modifyAdjustment(Adjustment existingadj,String nickname, Integer type,Date date, Time time) {
+        //if adjustment does not exist, create it
+        Adjustment a;
+        
+        //if no adjustment exists, create it and add to list
+        if(existingadj==null)
+        {
+            a=new Adjustment();
+            Adjustments.getInstance().add(a);
+        }
+        //else change value of existing adjustment
+        else
+        {
+            a=existingadj;
+        }
+        a.setEmployeeNickname(nickname);
+        a.setType(type);
+        a.setDate(date);
+        a.setTime(time);
+        a.setAbsent(false);
+        
+    }
+    private void newAbsentAdjustment(Adjustment existingadj,String nickname, Integer type,Date date)
     {
         Adjustment a;
         
         //if no adjustment exists, create it and add to list
-        if(existinginadj==null)
+        if(existingadj==null)
         {
             a=new Adjustment();
             Adjustments.getInstance().add(a);
@@ -611,29 +640,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         //else change value of existing adjustment
         else
         {
-            a=existinginadj;
+            a=existingadj;
         }
         
         a.setEmployeeNickname(nickname);
-        a.setType(Adjustment.IN);
-        a.setDate(date);
-        a.setTime(null);
-        a.setAbsent(true);
-        
-        //if no adjustment exists, create it and add to list
-        if(existingoutadj==null)
-        {
-            a=new Adjustment();
-            Adjustments.getInstance().add(a);
-        }
-        //else change value of existing adjustment
-        else
-        {
-            a=existingoutadj;
-        }
-        
-        a.setEmployeeNickname(nickname);
-        a.setType(Adjustment.OUT);
+        a.setType(type);
         a.setDate(date);
         a.setTime(null);
         a.setAbsent(true);
@@ -831,9 +842,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         //select first element
         listDates.setSelectedIndex(0);
         onDateSelect();
-    }    
-}
+    }
 
+}
 class EmployeeListSelectionHandler implements ListSelectionListener {
 
     @Override
