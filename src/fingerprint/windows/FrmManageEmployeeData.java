@@ -761,6 +761,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         //for time in / out adjustment
         lblNickname2.setText(e.getNickname());
         refreshDateList();
+        txtTimeIn.setText("");
+        txtTimeOut.setText("");
 //        lblDate.setText(e.getNickname());
     
     }
