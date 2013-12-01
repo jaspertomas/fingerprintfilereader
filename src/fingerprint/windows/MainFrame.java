@@ -137,7 +137,7 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        btnAbout.setText("About PlanetCompassion.net");
+        btnAbout.setText("About ITForHumanity.com");
         btnAbout.setActionCommand("About");
         btnAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
