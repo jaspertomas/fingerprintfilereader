@@ -206,8 +206,14 @@ public class EmployeeDataManager {
 //    }
 
     public void printPayrollOutput() {
+        Double regularholidayratewithwork=130d;//(percent)
+        Double regularholidayratenowork=100d;//(percent)
+        Double specialholidayratewithwork=260d;//(percent)
+        Double specialholidayratenowork=100d;//(percent)
         
-        DecimalFormat format = new DecimalFormat("##0.00");
+        
+        
+        DecimalFormat format = new DecimalFormat(",##0.00");
         
         //clear the textarea
         jTextArea.setText("");
@@ -368,14 +374,14 @@ public class EmployeeDataManager {
             
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\r\n";
-            tempstring+="Regular Rate: P"+regularrate+"/day\n";
-            tempstring+="Regular Pay: P"+regularpay+"\r\n";
+            tempstring+="Regular Rate: P "+format.format(regularrate)+"/day\n";
+            tempstring+="Regular Pay: P "+format.format(regularpay)+"\r\n";
             tempstring+="Overtime Minutes: "+totalovertimeminutes+" minutes ("+totalovertimeminutes/60+" hours "+totalovertimeminutes%60+" minutes)\r\n";
-            tempstring+="Overtime Rate: P"+overtimerate+"/day\n";
-            tempstring+="Overtime Pay: P"+overtimepay+"\r\n";
-            tempstring+="Gross Salary: "+grosspay+"\r\n";
-            tempstring+="Total COLA: "+totalcola+"\r\n";
-            tempstring+="Deductions: "+deductions+"\r\n";
+            tempstring+="Overtime Rate: P "+format.format(overtimerate)+"/day\n";
+            tempstring+="Overtime Pay: P "+format.format(overtimepay)+"\r\n";
+            tempstring+="Gross Salary: P "+format.format(grosspay)+"\r\n";
+            tempstring+="Total COLA: P "+format.format(totalcola)+"\r\n";
+            tempstring+="Deductions: P "+format.format(deductions)+"\r\n";
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
             tempstring+="==============================\n\n";
@@ -458,6 +464,7 @@ public class EmployeeDataManager {
         {
             CompiledEmployeeData edatamap = weeklydata.get(a.getEmployeeNickname());
             TimeInOutData data = edatamap.get(Holidays.dateFormat.format(a.getDate()));
+            if(data==null)continue;
             if(a.getType()==Adjustment.IN)
                 data.getIn().setTime(a.getTime());
             else if(a.getType()==Adjustment.OUT)

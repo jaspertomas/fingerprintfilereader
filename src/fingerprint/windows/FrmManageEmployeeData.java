@@ -454,9 +454,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             e.setFname(txtFname.getText());
             e.setMname(txtMname.getText());
             e.setLname(txtLname.getText());
-            e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim()));
-            e.setCola(Double.valueOf(txtCola.getText().trim()));
-            e.setDeduction(Double.valueOf(txtDeduction.getText().trim()));
+            e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim().isEmpty()?"0":txtSalary.getText().trim()));
+            e.setCola(Double.valueOf(txtCola.getText().trim().isEmpty()?"0":txtCola.getText().trim()));
+            e.setDeduction(Double.valueOf(txtDeduction.getText().trim().isEmpty()?"0":txtDeduction.getText().trim()));
 
             EmployeeFileManager.getInstance().save();
 

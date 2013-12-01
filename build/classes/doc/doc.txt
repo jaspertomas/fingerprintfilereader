@@ -1,0 +1,6 @@
+bug with dannY: 830 in, 821 out
+
+if save is needed,
+on select other employee without save,
+joptionpane yes no
+
