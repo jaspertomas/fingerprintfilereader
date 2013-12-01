@@ -169,7 +169,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnRecalculate">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Recalculate"/>
+        <Property name="text" type="java.lang.String" value="Adjust Date Range"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>

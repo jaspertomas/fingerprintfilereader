@@ -6,11 +6,13 @@ package fingerprint.windows;
 
 import java.awt.Font;
 import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
 import managers.EmployeeFileManager;
+import models.Dates;
 import utils.fileaccess.FileWriter;
 
 /**
@@ -102,7 +104,7 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        btnRecalculate.setText("Recalculate");
+        btnRecalculate.setText("Adjust Date Range");
         btnRecalculate.setToolTipText("");
         btnRecalculate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -261,6 +263,8 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnManageEmployeeDataActionPerformed
 
     private void btnRecalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecalculateActionPerformed
+        Dates.getInstance().adjust(txtStartDate.getText(), txtEndDate.getText());
+        
         recalculate();
     }//GEN-LAST:event_btnRecalculateActionPerformed
 

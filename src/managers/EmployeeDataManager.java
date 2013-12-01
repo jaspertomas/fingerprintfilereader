@@ -206,10 +206,10 @@ public class EmployeeDataManager {
 //    }
 
     public void printPayrollOutput() {
-        Double regularholidayratewithwork=130d;//(percent)
         Double regularholidayratenowork=100d;//(percent)
-        Double specialholidayratewithwork=260d;//(percent)
-        Double specialholidayratenowork=100d;//(percent)
+        Double regularholidayratewithwork=200d;//(percent)
+        Double specialholidayratenowork=0d;//(percent)
+        Double specialholidayratewithwork=130d;//(percent)
         
         
         
