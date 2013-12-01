@@ -5,11 +5,14 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import models.Adjustments;
 
 /**
  * from: http://stackoverflow.com/questions/6135668/reading-integer-values-from-binary-file-using-java
@@ -20,6 +23,8 @@ public final class BinaryFileReader {
      * Change these settings before running this class.
      */
     private static final String OUTPUT_FILE_NAME = "test.bin";
+    public static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     /**
      * Run the example.
@@ -76,9 +81,14 @@ public final class BinaryFileReader {
             return null;
         }
     }
-    public Date readDate(SimpleDateFormat dateFormat) throws ParseException {        
+    public Date readDate() throws ParseException {        
         return dateFormat.parse(readString());
     }    
+    public Time readTime() throws ParseException {        
+        return new Time(timeFormat.parse(readString()).getTime());
+    }    
+
+    
     public Boolean readBoolean() {
         return Boolean.valueOf(readString());
     }

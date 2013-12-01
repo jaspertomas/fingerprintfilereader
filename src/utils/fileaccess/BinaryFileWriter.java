@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -18,6 +19,8 @@ public final class BinaryFileWriter {
 
 
     private static final String OUTPUT_FILE_NAME = "test.bin";
+    public static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     public static void main(String... aArgs){
         BinaryFileWriter test = new BinaryFileWriter();
@@ -73,8 +76,11 @@ public final class BinaryFileWriter {
             return false;
         }
     }
-    public boolean writeDate(Date d,SimpleDateFormat dateFormat) {        
+    public boolean writeDate(Date d) {        
         return writeString(dateFormat.format(d));
+    }
+    public boolean writeTime(Time t) {        
+        return writeString(timeFormat.format(t));
     }
     public boolean writeBoolean(Boolean b) {
         return writeString(b.toString());

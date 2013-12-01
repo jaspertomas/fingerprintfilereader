@@ -627,18 +627,24 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         if(existingadj==null)
         {
             a=new Adjustment();
+            a.setEmployeeNickname(nickname);
+            a.setType(type);
+            a.setDate(date);
+            a.setTime(time);
+            a.setAbsent(false);
             Adjustments.getInstance().add(a);
         }
         //else change value of existing adjustment
         else
         {
             a=existingadj;
+//            a.setEmployeeNickname(nickname);
+//            a.setType(type);
+//            a.setDate(date);
+//            a.setTime(time);
+//            a.setAbsent(false);
+            Adjustments.getInstance().edit(a,nickname,type,date,time,false);
         }
-        a.setEmployeeNickname(nickname);
-        a.setType(type);
-        a.setDate(date);
-        a.setTime(time);
-        a.setAbsent(false);
         
     }
     private void newAbsentAdjustment(Adjustment existingadj,String nickname, Integer type,Date date)

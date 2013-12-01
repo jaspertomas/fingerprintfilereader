@@ -34,13 +34,12 @@ public class Adjustments {
     //---------------VARIABLES---------------------  
     private static final String OUTPUT_FILE_NAME = "adjustments.dat";    
     
-    public static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     public static final SimpleDateFormat prettyTimeFormat = new SimpleDateFormat("hh:mm a");
     public static final SimpleDateFormat prettyDateTimeFormat = new SimpleDateFormat("EE, MMMM dd, yyyy hh:mm a");
     public static final SimpleDateFormat prettyDateFormat = new SimpleDateFormat("EE, MMMM dd, yyyy");
 
     
-    ArrayList<Adjustment> items=new ArrayList<Adjustment>();
+    ArrayList<Adjustment> items;
 
     public ArrayList<Adjustment> getItems() {
         if(items==null)
@@ -116,8 +115,8 @@ public class Adjustments {
         {
             writer.writeString(item.getEmployeeNickname());
             writer.writeInt(item.getType());
-            writer.writeDate(item.getDate(), prettyDateFormat);
-            writer.writeDate(item.getTime(), prettyTimeFormat);
+            writer.writeDate(item.getDate());
+            writer.writeTime(item.getTime());
             writer.writeBoolean(item.getAbsent());
         }
         writer.close(); 
@@ -153,8 +152,8 @@ public class Adjustments {
                 item.setEmployeeNickname(reader.readString());
                 if(!reader.notEOF())break;
                 item.setType(reader.readInt());
-                item.setDate(reader.readDate(prettyDateFormat));
-                item.setTime((Time)reader.readDate(prettyDateFormat));
+                item.setDate(reader.readDate());
+                item.setTime(reader.readTime());
                 item.setAbsent(reader.readBoolean());
                 items.add(item);
             } catch (ParseException ex) {
