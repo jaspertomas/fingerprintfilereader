@@ -211,9 +211,9 @@ public class EmployeeDataManager {
 
     public void printPayrollOutput() {
         Double regularholidayratenowork=100d;//(percent)
-        Double regularholidayratewithwork=200d;//(percent)
+        Double regularholidayratewithwork=200d-100;//(percent)
         Double specialholidayratenowork=0d;//(percent)
-        Double specialholidayratewithwork=130d;//(percent)
+        Double specialholidayratewithwork=130d-100;//(percent)
         
         
         
@@ -244,7 +244,9 @@ public class EmployeeDataManager {
 
             totalregularminutes=0;
             totalovertimeminutes=0;
-            
+
+            holidaybonus=0d;
+                        
 //            e=EmployeeFileManager.getInstance().getEmployees().getByNickname(name);
             if(e==null)
             {
@@ -254,6 +256,7 @@ public class EmployeeDataManager {
                 jTextArea.append(tempstring);
                 continue;
             }
+            
             String ename=e.getLname()+", "+e.getFname()+" "+e.getMname();
             if(ename.trim().contentEquals(","))
                 tempstring="(Employee name not set)"+"\r\n";
@@ -273,7 +276,6 @@ public class EmployeeDataManager {
 
                 //process holiday bonus first
                 try {
-                    holidaybonus=0d;
                     holiday=Holidays.getInstance().getByDateString(date);
                 } catch (ParseException ex) {
                     ex.printStackTrace();
@@ -308,10 +310,27 @@ public class EmployeeDataManager {
                         //if absent
                         if (data == null) {
 //                            specialholidayratenowork
+                            Double holidaybonusrate=specialholidayratenowork;
+                            Double holidayregularrate=e.getMonthlySalary();
+//                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
+                            Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
+//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+                            holidaybonus+=holidayregularpay;
+                            tempstring+="Holiday Additional (Absent): P "+format.format(holidayregularpay)+"\r\n";
                         }
                         else
                         {
 //                            specialholidayratewithwork
+                            Double holidaybonusrate=specialholidayratewithwork;
+                            
+                            Double holidayregularrate=e.getMonthlySalary();
+//                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
+                            Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
+//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+                            holidaybonus+=holidayregularpay;
+                            tempstring+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
+
+                            
                         }
                     }
                     
@@ -427,7 +446,7 @@ public class EmployeeDataManager {
             cola=e.getCola();
             totalcola=cola*edatamap.size();
             deductions=e.getDeduction();
-            netpay=grosspay+totalcola-deductions;
+            netpay=grosspay+totalcola-deductions+holidaybonus;
             
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\r\n";
@@ -438,6 +457,8 @@ public class EmployeeDataManager {
             tempstring+="Overtime Pay: P "+format.format(overtimepay)+"\r\n";
             tempstring+="Gross Salary: P "+format.format(grosspay)+"\r\n";
             tempstring+="Total COLA: P "+format.format(totalcola)+"\r\n";
+//            if(holidaybonus!=0)
+                tempstring+="Holiday Additional: P "+format.format(holidaybonus)+"\r\n";
             tempstring+="Deductions: P "+format.format(deductions)+"\r\n";
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
