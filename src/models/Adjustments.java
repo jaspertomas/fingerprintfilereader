@@ -57,6 +57,9 @@ public class Adjustments {
     }
     public void dump()
     {
+        //initialize if necessary
+        getItems();
+        
         for(Adjustment a:items)
         {
             System.out.println(a);
@@ -65,11 +68,17 @@ public class Adjustments {
 
     public void add(Adjustment adjustment)
     {
+        //initialize if necessary
+        getItems();
+        
         items.add(adjustment);
         save();
     }
     public void delete(Adjustment adjustment)
     {
+        //initialize if necessary
+        getItems();
+        
         items.remove(adjustment);
         save();
     }
@@ -89,6 +98,9 @@ public class Adjustments {
     }      
 
     public Adjustment getByNicknameTypeAndDate(String name, Integer type, Date date) {
+        //initialize if necessary
+        getItems();
+        
         for(Adjustment a:items)
         {
             if(
@@ -106,7 +118,10 @@ public class Adjustments {
 
     public void save()
     {
-//        Collections.sort(items);
+        //initialize if necessary
+        getItems();
+        
+        //        Collections.sort(items);
         
         BinaryFileWriter writer = new BinaryFileWriter();
         writer.connectToFile(OUTPUT_FILE_NAME);

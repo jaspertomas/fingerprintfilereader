@@ -58,6 +58,9 @@ public class Holidays {
 
     public void save()
     {
+        //initialize if necessary
+        getItems();
+        
         BinaryFileWriter writer = new BinaryFileWriter();
         writer.connectToFile(OUTPUT_FILE_NAME);
         
@@ -167,12 +170,18 @@ public class Holidays {
     }
     public void delete(Holiday holiday)
     {
+        //initialize if necessary
+        getItems();
+        
         allItems.remove(holiday);
         save();
         items.remove(holiday);
     }
     public void add(Holiday holiday)
     {
+        //initialize if necessary
+        getItems();
+        
         allItems.add(holiday);
         Collections.sort(allItems);
         save();
@@ -181,7 +190,9 @@ public class Holidays {
     }    
     public void edit(Holiday h,String name, Integer type, Date date)
     {
-        
+        //initialize if necessary
+        getItems();
+                
         h.setName(name);
         h.setType(type);
         h.setDate(date);
@@ -192,6 +203,9 @@ public class Holidays {
     }      
 
     public Holiday getByDate(Date date) {
+        //initialize if necessary
+        getItems();
+        
         for(Holiday h:items)
         {
             if(h.getDate().equals(date))
@@ -200,6 +214,9 @@ public class Holidays {
         return null;
     }
     public Holiday getByDateString(String datestring) throws ParseException {
+        //initialize if necessary
+        getItems();
+        
         Date date=dateFormat.parse(datestring);
         for(Holiday h:items)
         {
@@ -210,6 +227,9 @@ public class Holidays {
     }
 
     public Holiday getByName(String name) {
+        //initialize if necessary
+        getItems();
+        
         for(Holiday h:items)
         {
             if(h.getName().equals(name))

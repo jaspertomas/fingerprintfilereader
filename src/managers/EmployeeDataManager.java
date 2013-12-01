@@ -291,6 +291,7 @@ public class EmployeeDataManager {
                     //add holiday bonus
                     if(holiday.getType()==Holidays.REGULAR)
                     {
+                        tempstring+="Regular Holiday: "+holiday.getName()+"\n";
                         //if absent
                         if (data == null) {
 //                            regularholidayratenowork
@@ -302,6 +303,7 @@ public class EmployeeDataManager {
                     }
                     else if(holiday.getType()==Holidays.SPECIAL)
                     {
+                        tempstring+="Special Non-working Holiday: "+holiday.getName()+"\n";
                         //for example, november 1
                         //if absent
                         if (data == null) {

@@ -373,7 +373,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         setVisible(false);
         MainFrame.getInstance().setVisible(true);
-//        MainFrame.getInstance().recalculate();
+        MainFrame.getInstance().recalculate();
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnNextYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextYearActionPerformed
