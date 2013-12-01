@@ -199,6 +199,15 @@ public class Holidays {
         }
         return null;
     }
+    public Holiday getByDateString(String datestring) throws ParseException {
+        Date date=dateFormat.parse(datestring);
+        for(Holiday h:items)
+        {
+            if(h.getDate().equals(date))
+                return h;
+        }
+        return null;
+    }
 
     public Holiday getByName(String name) {
         for(Holiday h:items)

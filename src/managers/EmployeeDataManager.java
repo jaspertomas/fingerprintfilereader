@@ -7,9 +7,12 @@ package managers;
 import java.io.File;
 import java.sql.Time;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,6 +24,7 @@ import models.Constants;
 import models.DateUtil;
 import models.Employee;
 import models.EmployeeNameList;
+import models.Holiday;
 import models.Holidays;
 import models.TimeInOutData;
 import models.TimeRecord;
@@ -228,6 +232,9 @@ public class EmployeeDataManager {
         TimeInOutData data;
         Double regularrate,overtimerate,cola,regularpay,overtimepay,grosspay,totalcola,deductions,netpay;
         Integer days,regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
+        Holiday holiday=null;
+        Double holidaybonus=0d;
+
 //        for (String name : employeenamelist) 
         for(Employee e:EmployeeFileManager.getInstance().getEmployees())
         {
@@ -261,6 +268,28 @@ public class EmployeeDataManager {
             }
             for (String date : dates) 
             {
+                try {
+                    holidaybonus=0d;
+                    holiday=Holidays.getInstance().getByDateString(date);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                
+                //if holiday, 
+                if(holiday!=null)
+                {
+                    //add holiday bonus
+                    if(holiday.getType()==Holidays.REGULAR)
+                    {
+                    }
+                    else if(holiday.getType()==Holidays.SPECIAL)
+                    {
+                    }
+                    
+                    
+                }
+                
+                
                 data = edatamap.get(date);
                 if (data == null) {
                     continue;
