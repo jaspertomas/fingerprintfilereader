@@ -63,6 +63,7 @@ public class MainFrame extends java.awt.Frame {
         jLabel4 = new javax.swing.JLabel();
         cmbFontSize = new javax.swing.JComboBox();
         btnSaveText = new javax.swing.JButton();
+        btnAbout = new javax.swing.JButton();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -136,6 +137,14 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
+        btnAbout.setText("About PlanetCompassion.net");
+        btnAbout.setActionCommand("About");
+        btnAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAboutActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -171,6 +180,8 @@ public class MainFrame extends java.awt.Frame {
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(btnSaveText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 219, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(btnAbout)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnExit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -200,7 +211,8 @@ public class MainFrame extends java.awt.Frame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnExit)
-                    .add(btnSaveText))
+                    .add(btnSaveText)
+                    .add(btnAbout))
                 .addContainerGap())
         );
 
@@ -305,6 +317,12 @@ public class MainFrame extends java.awt.Frame {
             saveDialog();
     }//GEN-LAST:event_btnSaveTextActionPerformed
 
+    private void btnAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        FrmAbout.getInstance().setVisible(true);
+    }//GEN-LAST:event_btnAboutActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -317,6 +335,7 @@ public class MainFrame extends java.awt.Frame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAbout;
     private javax.swing.JButton btnChooseCsvFile;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnManageEmployeeData;
