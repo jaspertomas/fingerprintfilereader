@@ -1,6 +1,23 @@
+save adjustments to file
+
+delete adjustments 366 days old
+
+------------------------
+
+------------------------
+
+
+------------------------
+EmployeeDataManager printPayrollOutput():
+
+start adding holiday bonuses
+
+research holiday rates
+------------------------
 bug with dannY: 830 in, 821 out
 
 if save is needed,
 on select other employee without save,
 joptionpane yes no
 
+------------------------

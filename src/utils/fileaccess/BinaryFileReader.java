@@ -5,6 +5,9 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,6 +76,13 @@ public final class BinaryFileReader {
             return null;
         }
     }
+    public Date readDate(SimpleDateFormat dateFormat) throws ParseException {        
+        return dateFormat.parse(readString());
+    }    
+    public Boolean readBoolean() {
+        return Boolean.valueOf(readString());
+    }
+    
 //    private static void log(Object aThing) {
 //        System.out.println(String.valueOf(aThing));
 //    }

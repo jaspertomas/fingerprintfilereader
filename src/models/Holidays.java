@@ -65,7 +65,8 @@ public class Holidays {
         {
             writer.writeString(item.getName());
             writer.writeInt(item.getType());
-            writer.writeString(dateFormat.format(item.getDate()));
+//            writer.writeString(dateFormat.format(item.getDate()));
+            writer.writeDate(item.getDate(), dateFormat);
         }
         writer.close(); 
     }

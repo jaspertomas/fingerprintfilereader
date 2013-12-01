@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,7 +64,6 @@ public final class BinaryFileWriter {
             return false;
         }
     }
-
     public boolean writeString(String s) {
         try {
             out.writeUTF(s);
@@ -71,6 +72,12 @@ public final class BinaryFileWriter {
             System.out.println("writeInt: error writing string "+s+" to file");
             return false;
         }
+    }
+    public boolean writeDate(Date d,SimpleDateFormat dateFormat) {        
+        return writeString(dateFormat.format(d));
+    }
+    public boolean writeBoolean(Boolean b) {
+        return writeString(b.toString());
     }
 //    private static void log(Object aThing) {
 //        System.out.println(String.valueOf(aThing));
