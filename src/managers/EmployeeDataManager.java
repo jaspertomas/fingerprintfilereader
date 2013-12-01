@@ -297,20 +297,38 @@ public class EmployeeDataManager {
                         //if absent
                         if (data == null) {
 //                            regularholidayratenowork
+                            Double holidaybonusrate=regularholidayratenowork;
+                            
+                            Double holidayregularrate=e.getMonthlySalary();
+//                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
+                            Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
+//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+                            holidaybonus+=holidayregularpay;
+                            tempstring+="Holiday Additional (Absent): P "+format.format(holidayregularpay)+"\r\n";
+                            
                         }
                         else
                         {
-//                              regularholidayratewithwork                            
+//                              regularholidayratewithwork      
+                            Double holidaybonusrate=regularholidayratewithwork;
+                            
+                            Double holidayregularrate=e.getMonthlySalary();
+//                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
+                            Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
+//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+                            holidaybonus+=holidayregularpay;
+                            tempstring+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
+                            
                         }
                     }
                     else if(holiday.getType()==Holidays.SPECIAL)
                     {
                         tempstring+="Special Non-working Holiday: "+holiday.getName()+"\n";
-                        //for example, november 1
                         //if absent
                         if (data == null) {
 //                            specialholidayratenowork
                             Double holidaybonusrate=specialholidayratenowork;
+                            
                             Double holidayregularrate=e.getMonthlySalary();
 //                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
                             Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
