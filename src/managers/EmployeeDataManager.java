@@ -268,29 +268,55 @@ public class EmployeeDataManager {
             }
             for (String date : dates) 
             {
+                //fetch employee attendance data
+                data = edatamap.get(date);
+
+                //process holiday bonus first
                 try {
                     holidaybonus=0d;
                     holiday=Holidays.getInstance().getByDateString(date);
                 } catch (ParseException ex) {
                     ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error","Error processing holiday data",JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-                
                 //if holiday, 
                 if(holiday!=null)
                 {
+//                    Double regularholidayratenowork=100d;//(percent)
+//                    Double regularholidayratewithwork=200d;//(percent)
+//                    Double specialholidayratenowork=0d;//(percent)
+//                    Double specialholidayratewithwork=130d;//(percent)
+                    
                     //add holiday bonus
                     if(holiday.getType()==Holidays.REGULAR)
                     {
+                        //if absent
+                        if (data == null) {
+//                            regularholidayratenowork
+                        }
+                        else
+                        {
+//                              regularholidayratewithwork                            
+                        }
                     }
                     else if(holiday.getType()==Holidays.SPECIAL)
                     {
+                        //for example, november 1
+                        //if absent
+                        if (data == null) {
+//                            specialholidayratenowork
+                        }
+                        else
+                        {
+//                            specialholidayratewithwork
+                        }
                     }
                     
                     
                 }
                 
-                
-                data = edatamap.get(date);
+                //if absent, do nothing
                 if (data == null) {
                     continue;
                 }
