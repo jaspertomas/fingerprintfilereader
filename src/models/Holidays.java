@@ -218,7 +218,7 @@ public class Holidays {
         getItems();
         
         Date date=dateFormat.parse(datestring);
-        for(Holiday h:items)
+        for(Holiday h:allItems)
         {
             if(h.getDate().equals(date))
                 return h;
