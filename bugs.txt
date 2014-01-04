@@ -1,0 +1,63 @@
+bugs
+if holiday and absent, does not compute
+if across year, error
+
+G:\fingperprint>
+G:\fingperprint>
+G:\fingperprint>
+G:\fingperprint>
+G:\fingperprint>
+G:\fingperprint>
+G:\fingperprint>
+G:\fingperprint>
+G:\fingperprint>java -jar FingerprintFileReader.jar
+Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+        at managers.EmployeeDataManager.applyAdjustments(EmployeeDataManager.jav
+a:562)
+        at managers.EmployeeDataManager.calculate(EmployeeDataManager.java:515)
+        at fingerprint.windows.MainFrame.btnChooseCsvFileActionPerformed(MainFra
+me.java:262)
+        at fingerprint.windows.MainFrame.access$200(MainFrame.java:22)
+        at fingerprint.windows.MainFrame$3.actionPerformed(MainFrame.java:95)
+        at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+        at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+        at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+        at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+        at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Sour
+ce)
+        at java.awt.Component.processMouseEvent(Unknown Source)
+        at javax.swing.JComponent.processMouseEvent(Unknown Source)
+        at java.awt.Component.processEvent(Unknown Source)
+        at java.awt.Container.processEvent(Unknown Source)
+        at java.awt.Component.dispatchEventImpl(Unknown Source)
+        at java.awt.Container.dispatchEventImpl(Unknown Source)
+        at java.awt.Component.dispatchEvent(Unknown Source)
+        at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+        at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+        at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+        at java.awt.Container.dispatchEventImpl(Unknown Source)
+        at java.awt.Window.dispatchEventImpl(Unknown Source)
+        at java.awt.Component.dispatchEvent(Unknown Source)
+        at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+        at java.awt.EventQueue.access$200(Unknown Source)
+        at java.awt.EventQueue$3.run(Unknown Source)
+        at java.awt.EventQueue$3.run(Unknown Source)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Sour
+ce)
+        at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Sour
+ce)
+        at java.awt.EventQueue$4.run(Unknown Source)
+        at java.awt.EventQueue$4.run(Unknown Source)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Sour
+ce)
+        at java.awt.EventQueue.dispatchEvent(Unknown Source)
+        at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+        at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+        at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+        at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+        at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+        at java.awt.EventDispatchThread.run(Unknown Source)
+
+

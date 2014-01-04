@@ -559,6 +559,7 @@ public class EmployeeDataManager {
         for(Adjustment a:Adjustments.getInstance().getItems())
         {
             CompiledEmployeeData edatamap = weeklydata.get(a.getEmployeeNickname());
+            if(edatamap==null)continue;
             TimeInOutData data = edatamap.get(Holidays.dateFormat.format(a.getDate()));
             if(data==null)continue;
             if(a.getType()==Adjustment.IN)
