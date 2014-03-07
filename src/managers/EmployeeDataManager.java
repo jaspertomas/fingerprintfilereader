@@ -404,7 +404,7 @@ public class EmployeeDataManager {
 //                                + "\r\n";
                 } else                       
                 //came to work at lunch break or after
-                if (data.getIn().getTime().equals(one) || data.getIn().getTime().after(one)) {
+                if (data.getIn().getTime().equals(twelve) || data.getIn().getTime().after(twelve)) {
                     tempstring+=
                             ""
                             + "\t"
@@ -415,7 +415,7 @@ public class EmployeeDataManager {
                             + data.getPrettyOutTimeString()
                             + "\r\n";
                 //left work at lunch break
-                } else if (data.getOut().getTime().equals(twelve) || data.getOut().getTime().before(twelve)) {
+                } else if (data.getOut().getTime().equals(one) || data.getOut().getTime().before(one)) {
                     tempstring+=
                             data.getPrettyInTimeString()
                             + "\t"

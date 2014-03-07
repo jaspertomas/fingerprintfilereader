@@ -1,0 +1,11 @@
+bugs
+difficulty finding missing time ins / outs
+
+danny absent - added dates, dates not processed -2014/01/02
+-explanation - adjustments not processed when both times don't exist
+
+enhancement: time in / out edit: if (Absent), on focus, empty textbox
+
+if employee is absent all of the days but there is holiday, he is not computed, holidays not computed
+
+!!!MARK AS absent causes recalc to no longer work

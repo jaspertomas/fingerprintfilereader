@@ -1,0 +1,277 @@
+Apuhin, Danny   
+- - - - - - - - - - - - - - - 
+DANNY       	2013/12/21	09:06 AM	12:00 PM	01:00 PM	05:30 PM
+DANNY       	2013/12/23	08:36 AM	12:00 PM	01:00 PM	06:51 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional: P 123.00
+DANNY       	2013/12/24	09:16 AM	11:59 AM		
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 123.00
+DANNY       	2013/12/26	08:30 AM	08:24 AM		
+- - - - - - - - - - - - - - - 
+Regular Minutes: 1081 minutes (18 hours 1 minutes)
+Regular Rate: P 410.00/day
+Regular Pay: P 923.35
+Overtime Minutes: 75 minutes (1 hours 15 minutes)
+Overtime Rate: P 512.50/day
+Overtime Pay: P 80.08
+Gross Salary: P 1,003.43
+Total COLA: P 128.00
+Holiday Additional: P 246.00
+Deductions: P 600.00
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP 777.43
+==============================
+
+Borrasca, Romulo  
+- - - - - - - - - - - - - - - 
+ROMULO      	2013/12/21	08:30 AM	12:00 PM	01:00 PM	05:31 PM
+ROMULO      	2013/12/23	08:47 AM	12:00 PM	01:00 PM	06:52 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional: P 76.50
+ROMULO      	2013/12/24	08:34 AM	12:00 PM		
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 76.50
+ROMULO      	2013/12/26	08:30 AM	08:24 AM		
+ROMULO      	2013/12/27	08:48 AM	12:00 PM	01:00 PM	05:31 PM
+- - - - - - - - - - - - - - - 
+Regular Minutes: 1623 minutes (27 hours 3 minutes)
+Regular Rate: P 255.00/day
+Regular Pay: P 862.22
+Overtime Minutes: 66 minutes (1 hours 6 minutes)
+Overtime Rate: P 318.75/day
+Overtime Pay: P 43.83
+Gross Salary: P 906.05
+Total COLA: P 160.00
+Holiday Additional: P 153.00
+Deductions: P 500.00
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP 719.05
+==============================
+
+Calahatian, Ernesto  
+- - - - - - - - - - - - - - - 
+ERNESTO     	2013/12/21	08:39 AM	12:00 PM	01:00 PM	05:30 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional (Absent): P 0.00
+Special Non-working Holiday: Day after Christmas
+Holiday Additional (Absent): P 0.00
+- - - - - - - - - - - - - - - 
+Regular Minutes: 471 minutes (7 hours 51 minutes)
+Regular Rate: P 380.00/day
+Regular Pay: P 372.88
+Overtime Minutes: 0 minutes (0 hours 0 minutes)
+Overtime Rate: P 475.00/day
+Overtime Pay: P 0.00
+Gross Salary: P 372.88
+Total COLA: P 32.00
+Holiday Additional: P 0.00
+Deductions: P 558.30
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP -153.42
+==============================
+
+Entero, Lucio  
+- - - - - - - - - - - - - - - 
+LUCIO       	2013/12/21	08:30 AM	08:26 AM		
+LUCIO       	2013/12/23	09:36 AM	12:00 PM	01:00 PM	06:53 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional: P 112.50
+LUCIO       	2013/12/24	08:35 AM	12:00 PM	01:00 PM	04:06 PM
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 112.50
+LUCIO       	2013/12/26	08:30 AM	08:27 AM		
+LUCIO       	2013/12/27	Missing time in or time out. Fingerprint login at 06:05 PM			
+- - - - - - - - - - - - - - - 
+Regular Minutes: 864 minutes (14 hours 24 minutes)
+Regular Rate: P 375.00/day
+Regular Pay: P 675.00
+Overtime Minutes: 17 minutes (0 hours 17 minutes)
+Overtime Rate: P 468.75/day
+Overtime Pay: P 16.60
+Gross Salary: P 691.60
+Total COLA: P 160.00
+Holiday Additional: P 225.00
+Deductions: P 1,275.00
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP -198.40
+==============================
+
+Madarang, Mary Ann  
+- - - - - - - - - - - - - - - 
+MEAN        	2013/12/21	08:48 AM	12:00 PM	01:00 PM	06:11 PM
+MEAN        	2013/12/23	08:53 AM	12:00 PM	01:00 PM	06:51 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional: P 129.00
+MEAN        	2013/12/24	08:47 AM	12:00 PM	01:00 PM	04:07 PM
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 129.00
+MEAN        	2013/12/26	08:42 AM	12:00 PM	01:00 PM	05:40 PM
+MEAN        	2013/12/27	08:47 AM	12:00 PM	01:00 PM	06:05 PM
+- - - - - - - - - - - - - - - 
+Regular Minutes: 2298 minutes (38 hours 18 minutes)
+Regular Rate: P 430.00/day
+Regular Pay: P 2,058.62
+Overtime Minutes: 99 minutes (1 hours 39 minutes)
+Overtime Rate: P 537.50/day
+Overtime Pay: P 110.86
+Gross Salary: P 2,169.48
+Total COLA: P 160.00
+Holiday Additional: P 258.00
+Deductions: P 1,075.00
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP 1,512.48
+==============================
+
+Marabe, Ruel  
+- - - - - - - - - - - - - - - 
+RUEL        	2013/12/21	08:30 AM	12:00 PM	01:00 PM	06:10 PM
+RUEL        	2013/12/23	08:30 AM	12:00 PM	01:00 PM	06:13 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional: P 99.00
+RUEL        	2013/12/24	Missing time in or time out. Fingerprint login at 04:07 PM			
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 99.00
+RUEL        	2013/12/26	08:30 AM	12:00 PM	01:00 PM	05:32 PM
+RUEL        	2013/12/27	08:44 AM	12:00 PM	01:00 PM	06:00 PM
+- - - - - - - - - - - - - - - 
+Regular Minutes: 1920 minutes (32 hours 0 minutes)
+Regular Rate: P 330.00/day
+Regular Pay: P 1,320.00
+Overtime Minutes: 101 minutes (1 hours 41 minutes)
+Overtime Rate: P 412.50/day
+Overtime Pay: P 86.80
+Gross Salary: P 1,406.80
+Total COLA: P 160.00
+Holiday Additional: P 198.00
+Deductions: P 1,075.00
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP 689.80
+==============================
+
+Matinao, Gener    
+- - - - - - - - - - - - - - - 
+GENEIR      	2013/12/21	08:30 AM	12:00 PM	01:00 PM	05:31 PM
+GENEIR      	2013/12/23	08:30 AM	12:00 PM	01:00 PM	06:53 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional: P 76.50
+GENEIR      	2013/12/24	08:34 AM	12:00 PM		
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 76.50
+GENEIR      	2013/12/26	08:30 AM	08:24 AM		
+GENEIR      	2013/12/27	Missing time in or time out. Fingerprint login at 05:31 PM			
+- - - - - - - - - - - - - - - 
+Regular Minutes: 1160 minutes (19 hours 20 minutes)
+Regular Rate: P 255.00/day
+Regular Pay: P 616.25
+Overtime Minutes: 84 minutes (1 hours 24 minutes)
+Overtime Rate: P 318.75/day
+Overtime Pay: P 55.78
+Gross Salary: P 672.03
+Total COLA: P 160.00
+Holiday Additional: P 153.00
+Deductions: P 500.00
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP 485.03
+==============================
+
+Oriel, Cora 
+- - - - - - - - - - - - - - - 
+CORA        	2013/12/21	09:03 AM	12:00 PM	01:00 PM	05:35 PM
+CORA        	2013/12/23	08:52 AM	12:00 PM	01:00 PM	06:49 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional (Absent): P 0.00
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 138.00
+CORA        	2013/12/26	08:38 AM	12:00 PM	01:00 PM	05:33 PM
+CORA        	2013/12/27	08:56 AM	12:00 PM	01:00 PM	05:33 PM
+- - - - - - - - - - - - - - - 
+Regular Minutes: 1864 minutes (31 hours 4 minutes)
+Regular Rate: P 460.00/day
+Regular Pay: P 1,786.33
+Overtime Minutes: 57 minutes (0 hours 57 minutes)
+Overtime Rate: P 575.00/day
+Overtime Pay: P 68.28
+Gross Salary: P 1,854.61
+Total COLA: P 128.00
+Holiday Additional: P 138.00
+Deductions: P 1,058.30
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP 1,062.31
+==============================
+
+Oriel, Felipe  
+- - - - - - - - - - - - - - - 
+PHILIP      	2013/12/21	09:04 AM	12:00 PM	01:00 PM	05:35 PM
+PHILIP      	2013/12/23	08:52 AM	12:00 PM	01:00 PM	06:51 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional: P 117.00
+PHILIP      	2013/12/24	08:35 AM	12:00 PM		
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 117.00
+PHILIP      	2013/12/26	08:38 AM	12:00 PM	01:00 PM	05:33 PM
+PHILIP      	2013/12/27	08:56 AM	12:00 PM	01:00 PM	05:33 PM
+- - - - - - - - - - - - - - - 
+Regular Minutes: 2068 minutes (34 hours 28 minutes)
+Regular Rate: P 390.00/day
+Regular Pay: P 1,680.25
+Overtime Minutes: 59 minutes (0 hours 59 minutes)
+Overtime Rate: P 487.50/day
+Overtime Pay: P 59.92
+Gross Salary: P 1,740.17
+Total COLA: P 160.00
+Holiday Additional: P 234.00
+Deductions: P 1,058.30
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP 1,075.87
+==============================
+
+Palcat, Jobert  
+- - - - - - - - - - - - - - - 
+JOEBERT     	2013/12/21	08:30 AM	12:00 PM	01:00 PM	05:30 PM
+JOEBERT     	2013/12/23	09:36 AM	12:00 PM	01:00 PM	06:53 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional (Absent): P 0.00
+Special Non-working Holiday: Day after Christmas
+Holiday Additional (Absent): P 0.00
+- - - - - - - - - - - - - - - 
+Regular Minutes: 960 minutes (16 hours 0 minutes)
+Regular Rate: P 350.00/day
+Regular Pay: P 700.00
+Overtime Minutes: 17 minutes (0 hours 17 minutes)
+Overtime Rate: P 437.50/day
+Overtime Pay: P 15.49
+Gross Salary: P 715.49
+Total COLA: P 64.00
+Holiday Additional: P 0.00
+Deductions: P 1,216.00
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP -436.51
+==============================
+
+Plaza, Jennifer   
+- - - - - - - - - - - - - - - 
+JENNIFER    	2013/12/21	08:30 AM	12:00 PM	01:00 PM	06:10 PM
+JENNIFER    	2013/12/23	08:30 AM	12:00 PM	01:00 PM	06:49 PM
+Special Non-working Holiday: Christmas Eve
+Holiday Additional: P 75.00
+JENNIFER    	2013/12/24	08:36 AM	12:00 PM	01:00 PM	04:07 PM
+Special Non-working Holiday: Day after Christmas
+Holiday Additional: P 75.00
+JENNIFER    	2013/12/26	08:30 AM	12:00 PM	01:00 PM	05:40 PM
+JENNIFER    	2013/12/27	Missing time in or time out. Fingerprint login at 06:04 PM			
+- - - - - - - - - - - - - - - 
+Regular Minutes: 1831 minutes (30 hours 31 minutes)
+Regular Rate: P 250.00/day
+Regular Pay: P 953.65
+Overtime Minutes: 129 minutes (2 hours 9 minutes)
+Overtime Rate: P 312.50/day
+Overtime Pay: P 83.98
+Gross Salary: P 1,037.63
+Total COLA: P 0.00
+Holiday Additional: P 150.00
+Deductions: P 500.00
+- - - - - - - - - - - - - - - 
+NET SALARY: PHP 687.63
+==============================
+

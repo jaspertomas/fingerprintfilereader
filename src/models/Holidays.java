@@ -243,7 +243,7 @@ public class Holidays {
         String year=Settings.getInstance().getCurrentYear();
         
         try {
-            date = dateFormat.parse(Settings.getInstance().getCurrentYear()+"-01-01");
+            date = dateFormat.parse(Settings.getInstance().getCurrentYear()+"/01/01");
             
             while(yearFormat.format(date).contentEquals(year))
             {
