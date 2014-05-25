@@ -15,6 +15,7 @@ public class TimeRecord {
     Time time;
     public TimeRecord(String line)
     {
+        System.out.println(line);
         this.line=line;
         String[] segments=line.split("\t");
         for(int i=0;i<segments.length;i++)

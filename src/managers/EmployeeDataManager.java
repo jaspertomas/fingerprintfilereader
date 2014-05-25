@@ -135,6 +135,8 @@ public class EmployeeDataManager {
         // and date list
         employeenamelist = new EmployeeNameList();
         ArrayList<String> dates=Dates.getInstance().getItems();
+        dates.clear();
+        
         for (TimeRecord timerecord : timerecords) {
             if (!employeenamelist.contains(timerecord.getName())) {
                 employeenamelist.add(timerecord.getName());
@@ -225,6 +227,8 @@ public class EmployeeDataManager {
         ArrayList<String> problemdates=new ArrayList<String>();
         ArrayList<String> dates=Dates.getInstance().getItems();
 //        Employee e;
+        Dates.getInstance().span();
+        for(String d:dates)System.out.println(d);
         
         //sample output
         
@@ -517,7 +521,12 @@ public class EmployeeDataManager {
         printPayrollOutput();
     }
 
+    //recreatenamelistandcalendar is true by default
+    //false only if Adjust Date Range button is clicked
     public void recalculate(File file) {
+        recalculate(file,true);
+    }
+    public void recalculate(File file, Boolean recreatenamelistandcalendar) {
 
         //parse file and create records list
         parseFile(file);
@@ -537,7 +546,8 @@ public class EmployeeDataManager {
         //arrange time records into arraylists by employee
         groupTimeRecordsByEmployee();
 
-        createNameListAndCalendar();
+        if(recreatenamelistandcalendar)
+            createNameListAndCalendar();
 
 
         //start to process data into array structure

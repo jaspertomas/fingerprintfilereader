@@ -6,14 +6,14 @@ package fingerprint.windows;
 
 import java.awt.Font;
 import java.io.File;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
 import managers.EmployeeFileManager;
 import models.Dates;
-import utils.fileaccess.FileWriter;
+import utils.fileaccess.PdfWriter;
 
 /**
  *
@@ -272,7 +272,7 @@ public class MainFrame extends java.awt.Frame {
 //            if (n == JOptionPane.YES_OPTION) {
 //                saveDialog();
 //            }        
-        
+            FrmManageEmployeeData.getInstance().refreshList();
         } 
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
 
@@ -285,10 +285,16 @@ public class MainFrame extends java.awt.Frame {
     private void btnRecalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecalculateActionPerformed
         Dates.getInstance().adjust(txtStartDate.getText(), txtEndDate.getText());
         
-        recalculate();
+        recalculate(false);
     }//GEN-LAST:event_btnRecalculateActionPerformed
 
-    public void recalculate()
+    //recreatenamelistandcalendar is true by default
+    //false only if Adjust Date Range button is clicked
+    public void recalculate() 
+    {
+        recalculate(true);
+    }
+    public void recalculate(Boolean recreatenamelistandcalendar) 
     {
         if(fc==null)return;
         
@@ -304,7 +310,7 @@ public class MainFrame extends java.awt.Frame {
         
         if(!EmployeeDataManager.getInstance().validateDates())return;
 
-        EmployeeDataManager.getInstance().recalculate(file);    
+        EmployeeDataManager.getInstance().recalculate(file,recreatenamelistandcalendar);    
         
         JOptionPane.showMessageDialog(this, "Payroll recalculated");
         
@@ -368,13 +374,13 @@ public class MainFrame extends java.awt.Frame {
 
                 //write output to file
                 Date date=new Date();
-                String[] datesegments=date.toString().split(" ");
-                String datestring=datesegments[1]+"-"+datesegments[2]+"-"+datesegments[5];
+                SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd");
+                String datestring=dateformat.format(date);
 
                 if(sfc==null)
                 {
                     sfc = new JFileChooser();
-                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+datestring+"-payroll.txt"));
+                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/payroll-"+datestring+".pdf"));
                 }
                 //In response to a button click:
                 int returnVal = sfc.showSaveDialog(this);
@@ -387,7 +393,8 @@ public class MainFrame extends java.awt.Frame {
                     //if file hasn't been selected, do nothing
                     if(savefile==null)return;
 
-                    FileWriter.write(savefile.getPath(), jTextArea.getText());
+                    //FileWriter.write(savefile.getPath(), jTextArea.getText());
+                    PdfWriter.write(savefile.getPath(), jTextArea.getText());
                 }          
        }
 }

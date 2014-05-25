@@ -35,6 +35,16 @@ public class Dates{
     
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
+    //create a date for every day between startdate and enddate
+    //if it does not exist
+    public void span()
+    {
+        ArrayList<String> dates= getItems();
+        String startdate=dates.get(0);
+        String enddate=dates.get(dates.size() - 1);
+        adjust( startdate,  enddate);
+    }
+    
     public void adjust(String startdatestring, String enddatestring)
     {
         try {
@@ -60,5 +70,8 @@ public class Dates{
             ex.printStackTrace();
         }
     }
-     
+    public void reset()
+    {
+        items.clear();
+    }
 }
