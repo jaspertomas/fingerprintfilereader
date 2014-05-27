@@ -1,0 +1,2 @@
+fingerprint.windows.MyFileFilter
+fingerprint.windows.MainFrame

@@ -380,12 +380,12 @@ public class EmployeeDataManager {
 //                    if(data.getIn().getTime().after(one))
                         tempstring+=
                                 "Missing time in or time out. Fingerprint login at "+data.getPrettyInTimeString()
-                                + "\t"
-                                + ""
-                                + "\t"
-                                + ""
-                                + "\t"
-                                + ""
+//                                + "\t"
+//                                + ""
+//                                + "\t"
+//                                + ""
+//                                + "\t"
+//                                + ""
                                 + "\r\n";
 //                        tempstring+=
 //                                ""
