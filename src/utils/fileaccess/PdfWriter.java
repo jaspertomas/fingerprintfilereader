@@ -65,12 +65,19 @@ public class PdfWriter {
       ArrayList<String> shortlist=new ArrayList<String>();
       ArrayList<String> longlist=new ArrayList<String>();
       String[] lines;
+      int linecount=0;
+      String padding;
         for(String segment:segments)
         {
             segment=segment.trim();
             lines=segment.split("\n");
-            if(lines.length<=28)
-                shortlist.add(segment);
+            if(lines.length<=1);
+            else if(lines.length<=28)
+            {
+                linecount=lines.length;
+                for(padding="";linecount<28;linecount++)padding+="\n";
+                shortlist.add(segment+padding);
+            }
             else
                 longlist.add(segment);
         }
