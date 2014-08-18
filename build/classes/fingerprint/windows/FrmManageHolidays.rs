@@ -1,0 +1,2 @@
+fingerprint.windows.HolidayListSelectionHandler
+fingerprint.windows.FrmManageHolidays
