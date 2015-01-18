@@ -146,7 +146,7 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        jLabel5.setText("by ITForHumanity.com");
+        jLabel5.setText("Version 2");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);

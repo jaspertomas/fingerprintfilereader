@@ -1,0 +1,2 @@
+If there is only 1 log and it is before store open time, 
+store open time becomes time in and log time becomes time out

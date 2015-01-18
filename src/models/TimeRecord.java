@@ -13,6 +13,20 @@ import java.sql.Time;
 public class TimeRecord {
     String line,no,dn,uid ,name ,status,action,apb,jobcode,datetime,date;
     Time time;
+    public TimeRecord(String name, String datetime)
+    {
+        //create line from available data
+        this.line="\t\t\t"+name+"\t\t\t\t\t"+datetime;
+        this.name=name;
+        this.datetime=datetime;
+        String[] datesegments=datetime.split(" ");
+        date=datesegments[0];
+//                time=datesegments[1];
+
+        String[] timesegments=datesegments[1].split(":");
+//                time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),Integer.valueOf(timesegments[2]));
+            time=new Time(Integer.valueOf(timesegments[0]),Integer.valueOf(timesegments[1]),0);
+    }
     public TimeRecord(String line)
     {
         System.out.println(line);

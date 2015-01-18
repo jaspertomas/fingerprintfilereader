@@ -456,6 +456,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
             EmployeeFileManager.getInstance().save();
 
+            refreshList();
             onSelect();
         } catch (java.lang.NumberFormatException e) {
             e.printStackTrace();

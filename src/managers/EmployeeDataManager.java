@@ -63,7 +63,7 @@ public class EmployeeDataManager {
     public static final String headerfingerprint = "APB\tJobCode\tDateTime";
     public static final Time twelve = new Time(12, 0, 0);
     public static final Time one = new Time(13, 0, 0);
-    public static final Time eightthirty = new Time(8, 30, 0);
+    public static final Time eightthirty = new Time(9, 00, 0);
     
     //this is a string array of all employee names included in the parsed file
     EmployeeNameList employeenamelist;
@@ -570,12 +570,22 @@ public class EmployeeDataManager {
         {
             CompiledEmployeeData edatamap = weeklydata.get(a.getEmployeeNickname());
             if(edatamap==null)continue;
-            TimeInOutData data = edatamap.get(Holidays.dateFormat.format(a.getDate()));
-            if(data==null)continue;
+            TimeInOutData inoutdata = edatamap.get(Holidays.dateFormat.format(a.getDate()));
+            if(inoutdata==null)
+            {
+                //employee has no timerecord for this day (absent)
+                //create timerecord to adjust absent to present
+                TimeRecord tr=new TimeRecord(a.getEmployeeNickname(),Holidays.dateFormat.format(a.getDate())+" "+a.getTime().toString());                
+                
+                inoutdata=new TimeInOutData();
+                inoutdata.setIn(tr);
+                inoutdata.setOut(tr.copy());
+                edatamap.put(tr.getDate(), inoutdata);
+            }
             if(a.getType()==Adjustment.IN)
-                data.getIn().setTime(a.getTime());
+                inoutdata.getIn().setTime(a.getTime());
             else if(a.getType()==Adjustment.OUT)
-                data.getOut().setTime(a.getTime());
+                inoutdata.getOut().setTime(a.getTime());
         }    
     }
 
