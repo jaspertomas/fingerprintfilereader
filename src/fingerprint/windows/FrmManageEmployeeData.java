@@ -854,12 +854,12 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             timeinstring=data.getPrettyInTimeString();
             timeoutstring=data.getPrettyOutTimeString();
         }
-        //overwrite data if adjustments exist
-        if(inAdj!=null)
+        //overwrite data if adjustments exist and it's not "absent"
+        if(inAdj!=null && inAdj.getAbsent()!=true)
         {
             timeinstring=inAdj.getPrettyTimeString();
         }
-        if(outAdj!=null)
+        if(outAdj!=null && inAdj.getAbsent()!=true)
         {
             timeoutstring=outAdj.getPrettyTimeString();
         }        
