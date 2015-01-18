@@ -1,2 +1,1 @@
-If there is only 1 log and it is before store open time, 
-store open time becomes time in and log time becomes time out
+if there is only 1 log and it is between 12 and 1, in becomes 1 pm and out becomes 12 pm next day

@@ -120,8 +120,17 @@ public class EmployeeDataManager {
                     && time.before(one)) {
                 edata2.getIn().setTime(one);
             }
-            //adjust out time to 12:00 if between 12 and 1
+
+            //if time out is before 8:30, adjust to 8:30 
+            //if time out is before time in, adjust to time in
+            //if time out is between 12 and 1, adjust to 12:00
             time = edata2.getOut().getTime();
+            if (time.before(eightthirty)) {
+                edata2.getOut().setTime(eightthirty);
+            }else
+            if (time.before(edata2.getIn().getTime())) {
+                edata2.getOut().setTime(edata2.getIn().getTime());
+            }else
             if (time.after(twelve)
                     && time.before(one)) {
                 edata2.getOut().setTime(twelve);
