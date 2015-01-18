@@ -5,7 +5,10 @@
 package models;
 
 import java.sql.Time;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -60,7 +63,16 @@ public class Adjustment {//implements Comparable<Adjustment>
     }
 
     public void setTime(Time time) {
-        this.time = time;
+        if(time==null)setNullTime();
+        else this.time = time;
+    }
+    private void setNullTime()
+    {
+        try {
+            this.time=new Time(Adjustments.prettyTimeFormat.parse("12:00 am").getTime());
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }
 
     

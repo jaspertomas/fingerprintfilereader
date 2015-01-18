@@ -591,10 +591,21 @@ public class EmployeeDataManager {
                 inoutdata.setOut(tr.copy());
                 edatamap.put(tr.getDate(), inoutdata);
             }
-            if(a.getType()==Adjustment.IN)
-                inoutdata.getIn().setTime(a.getTime());
-            else if(a.getType()==Adjustment.OUT)
-                inoutdata.getOut().setTime(a.getTime());
+            
+            //if adjustment is absent=true
+            if(a.getAbsent()==true)
+            {
+                //remove date data
+                edatamap.remove(Holidays.dateFormat.format(a.getDate()));
+            }
+            //apply adjustment time
+            else
+            {
+                if(a.getType()==Adjustment.IN)
+                    inoutdata.getIn().setTime(a.getTime());
+                else if(a.getType()==Adjustment.OUT)
+                    inoutdata.getOut().setTime(a.getTime());
+            }
         }    
     }
 
