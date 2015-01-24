@@ -688,6 +688,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         Adjustments.getInstance().delete(inadjustment);
         Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
         Adjustments.getInstance().delete(outadjustment);
+        MainFrame.getInstance().recalculate(true, true);
         FrmManageEmployeeData.getInstance().onDateSelect();
     }//GEN-LAST:event_btnRevertAllActionPerformed
     /**
@@ -816,7 +817,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         
         //select first element
         if(selectedIndex!=-1)jList1.setSelectedIndex(selectedIndex);
-        else jList1.setSelectedIndex(0);
+        else if(jList1.getMaxSelectionIndex() >= 0)jList1.setSelectedIndex(0);
         onSelect();
     }
     
@@ -937,6 +938,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         }
         listDates.setModel(model);
         if(selectedIndex!=-1)listDates.setSelectedIndex(selectedIndex);
+        else if(listDates.getMaxSelectionIndex() >= 0)listDates.setSelectedIndex(0);
         //select first element
 //        listDates.setSelectedIndex(0);
         onDateSelect();

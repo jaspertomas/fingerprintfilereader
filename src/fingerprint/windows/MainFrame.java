@@ -292,9 +292,9 @@ public class MainFrame extends java.awt.Frame {
     //false only if Adjust Date Range button is clicked
     public void recalculate() 
     {
-        recalculate(true);
+        recalculate(true, false);
     }
-    public void recalculate(Boolean recreatenamelistandcalendar) 
+    public void recalculate(Boolean recreatenamelistandcalendar, Boolean quiet) 
     {
         if(fc==null)return;
         
@@ -312,6 +312,7 @@ public class MainFrame extends java.awt.Frame {
 
         EmployeeDataManager.getInstance().recalculate(file,recreatenamelistandcalendar);    
         
+        if(!quiet)
         JOptionPane.showMessageDialog(this, "Payroll recalculated");
         
     }
