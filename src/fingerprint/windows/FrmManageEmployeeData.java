@@ -214,7 +214,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         jLabel8.setText("Time Out:");
 
         btnRevertTimes.setText("Revert");
-        btnRevertTimes.setEnabled(false);
         btnRevertTimes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRevertTimesActionPerformed(evt);
@@ -243,8 +242,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         lblDate.setText("Date");
 
-        btnRevertAll.setText("Revert All Adjustments");
-        btnRevertAll.setEnabled(false);
+        btnRevertAll.setText("Revert Adjustments");
         btnRevertAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRevertAllActionPerformed(evt);
@@ -678,7 +676,18 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExit2ActionPerformed
 
     private void btnRevertAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertAllActionPerformed
-        Adjustments.getInstance().reset();
+        String nickname=lblNickname.getText();
+        Date date=null;
+        try {
+            date = Adjustments.prettyDateFormat.parse(lblDate.getText());
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            return;
+        }
+        Adjustment inadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
+        Adjustments.getInstance().delete(inadjustment);
+        Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+        Adjustments.getInstance().delete(outadjustment);
     }//GEN-LAST:event_btnRevertAllActionPerformed
     /**
      * @param args the command line arguments
@@ -859,7 +868,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         {
             timeinstring=inAdj.getPrettyTimeString();
         }
-        if(outAdj!=null && inAdj.getAbsent()!=true)
+        if(outAdj!=null && outAdj.getAbsent()!=true)
         {
             timeoutstring=outAdj.getPrettyTimeString();
         }        

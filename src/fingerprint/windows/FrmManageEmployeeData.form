@@ -390,7 +390,6 @@
     <Component class="javax.swing.JButton" name="btnRevertTimes">
       <Properties>
         <Property name="text" type="java.lang.String" value="Revert"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRevertTimesActionPerformed"/>
@@ -435,8 +434,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnRevertAll">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Revert All Adjustments"/>
-        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" value="Revert Adjustments"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRevertAllActionPerformed"/>
