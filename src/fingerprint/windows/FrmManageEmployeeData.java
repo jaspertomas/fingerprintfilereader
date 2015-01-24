@@ -807,6 +807,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }
 
     public void refreshList() {
+        Integer selectedIndex=jList1.getSelectedIndex();
         DefaultListModel model = new DefaultListModel();
         for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
             model.addElement(e);
@@ -814,7 +815,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         jList1.setModel(model);
         
         //select first element
-        jList1.setSelectedIndex(0);
+        if(selectedIndex!=-1)jList1.setSelectedIndex(selectedIndex);
+        else jList1.setSelectedIndex(0);
         onSelect();
     }
     
@@ -934,7 +936,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         }
         listDates.setModel(model);
-        if(selectedIndex!=null)listDates.setSelectedIndex(selectedIndex);
+        if(selectedIndex!=-1)listDates.setSelectedIndex(selectedIndex);
         //select first element
 //        listDates.setSelectedIndex(0);
         onDateSelect();
