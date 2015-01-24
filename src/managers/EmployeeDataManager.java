@@ -9,10 +9,9 @@ import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -29,6 +28,7 @@ import models.Holidays;
 import models.TimeInOutData;
 import models.TimeRecord;
 import models.WeeklyTimeData;
+import utils.DateHelper;
 import utils.fileaccess.FileReader;
 
 /**
@@ -368,11 +368,6 @@ public class EmployeeDataManager {
                     
                 }
                 
-                //if absent, do nothing
-                if (data == null) {
-                    continue;
-                }
-
                 if(name.trim().isEmpty())
                     tempstring+="(nickname not set)" + "\t";
                 else
@@ -380,8 +375,37 @@ public class EmployeeDataManager {
                 tempstring+=date + "\t";
                 
                 
+                //if absent, do nothing
+                if (data == null) {
+                    //if sunday
+                    Calendar calendar=Calendar.getInstance();
+                    calendar.setTime(DateHelper.toDate(date));
+                    if(calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY)
+                        tempstring+=
+                                "Sunday"
+//                                + "\t"
+//                                + ""
+//                                + "\t"
+//                                + ""
+//                                + "\t"
+//                                + ""
+                                + "\r\n";
+                    //else if absent
+                    else
+                        tempstring+=
+                                "Absent"
+//                                + "\t"
+//                                + ""
+//                                + "\t"
+//                                + ""
+//                                + "\t"
+//                                + ""
+                                + "\r\n";
+                    continue;
+                }
+
                 //if missing time in or missing time out
-                if (data.getIn().getTime().equals(data.getOut().getTime())) {
+                else if (data.getIn().getTime().equals(data.getOut().getTime())) {
 //                    prefix1="Error: Missing time in or time out: ";
 //                    prefix2="\nPlease go to the Manage Employee Data page to make corrections\n";
                     problemdates.add(date);

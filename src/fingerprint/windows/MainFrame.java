@@ -285,7 +285,7 @@ public class MainFrame extends java.awt.Frame {
     private void btnRecalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecalculateActionPerformed
         Dates.getInstance().adjust(txtStartDate.getText(), txtEndDate.getText());
         
-        recalculate(false);
+        recalculate(false,false);
     }//GEN-LAST:event_btnRecalculateActionPerformed
 
     //recreatenamelistandcalendar is true by default
