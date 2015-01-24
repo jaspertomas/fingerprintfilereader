@@ -478,7 +478,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }
     
     private void btnRevertTimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertTimesActionPerformed
-        // TODO add your handling code here:
+            FrmManageEmployeeData.getInstance().onDateSelect();
     }//GEN-LAST:event_btnRevertTimesActionPerformed
 
     private void btnSaveTimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTimesActionPerformed
@@ -688,6 +688,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         Adjustments.getInstance().delete(inadjustment);
         Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
         Adjustments.getInstance().delete(outadjustment);
+        FrmManageEmployeeData.getInstance().onDateSelect();
     }//GEN-LAST:event_btnRevertAllActionPerformed
     /**
      * @param args the command line arguments
@@ -884,6 +885,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }    
 
     private void refreshDateList() {
+        Integer selectedIndex=listDates.getSelectedIndex();
         Adjustments adjustments=Adjustments.getInstance();
         Adjustment inAdj,outAdj;
         String nickname=lblNickname.getText();
@@ -932,7 +934,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         }
         listDates.setModel(model);
-        
+        if(selectedIndex!=null)listDates.setSelectedIndex(selectedIndex);
         //select first element
 //        listDates.setSelectedIndex(0);
         onDateSelect();
