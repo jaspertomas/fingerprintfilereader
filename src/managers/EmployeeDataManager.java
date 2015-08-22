@@ -237,7 +237,7 @@ public class EmployeeDataManager {
         ArrayList<String> dates=Dates.getInstance().getItems();
 //        Employee e;
         Dates.getInstance().span();
-        for(String d:dates)System.out.println(d);
+        //for(String d:dates)System.out.println(d);
         
         //sample output
         
@@ -251,6 +251,7 @@ public class EmployeeDataManager {
 //        for (String name : employeenamelist) 
         for(Employee e:EmployeeFileManager.getInstance().getEmployees())
         {
+            Integer daysworked=0;
             String name=e.getNickname();
 //            prefix1=prefix2=problemdatestring=
             problemdates.clear();
@@ -312,7 +313,7 @@ public class EmployeeDataManager {
 //                            regularholidayratenowork
                             Double holidaybonusrate=regularholidayratenowork;
                             
-                            Double holidayregularrate=e.getMonthlySalary();
+                            Double holidayregularrate=e.getMonthlySalary()+e.getCola();
 //                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
                             Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
 //                            overtimepay=overtimerate*totalovertimeminutes/60/8;
@@ -325,13 +326,12 @@ public class EmployeeDataManager {
 //                              regularholidayratewithwork      
                             Double holidaybonusrate=regularholidayratewithwork;
                             
-                            Double holidayregularrate=e.getMonthlySalary();
+                            Double holidayregularrate=e.getMonthlySalary()+e.getCola();
 //                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
                             Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
 //                            overtimepay=overtimerate*totalovertimeminutes/60/8;
                             holidaybonus+=holidayregularpay;
                             tempstring+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
-                            
                         }
                     }
                     else if(holiday.getType()==Holidays.SPECIAL)
@@ -374,6 +374,10 @@ public class EmployeeDataManager {
                     tempstring+=name + "\t";
                 tempstring+=date + "\t";
                 
+                //count number of days present
+                if (data != null) {
+                    daysworked++;
+                }                
                 
                 //if absent, do nothing
                 if (data == null) {
@@ -499,7 +503,7 @@ public class EmployeeDataManager {
             overtimepay=overtimerate*totalovertimeminutes/60/8;
             grosspay=regularpay+overtimepay;
             cola=e.getCola();
-            totalcola=cola*edatamap.size();
+            totalcola=cola*daysworked;
             deductions=e.getDeduction();
             netpay=grosspay+totalcola-deductions+holidaybonus;
             

@@ -488,7 +488,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         try {
             date = Adjustments.prettyDateFormat.parse(lblDate.getText());
         } catch (ParseException ex) {
-            ex.printStackTrace();
+            //no date set: do nothing
             return;
         }
 
