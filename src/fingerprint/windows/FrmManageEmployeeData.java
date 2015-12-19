@@ -1009,17 +1009,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 //        listDates.setSelectedIndex(0);
         onDateSelect();
     }
-    public ArrayList<String> getEmployeeList()
-    {
-        ListModel model=jList1.getModel();
-        ArrayList<String> array=new ArrayList<String>();
-        for(int i=0;i<model.getSize();i++)
-        {
-            System.out.println(model.getElementAt(i).toString()+"-");
-            array.add(model.getElementAt(i).toString());
-        }
-        return array;
-    }
 }
 class EmployeeListSelectionHandler implements ListSelectionListener {
 

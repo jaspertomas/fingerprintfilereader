@@ -562,6 +562,16 @@ public class EmployeeDataManager {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
             if(timerecordlist.size()>0)weeklydata.put(timerecordlist.get(0).getName(), edatamap);
         }
+        //create data for absent people 
+        ArrayList<String> namestoinsert=new ArrayList<String>();
+        for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
+            namestoinsert.add(e.getNickname());
+        }
+        for(String nametoinsert:namestoinsert){
+            if (!weeklydata.containsKey(nametoinsert)) {
+                weeklydata.put(nametoinsert, new CompiledEmployeeData());
+            }
+        }
         
         applyAdjustments();
 
@@ -578,18 +588,6 @@ public class EmployeeDataManager {
         //parse file and create records list
         parseFile(file);
         
-        //special mention: lucio
-        //add dummy time record for lucio
-        //create dummy from existing record and rename
-        /*
-        if(timerecords.size()>0)
-        {
-            TimeRecord record=timerecords.get(0).copy();
-            record.setName("LUCIO       ");
-            timerecords.add(record);
-        }
-        */
-
         //remove calendar entries that do not fit between startdate and enddate
         ArrayList<TimeRecord> temp = new ArrayList<TimeRecord>();
         for (TimeRecord timerecord : timerecords) {
@@ -617,6 +615,18 @@ public class EmployeeDataManager {
             if(edatamap!=null)
                 weeklydata.put(timerecordlist.get(0).getName(), edatamap);
         }
+
+        //create data for absent people 
+        ArrayList<String> namestoinsert=new ArrayList<String>();
+        for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
+            namestoinsert.add(e.getNickname());
+        }
+        for(String nametoinsert:namestoinsert){
+            if (!weeklydata.containsKey(nametoinsert)) {
+                weeklydata.put(nametoinsert, new CompiledEmployeeData());
+            }
+        }
+        
         
         applyAdjustments();
         
@@ -700,23 +710,6 @@ public class EmployeeDataManager {
             }
 
         }
-
-        //this commented line inserts everyone in the employee list. 
-        //unfortunately this makes everybody present even if they are not
-        //ArrayList<String> namestoinsert=FrmManageEmployeeData.getInstance().getEmployeeList();
-        //let's just make these 2 always present for now
-        String namestoinsert[]={"LUCIO       ","ELMO        "};
-        for(String nametoinsert:namestoinsert){
-            if (!timerecordsbyemployee.containsKey(nametoinsert)) {
-    //            TimeRecord record=new TimeRecord("LUCIO       ","2015/12/15 09:00:00");
-                TimeRecord record=timerecords.get(0).copy();
-                record.setName(nametoinsert);
-                dailyrecordlist = new ArrayList<TimeRecord>();
-                dailyrecordlist.add(record);
-                timerecordsbyemployee.put(nametoinsert, dailyrecordlist);
-            }
-        }
-
     }
 //    private void groupTimeRecordsByDate()
 //    {
