@@ -701,14 +701,16 @@ public class EmployeeDataManager {
         }
 
         //special mention: lucio
-        String nametoinsert="LUCIO       ";
-        if (!timerecordsbyemployee.containsKey(nametoinsert)) {
-//            TimeRecord record=new TimeRecord("LUCIO       ","2015/12/15 09:00:00");
-            TimeRecord record=timerecords.get(0).copy();
-            record.setName(nametoinsert);
-            dailyrecordlist = new ArrayList<TimeRecord>();
-            dailyrecordlist.add(record);
-            timerecordsbyemployee.put(nametoinsert, dailyrecordlist);
+        String namestoinsert[]={"LUCIO       ","ELMO        "};
+        for(String nametoinsert:namestoinsert){
+            if (!timerecordsbyemployee.containsKey(nametoinsert)) {
+    //            TimeRecord record=new TimeRecord("LUCIO       ","2015/12/15 09:00:00");
+                TimeRecord record=timerecords.get(0).copy();
+                record.setName(nametoinsert);
+                dailyrecordlist = new ArrayList<TimeRecord>();
+                dailyrecordlist.add(record);
+                timerecordsbyemployee.put(nametoinsert, dailyrecordlist);
+            }
         }
 
     }
