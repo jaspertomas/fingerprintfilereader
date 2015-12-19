@@ -4,6 +4,7 @@
  */
 package managers;
 
+import fingerprint.windows.MainFrame;
 import java.io.File;
 import java.sql.Time;
 import java.text.DecimalFormat;
@@ -226,7 +227,7 @@ public class EmployeeDataManager {
         Double specialholidayratenowork=0d;//(percent)
         Double specialholidayratewithwork=130d-100;//(percent)
         
-        
+        Boolean attendanceMode=MainFrame.getInstance().isAttendanceMode();
         
         DecimalFormat format = new DecimalFormat(",##0.00");
         
@@ -296,6 +297,10 @@ public class EmployeeDataManager {
                     JOptionPane.showMessageDialog(null, "Error","Error processing holiday data",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                
+                
+                //if attendance mode, don't print holiday data
+                if(!attendanceMode)
                 //if holiday, 
                 if(holiday!=null)
                 {
@@ -496,6 +501,9 @@ public class EmployeeDataManager {
                 totalovertimeminutes+=overtimeminutes;
             }
 
+            //if attendance mode, don't print calculations
+            if(!attendanceMode)
+            {
             //get regular rate and overtime rate
             regularrate=e.getMonthlySalary();
             overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
@@ -521,6 +529,7 @@ public class EmployeeDataManager {
             tempstring+="Deductions: P "+format.format(deductions)+"\r\n";
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
+            }
             tempstring+="==============================\n\n";
 
 //            for(int i=0;i<problemdates.size();i++)
@@ -550,7 +559,7 @@ public class EmployeeDataManager {
         weeklydata = new WeeklyTimeData();
         for (ArrayList<TimeRecord> timerecordlist : timerecordsbyemployee.values()) {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
-            weeklydata.put(timerecordlist.get(0).getName(), edatamap);
+            if(timerecordlist.size()>0)weeklydata.put(timerecordlist.get(0).getName(), edatamap);
         }
         
         applyAdjustments();
@@ -567,6 +576,18 @@ public class EmployeeDataManager {
 
         //parse file and create records list
         parseFile(file);
+        
+        //special mention: lucio
+        //add dummy time record for lucio
+        //create dummy from existing record and rename
+        /*
+        if(timerecords.size()>0)
+        {
+            TimeRecord record=timerecords.get(0).copy();
+            record.setName("LUCIO       ");
+            timerecords.add(record);
+        }
+        */
 
         //remove calendar entries that do not fit between startdate and enddate
         ArrayList<TimeRecord> temp = new ArrayList<TimeRecord>();
@@ -678,6 +699,18 @@ public class EmployeeDataManager {
             }
 
         }
+
+        //special mention: lucio
+        String nametoinsert="LUCIO       ";
+        if (!timerecordsbyemployee.containsKey(nametoinsert)) {
+//            TimeRecord record=new TimeRecord("LUCIO       ","2015/12/15 09:00:00");
+            TimeRecord record=timerecords.get(0).copy();
+            record.setName(nametoinsert);
+            dailyrecordlist = new ArrayList<TimeRecord>();
+            dailyrecordlist.add(record);
+            timerecordsbyemployee.put(nametoinsert, dailyrecordlist);
+        }
+
     }
 //    private void groupTimeRecordsByDate()
 //    {
