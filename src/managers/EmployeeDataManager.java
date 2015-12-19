@@ -4,6 +4,7 @@
  */
 package managers;
 
+import fingerprint.windows.FrmManageEmployeeData;
 import fingerprint.windows.MainFrame;
 import java.io.File;
 import java.sql.Time;
@@ -700,7 +701,10 @@ public class EmployeeDataManager {
 
         }
 
-        //special mention: lucio
+        //this commented line inserts everyone in the employee list. 
+        //unfortunately this makes everybody present even if they are not
+        //ArrayList<String> namestoinsert=FrmManageEmployeeData.getInstance().getEmployeeList();
+        //let's just make these 2 always present for now
         String namestoinsert[]={"LUCIO       ","ELMO        "};
         for(String nametoinsert:namestoinsert){
             if (!timerecordsbyemployee.containsKey(nametoinsert)) {

@@ -6,10 +6,12 @@ package fingerprint.windows;
 
 import java.sql.Time;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -1007,7 +1009,17 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 //        listDates.setSelectedIndex(0);
         onDateSelect();
     }
-
+    public ArrayList<String> getEmployeeList()
+    {
+        ListModel model=jList1.getModel();
+        ArrayList<String> array=new ArrayList<String>();
+        for(int i=0;i<model.getSize();i++)
+        {
+            System.out.println(model.getElementAt(i).toString()+"-");
+            array.add(model.getElementAt(i).toString());
+        }
+        return array;
+    }
 }
 class EmployeeListSelectionHandler implements ListSelectionListener {
 
