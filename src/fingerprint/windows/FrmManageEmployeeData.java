@@ -258,21 +258,21 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         lblWarning.setText("Date");
 
-        btnNineAM.setText("9:00 AM");
+        btnNineAM.setText("8:30 AM");
         btnNineAM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNineAMActionPerformed(evt);
             }
         });
 
-        btnSixPM.setText("6:00 PM");
+        btnSixPM.setText("5:30 PM");
         btnSixPM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSixPMActionPerformed(evt);
             }
         });
 
-        btnNineToSix.setText("9:00-6:00");
+        btnNineToSix.setText("8:30-5:30");
         btnNineToSix.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNineToSixActionPerformed(evt);
@@ -739,18 +739,18 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevertAllActionPerformed
 
     private void btnNineAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNineAMActionPerformed
-        txtTimeIn.setText("9:00 AM");
+        txtTimeIn.setText("8:30 AM");
         saveTimes();
     }//GEN-LAST:event_btnNineAMActionPerformed
 
     private void btnSixPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSixPMActionPerformed
-        txtTimeOut.setText("6:00 PM");
+        txtTimeOut.setText("5:30 PM");
         saveTimes();
     }//GEN-LAST:event_btnSixPMActionPerformed
 
     private void btnNineToSixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNineToSixActionPerformed
-        txtTimeIn.setText("9:00 AM");
-        txtTimeOut.setText("6:00 PM");
+        txtTimeIn.setText("8:30 AM");
+        txtTimeOut.setText("5:30 PM");
         saveTimes();
     }//GEN-LAST:event_btnNineToSixActionPerformed
     /**
