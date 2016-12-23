@@ -426,9 +426,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(lblDatelbl)
                             .add(lblDate)
@@ -455,7 +452,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                             .add(btnRevertTimes)
                             .add(btnSaveTimes)
                             .add(btnExit2)
-                            .add(btnRevertAll)))))
+                            .add(btnRevertAll)))
+                    .add(layout.createSequentialGroup()
+                        .add(jScrollPane2)
+                        .addContainerGap())))
         );
 
         pack();
