@@ -322,7 +322,7 @@ public class EmployeeDataManager {
                             Double holidayregularrate=e.getMonthlySalary()+e.getCola();
 //                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
                             Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
-//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+//                            overtimepay=overtimerate*totalovertimeminutes/60/9;
                             holidaybonus+=holidayregularpay;
                             tempstring+="Holiday Additional (Absent): P "+format.format(holidayregularpay)+"\r\n";
                             
@@ -335,7 +335,7 @@ public class EmployeeDataManager {
                             Double holidayregularrate=e.getMonthlySalary()+e.getCola();
 //                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
                             Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
-//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+//                            overtimepay=overtimerate*totalovertimeminutes/60/9;
                             holidaybonus+=holidayregularpay;
                             tempstring+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
                         }
@@ -351,7 +351,7 @@ public class EmployeeDataManager {
                             Double holidayregularrate=e.getMonthlySalary();
 //                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
                             Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
-//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+//                            overtimepay=overtimerate*totalovertimeminutes/60/9;
                             holidaybonus+=holidayregularpay;
                             tempstring+="Holiday Additional (Absent): P "+format.format(holidayregularpay)+"\r\n";
                         }
@@ -363,7 +363,7 @@ public class EmployeeDataManager {
                             Double holidayregularrate=e.getMonthlySalary();
 //                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
                             Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
-//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+//                            overtimepay=overtimerate*totalovertimeminutes/60/9;
                             holidaybonus+=holidayregularpay;
                             tempstring+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
 
@@ -488,10 +488,10 @@ public class EmployeeDataManager {
                 
                 //calculate regular and overtime minutes
                 diffminutes=data.getTimeDiffMinutes();
-                if(diffminutes>480)//8 hours*60 min
+                if(diffminutes>540)//9 hours*60 min
                 {
-                    regularminutes=480;
-                    overtimeminutes=diffminutes-480;
+                    regularminutes=540;
+                    overtimeminutes=diffminutes-540;
                 }
                 else
                 {
@@ -508,8 +508,8 @@ public class EmployeeDataManager {
             //get regular rate and overtime rate
             regularrate=e.getMonthlySalary();
             overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
-            regularpay=regularrate*totalregularminutes/60/8;
-            overtimepay=overtimerate*totalovertimeminutes/60/8;
+            regularpay=regularrate*totalregularminutes/60/9;
+            overtimepay=overtimerate*totalovertimeminutes/60/9;
             grosspay=regularpay+overtimepay;
             cola=e.getCola();
             totalcola=cola*daysworked;
