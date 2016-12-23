@@ -635,8 +635,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 //                            System.out.println("match");
                         //there should be no adjustment
                         //if there is, remove it
-                        if(inadjustment!=null)
-                            Adjustments.getInstance().delete(inadjustment);
+//                        if(inadjustment!=null)
+//                            Adjustments.getInstance().delete(inadjustment);
                     }
                     //employee time data exists but 
                     //not equal to input - adjustment required
@@ -647,8 +647,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
                     if(timeout.equals(data.getOutTime()))
                     {
-                        if(outadjustment!=null)
-                            Adjustments.getInstance().delete(inadjustment);
+//                        if(outadjustment!=null)
+//                            Adjustments.getInstance().delete(inadjustment);
                     }
                     else 
                     {
