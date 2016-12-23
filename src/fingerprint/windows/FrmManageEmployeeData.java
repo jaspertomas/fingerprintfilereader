@@ -258,7 +258,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         lblWarning.setText("Date");
 
-        btnNineAM.setText("8:30 AM");
+        btnNineAM.setText("7:30 AM");
         btnNineAM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNineAMActionPerformed(evt);
@@ -272,7 +272,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             }
         });
 
-        btnNineToSix.setText("8:30-5:30");
+        btnNineToSix.setText("7:30-5:30");
         btnNineToSix.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNineToSixActionPerformed(evt);
@@ -426,9 +426,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(lblDatelbl)
                             .add(lblDate)
@@ -450,12 +447,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                 .add(btnNineToSix, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 39, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .add(29, 29, 29)))
                         .add(lblDate1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(btnRevertTimes)
                             .add(btnSaveTimes)
                             .add(btnExit2)
-                            .add(btnRevertAll)))))
+                            .add(btnRevertAll)))
+                    .add(layout.createSequentialGroup()
+                        .add(jScrollPane2)
+                        .addContainerGap())))
         );
 
         pack();
@@ -739,7 +739,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevertAllActionPerformed
 
     private void btnNineAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNineAMActionPerformed
-        txtTimeIn.setText("8:30 AM");
+        txtTimeIn.setText("7:30 AM");
         saveTimes();
     }//GEN-LAST:event_btnNineAMActionPerformed
 
@@ -749,7 +749,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSixPMActionPerformed
 
     private void btnNineToSixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNineToSixActionPerformed
-        txtTimeIn.setText("8:30 AM");
+        txtTimeIn.setText("7:30 AM");
         txtTimeOut.setText("5:30 PM");
         saveTimes();
     }//GEN-LAST:event_btnNineToSixActionPerformed

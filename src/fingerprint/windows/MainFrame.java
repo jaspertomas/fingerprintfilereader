@@ -147,7 +147,7 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        jLabel5.setText("Malabon Version 3");
+        jLabel5.setText("Tacloban Version 1");
 
         chkAttendance.setText("Attendance Mode");
         chkAttendance.addActionListener(new java.awt.event.ActionListener() {
