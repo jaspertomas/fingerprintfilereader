@@ -332,7 +332,7 @@ public class EmployeeDataManager {
 //                              regularholidayratewithwork      
                             Double holidaybonusrate=regularholidayratewithwork;
                             
-                            Double holidayregularrate=e.getMonthlySalary()+e.getCola();
+                            Double holidayregularrate=e.getMonthlySalary();//+e.getCola();
 //                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
                             Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
 //                            overtimepay=overtimerate*totalovertimeminutes/60/8;
