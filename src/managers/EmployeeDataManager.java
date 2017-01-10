@@ -41,6 +41,9 @@ public class EmployeeDataManager {
     //---------------SINGLETON-------------------
 
     static EmployeeDataManager instance;
+    
+    static final int hoursInADay=8;
+    static final int minutesInADay=hoursInADay*60;
 
     private EmployeeDataManager() {
     }
@@ -253,6 +256,7 @@ public class EmployeeDataManager {
 //        for (String name : employeenamelist) 
         for(Employee e:EmployeeFileManager.getInstance().getEmployees())
         {
+            totalcola=0d;
             Integer daysworked=0;
             String name=e.getNickname();
 //            prefix1=prefix2=problemdatestring=
@@ -488,16 +492,24 @@ public class EmployeeDataManager {
                 
                 //calculate regular and overtime minutes
                 diffminutes=data.getTimeDiffMinutes();
-                if(diffminutes>480)//8 hours*60 min
+                if(diffminutes>minutesInADay)//8 hours*60 min
                 {
-                    regularminutes=480;
-                    overtimeminutes=diffminutes-480;
+                    regularminutes=minutesInADay;
+                    overtimeminutes=diffminutes-minutesInADay;
                 }
                 else
                 {
                     regularminutes=diffminutes;
                     overtimeminutes=0;
                 }
+                
+                //if regular minutes less than half of whole day minutes, half day
+                if(regularminutes<=minutesInADay/2)
+                    //give only half cola for half day's work
+                    totalcola+=e.getCola()/2;
+                else
+                    totalcola+=e.getCola();
+                
                 totalregularminutes+=regularminutes;
                 totalovertimeminutes+=overtimeminutes;
             }
@@ -508,11 +520,12 @@ public class EmployeeDataManager {
             //get regular rate and overtime rate
             regularrate=e.getMonthlySalary();
             overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
-            regularpay=regularrate*totalregularminutes/60/8;
-            overtimepay=overtimerate*totalovertimeminutes/60/8;
+            regularpay=regularrate*totalregularminutes/60/hoursInADay;
+            overtimepay=overtimerate*totalovertimeminutes/60/hoursInADay;
             grosspay=regularpay+overtimepay;
-            cola=e.getCola();
-            totalcola=cola*daysworked;
+            //cola now calculated on a per day basis (above)
+//            cola=e.getCola();
+//            totalcola=cola*daysworked;
             deductions=e.getDeduction();
             netpay=grosspay+totalcola-deductions+holidaybonus;
             
