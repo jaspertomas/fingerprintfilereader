@@ -42,7 +42,7 @@ public class EmployeeDataManager {
 
     static EmployeeDataManager instance;
     
-    static final int hoursInADay=9;
+    static final int hoursInADay=8;
     static final int minutesInADay=hoursInADay*60;
 
     private EmployeeDataManager() {
@@ -68,7 +68,7 @@ public class EmployeeDataManager {
     public static final String headerfingerprint = "APB\tJobCode\tDateTime";
     public static final Time twelve = new Time(12, 0, 0);
     public static final Time one = new Time(13, 0, 0);
-    public static final Time eightthirty = new Time(7, 30, 0);
+    public static final Time eightthirty = new Time(8, 00, 0);
     
     //this is a string array of all employee names included in the parsed file
     EmployeeNameList employeenamelist;
