@@ -5,15 +5,25 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.SqliteDbHelper;
 import utils.JsonHelper;
 
 public class Holidays {
+    //---------------CONSTANTS---------------------  
+    public static final Integer REGULAR=0;
+    public static final Integer SPECIAL=1;
+    public static final Integer OTHER=2;
+
+    //---------------FORMATTERS---------------------  
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+
     //------------FIELDS-----------
     public static final String tablename=Holiday.tablename;
     public static String[] fields=Holiday.fields;
@@ -242,4 +252,13 @@ public class Holidays {
             e.printStackTrace();
         }
     } 
+    public static Holiday getByDateString(String datestring) throws ParseException {
+        Date date=dateFormat.parse(datestring);
+        for(Holiday h:Holidays.select(""))
+        {
+            if(h.getDate().equals(date))
+                return h;
+        }
+        return null;
+    }
 }

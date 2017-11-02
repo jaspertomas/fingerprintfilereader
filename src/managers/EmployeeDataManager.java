@@ -591,7 +591,7 @@ public class EmployeeDataManager {
     
     private void applyAdjustments()
     {
-        for(Adjustment a:Adjustments.getInstance().getItems())
+        for(Adjustment a:Adjustments.select(""))
         {
             CompiledEmployeeData edatamap = weeklydata.get(a.getEmployeeNickname());
             if(edatamap==null)continue;
