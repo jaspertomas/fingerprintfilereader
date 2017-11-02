@@ -1,17 +1,11 @@
 package models;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.SqliteDbHelper;
-import utils.JsonHelper;
 
 public class Holiday {
     //------------FIELDS-----------
@@ -38,6 +32,11 @@ public class Holiday {
     public Date date;
 
     public Holiday() {
+    }
+    public Holiday(String name,Integer type, Date date) {
+        this.name = name;
+        this.type = type;
+        this.date = date;
     }
     public Holiday(ResultSet rs) {
         try {

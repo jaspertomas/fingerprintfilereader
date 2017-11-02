@@ -6,10 +6,8 @@ package fingerprint.windows;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -282,24 +280,21 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevertActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        Date tempdate;
+        LocalDate tempdate;
         String tempname;
         
         //validate that date is set to the current year
-        try {
-            //do a little character conversion
-            String temp=txtDate.getText();
-            temp=temp.replace("-", "/");
-            temp=temp.replace("\\", "/");
-            
-            tempdate=Holidays.dateFormat.parse(temp);
-            if(!Holidays.yearFormat.format(tempdate).contentEquals(Settings.getCurrentYear()))
-            {
-                JOptionPane.showMessageDialog(this, "Cannot set this holiday to a different year", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(this, "This is not a date", "Error", JOptionPane.ERROR_MESSAGE);
+        //do a little character conversion
+        String temp=txtDate.getText();
+        temp=temp.replace("-", "/");
+        temp=temp.replace("\\", "/");
+
+        //tempdate=Holidays.dateFormat.parse(temp);
+        tempdate=LocalDate.parse(temp, Holidays.dateFormat);
+
+        if(!Holidays.yearFormat.format(tempdate).contentEquals(Settings.getCurrentYear()))
+        {
+            JOptionPane.showMessageDialog(this, "Cannot set this holiday to a different year", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -313,7 +308,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         }
         
         //validate that new date will not conflict with existing dates
-        Holiday conflictholiday=Holidays.getInstance().getByDate(tempdate);
+        Holiday conflictholiday=Holidays.getByDate(tempdate);
         if(conflictholiday!=null && Holidays.select("").indexOf(conflictholiday)!=listHolidays.getSelectedIndex())
         {
             JOptionPane.showMessageDialog(this, Holidays.dateFormat.format(tempdate)+" is already set for "+conflictholiday.getName()+".\nPlease use a different date.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -322,8 +317,18 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 
         //fetch holiday to edit
         Holiday h = Holidays.select("").get(listHolidays.getSelectedIndex());
-        Holidays.getInstance().edit(h, txtName.getText(), cmbType.getSelectedIndex(), tempdate);
-
+        h.setName(txtName.getText());
+        h.setType(cmbType.getSelectedIndex());
+        h.setDate(Date.valueOf(tempdate));
+        h.save();
+        //!!!
+        /*
+        Collections.sort(allItems);
+        save();
+        Collections.sort(items);
+        */
+        
+        
         //update list in case holiday name has changed
 //            listHolidays.repaint();
         Integer listindex=Holidays.select("").indexOf(h);
@@ -357,7 +362,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         Holiday holiday=new Holiday();
         holiday.setName(Holidays.getFreeHolidayName());
-        holiday.setDate(Holidays.getFreeDate());
+        holiday.setDate(Date.valueOf(Holidays.getFreeDate()));
         holiday.setType(Holidays.OTHER);
         holiday.save();
         refreshList();
@@ -368,7 +373,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDownloadActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-        Holidays.getInstance().generate(Settings.getInstance().getCurrentYear());
+        Holidays.generate(Settings.getCurrentYear());
         refreshForm();
     }//GEN-LAST:event_btnGenerateActionPerformed
 
@@ -390,10 +395,9 @@ public class FrmManageHolidays extends javax.swing.JFrame {
 
     private void refreshForm()
     {
-        Holidays.getInstance().load();
         refreshList();
         setButtonMode();        
-        lblYear.setText(Settings.getInstance().getCurrentYear().toString());    
+        lblYear.setText(Settings.getCurrentYear().toString());    
     }
     /**
      * @param args the command line arguments
@@ -471,7 +475,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         Holiday e = Holidays.select("").get(listHolidays.getSelectedIndex());
 //        System.out.println(e);
         txtName.setText(e.getName());
-        txtDate.setText(Holidays.dateFormat.format(e.getDate()));
+        txtDate.setText(e.getDate().toLocalDate().format(Holidays.dateFormat));
         cmbType.setSelectedIndex(e.getType());
         enableButtons(false);
     }

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -249,4 +250,13 @@ public class Adjustments {
             e.printStackTrace();
         }
     } 
+
+    /*!!select everything? really?*/
+    public Adjustment getByNicknameTypeAndDate(String name, Integer type, LocalDate date) {
+        RecordList map=Adjustments.select(" employee_nickname = "+name+" and type = "+type+" and date = \""+date.toString()+"\"");
+        for(Adjustment item:map)return item;
+        return null;
+    }   
+
+    
 }

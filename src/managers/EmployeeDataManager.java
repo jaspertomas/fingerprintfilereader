@@ -595,12 +595,12 @@ public class EmployeeDataManager {
         {
             CompiledEmployeeData edatamap = weeklydata.get(a.getEmployeeNickname());
             if(edatamap==null)continue;
-            TimeInOutData inoutdata = edatamap.get(Holidays.dateFormat.format(a.getDate()));
+            TimeInOutData inoutdata = edatamap.get(a.getDate().toLocalDate().format(Holidays.dateFormat));
             if(inoutdata==null)
             {
                 //employee has no timerecord for this day (absent)
                 //create timerecord to adjust absent to present
-                TimeRecord tr=new TimeRecord(a.getEmployeeNickname(),Holidays.dateFormat.format(a.getDate())+" "+a.getTime().toString());                
+                TimeRecord tr=new TimeRecord(a.getEmployeeNickname(),Holidays.dateFormat.format(a.getDate().toLocalDate())+" "+a.getTime().toString());                
                 
                 inoutdata=new TimeInOutData();
                 inoutdata.setIn(tr);
@@ -612,7 +612,7 @@ public class EmployeeDataManager {
             if(a.getAbsent()==1)
             {
                 //remove date data
-                edatamap.remove(Holidays.dateFormat.format(a.getDate()));
+                edatamap.remove(a.getDate().toLocalDate().format(Holidays.dateFormat));
             }
             //apply adjustment time
             else

@@ -145,7 +145,7 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        jLabel5.setText("Version 3");
+        jLabel5.setText("Version 4");
 
         chkAttendance.setText("Attendance Mode");
         chkAttendance.addActionListener(new java.awt.event.ActionListener() {
