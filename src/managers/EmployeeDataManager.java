@@ -617,9 +617,9 @@ public class EmployeeDataManager {
             //apply adjustment time
             else
             {
-                if(a.getType()==Adjustment.IN)
+                if(a.getType()==Adjustments.IN)
                     inoutdata.getIn().setTime(a.getTime());
-                else if(a.getType()==Adjustment.OUT)
+                else if(a.getType()==Adjustments.OUT)
                     inoutdata.getOut().setTime(a.getTime());
             }
         }    

@@ -1,19 +1,17 @@
 package models;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.SqliteDbHelper;
-import utils.JsonHelper;
 
 public class Adjustment {
+    //------------FORMATTERS----------
+    public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     //------------FIELDS-----------
     public static final String tablename="adjustment";
     //field names
@@ -33,7 +31,7 @@ public class Adjustment {
             ,"varchar(30)"
             ,"int(11)"
             ,"date"
-            ,"varchar(30)"
+            ,"time"
             ,"tinyint(4)"
             };
     //-----------------------
@@ -43,7 +41,7 @@ public class Adjustment {
     public String employee_nickname;
     public Integer type;
     public Date date;
-    public String time;
+    public Time time;
     public Integer absent;
 
     public Adjustment() {
@@ -55,7 +53,7 @@ public class Adjustment {
             employee_nickname=rs.getString("employee_nickname");
             type=rs.getInt("type");
             date=rs.getDate("date");
-            time=rs.getString("time");
+            time=rs.getTime("time");
             absent=rs.getInt("absent");
         } catch (SQLException ex) {
             Logger.getLogger(Adjustment.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,11 +106,11 @@ public class Adjustment {
             this.date = date;
     }
 
-    public String getTime() {
+    public Time getTime() {
             return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Time time) {
             this.time = time;
     }
 
@@ -136,7 +134,7 @@ public class Adjustment {
             values.add(employee_nickname);
             values.add(type!=null?type.toString():null);
             values.add(date!=null?date.toString():null);
-            values.add(time);
+            values.add(time!=null?timeFormat.format(time):null);
             values.add(absent!=null?absent.toString():null);
 
             return values;

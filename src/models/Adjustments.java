@@ -5,8 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +13,9 @@ import utils.SqliteDbHelper;
 import utils.JsonHelper;
 
 public class Adjustments {
+    //------------CONSTANTS-----------
+    public static final Integer IN=1;
+    public static final Integer OUT=2;    
     //------------FIELDS-----------
     public static final String tablename=Adjustment.tablename;
     public static String[] fields=Adjustment.fields;
