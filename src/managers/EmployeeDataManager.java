@@ -25,6 +25,7 @@ import models.Constants;
 import models.DateUtil;
 import models.Employee;
 import models.EmployeeNameList;
+import models.Employees;
 import models.Holiday;
 import models.Holidays;
 import models.TimeInOutData;
@@ -166,65 +167,6 @@ public class EmployeeDataManager {
         txtEndDate.setText(dates.get(dates.size() - 1));
     }
 
-//    public void printSampleOutput() {
-//        
-//        ArrayList<String> dates=Dates.getInstance().getItems();
-//
-//        //clear the textarea
-//        jTextArea.setText("");
-//
-//        //sample output
-//        CompiledEmployeeData edatamap;
-//        TimeInOutData data;
-//        for (String name : employeenamelist) {
-//            for (String date : dates) {
-//                edatamap = weeklydata.get(name);
-//                if (edatamap == null) {
-//                    continue;
-//                }
-//                data = edatamap.get(date);
-//                if (data == null) {
-//                    continue;
-//                }
-//
-//                jTextArea.append(name + "\t");
-//                jTextArea.append(date + "\t");
-//                if (data.getIn().getTime().equals(one)) {
-//                    jTextArea.append(
-//                            ""
-//                            + "\t"
-//                            + ""
-//                            + "\t"
-//                            + data.getInTimeString()
-//                            + "\t"
-//                            + data.getOutTimeString()
-//                            + "\r\n");
-//                } else if (data.getOut().getTime().equals(twelve)) {
-//                    jTextArea.append(
-//                            data.getInTimeString()
-//                            + "\t"
-//                            + data.getOutTimeString()
-//                            + ""
-//                            + "\t"
-//                            + ""
-//                            + "\t"
-//                            + "\r\n");
-//                } else {
-//                    jTextArea.append(
-//                            data.getInTimeString()
-//                            + "\t"
-//                            + "1200"
-//                            + "\t"
-//                            + "1300"
-//                            + "\t"
-//                            + data.getOutTimeString()
-//                            + "\r\n");
-//                }
-//
-//            }
-//        }
-//    }
-
     public void printPayrollOutput() {
         Double regularholidayratenowork=100d;//(percent)
         Double regularholidayratewithwork=200d-100;//(percent)
@@ -254,7 +196,7 @@ public class EmployeeDataManager {
         Double holidaybonus=0d;
 
 //        for (String name : employeenamelist) 
-        for(Employee e:EmployeeFileManager.getInstance().getEmployees())
+        for(Employee e:Employees.select(""))
         {
             totalcola=0d;
             Integer daysworked=0;
@@ -577,7 +519,7 @@ public class EmployeeDataManager {
         }
         //create data for absent people 
         ArrayList<String> namestoinsert=new ArrayList<String>();
-        for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
+        for (Employee e : Employees.select("")) {
             namestoinsert.add(e.getNickname());
         }
         for(String nametoinsert:namestoinsert){
@@ -724,28 +666,7 @@ public class EmployeeDataManager {
 
         }
     }
-//    private void groupTimeRecordsByDate()
-//    {
-//        //group by date
-//        ArrayList<TimeRecord> dailyrecordlist; 
-//        parseresult=new TreeMap<String,ArrayList<TimeRecord>>();
-//        for(TimeRecord record:timerecords)
-//        {
-//            if(!parseresult.containsKey(record.getDate()))
-//            {
-//                dailyrecordlist=new ArrayList<TimeRecord>();
-//                dailyrecordlist.add(record);
-//                parseresult.put(record.getDate(), dailyrecordlist);
-//            }
-//            else
-//            {
-//                dailyrecordlist=parseresult.get(record.getDate());
-//                dailyrecordlist.add(record);
-////                    datesmap.put(record.getDate(), dailyrecords);
-//            }
-//
-//        }
-//    }
+
 
     public boolean validateDates() {
         if (txtStartDate.getText().trim().isEmpty()) {
@@ -787,7 +708,7 @@ public class EmployeeDataManager {
     public String getPayrollText() 
     {
         String string="";
-        for(Employee e:EmployeeFileManager.getInstance().getEmployees())
+        for(Employee e:Employees.select(""))
         {
             string+=e.getFullName()+"\r\n";
 //            string+="reg hours rh"++"\r\n";

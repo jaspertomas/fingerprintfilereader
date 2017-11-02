@@ -1,106 +1,160 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
-/**
- *
- * @author jaspertomas
- */
-public class Employee implements Comparable<Employee> {
-    String nickname="",fname="",mname="",lname="";
-    Double cola=0d;
-    Double monthlySalary=0d;
-    Double deduction=0d;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utils.SqliteDbHelper;
+import utils.JsonHelper;
 
-    public Employee() {}
- 
-    public Employee(String nickname, String fname, String mname, String lname, Double cola, Double monthlySalary,Double deduction) {
-        this.nickname = nickname;
-        this.fname = fname;
-        this.mname = mname;
-        this.lname = lname;
-        this.cola = cola;
-        this.monthlySalary = monthlySalary;
-        this.deduction = deduction;
+public class Employee {
+    //------------FIELDS-----------
+    public static final String tablename="employee";
+    //field names
+    public static String[] fields={
+            "id"
+            ,"nickname"
+            ,"fname"
+            ,"mname"
+            ,"lname"
+            ,"cola"
+            ,"monthly_salary"
+            };
+    //field types
+    public static String[] fieldtypes={
+            "int(11)"
+            ,"varchar(30)"
+            ,"varchar(30)"
+            ,"varchar(30)"
+            ,"varchar(30)"
+            ,"decimal(10,2)"
+            ,"decimal(10,2)"
+            };
+    //-----------------------
+
+    public Integer id;
+    public String nickname;
+    public String fname;
+    public String mname;
+    public String lname;
+    public Double cola;
+    public Double monthly_salary;
+
+    public Employee() {
+    }
+    public Employee(ResultSet rs) {
+        try {
+            id=rs.getInt("id");
+            nickname=rs.getString("nickname");
+            fname=rs.getString("fname");
+            mname=rs.getString("mname");
+            lname=rs.getString("lname");
+            cola=rs.getDouble("cola");
+            monthly_salary=rs.getDouble("monthly_salary");
+        } catch (SQLException ex) {
+            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
     }
 
-    public String getFormalname() {
-        return lname+", "+fname+" "+mname;
+//	public String getUuid()
+//	{
+//		return id.toString()+"-";
+//	}
+
+    public Integer getId() {
+            return id;
+    }
+
+    public void setId(Integer id) {
+            this.id = id;
     }
 
     public String getNickname() {
-        return nickname;
+            return nickname;
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+            this.nickname = nickname;
     }
 
     public String getFname() {
-        return fname;
+            return fname;
     }
 
     public void setFname(String fname) {
-        this.fname = fname;
+            this.fname = fname;
     }
 
     public String getMname() {
-        return mname;
+            return mname;
     }
 
     public void setMname(String mname) {
-        this.mname = mname;
+            this.mname = mname;
     }
 
     public String getLname() {
-        return lname;
+            return lname;
     }
 
     public void setLname(String lname) {
-        this.lname = lname;
+            this.lname = lname;
     }
 
     public Double getCola() {
-        return cola;
+            return cola;
     }
 
     public void setCola(Double cola) {
-        this.cola = cola;
+            this.cola = cola;
     }
 
     public Double getMonthlySalary() {
-        return monthlySalary;
+            return monthly_salary;
     }
 
-    public void setMonthlySalary(Double monthlySalary) {
-        this.monthlySalary = monthlySalary;
+    public void setMonthlySalary(Double monthly_salary) {
+            this.monthly_salary = monthly_salary;
     }
 
-    public Double getDeduction() {
-        return deduction;
-    }
 
-    public void setDeduction(Double deduction) {
-        this.deduction = deduction;
+    //database functions
+    public ArrayList<String> implodeFieldValuesHelper(boolean withId)
+    {
+            ArrayList<String> values=new ArrayList<String>(); 
+
+            //add values for each field here
+            if(withId)values.add(id!=null?id.toString():null);
+            values.add(nickname);
+            values.add(fname);
+            values.add(mname);
+            values.add(lname);
+            values.add(cola!=null?cola.toString():null);
+            values.add(monthly_salary!=null?monthly_salary.toString():null);
+
+            return values;
     }
-    
-    
+    public void delete()
+    {
+            Employees.delete(this);
+    }
+    public void save()
+    {
+            if(id==null || id==0)
+                    Employees.insert(this);
+            else
+                    Employees.update(this);
+    }
+    @Override
     public String toString()
     {
-        return nickname;
-    }
-
-    public String getFullName() {
-        return fname + " " +mname + " "+lname;
-    }
-
-    @Override
-    public int compareTo(Employee aThat) {
-        if(lname.contentEquals(aThat.getLname()))
-            return fname.compareTo(aThat.getFname());
-        else
-            return lname.compareTo(aThat.getLname());
+            return id.toString();
     }
 }
