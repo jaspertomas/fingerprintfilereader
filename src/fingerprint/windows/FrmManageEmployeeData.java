@@ -6,12 +6,11 @@ package fingerprint.windows;
 
 import java.sql.Time;
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -593,19 +592,13 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     {
         //variable definition, aka fetching data from all over the place
         String nickname=lblNickname.getText();
-        Date date=null;
-        try {
-            date = Adjustments.prettyDateFormat.parse(lblDate.getText());
-        } catch (ParseException ex) {
-            //no date set: do nothing
-            return;
-        }
+        LocalDate date=LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
 
         String timeinstring=txtTimeIn.getText().trim();
         String timeoutstring=txtTimeOut.getText().trim();
         
-        Adjustment inadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
-        Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+        Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
+        Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
 
         //textboxes are empty - absent
         if (timeinstring.isEmpty() && timeoutstring.isEmpty())
@@ -618,15 +611,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
             if (n == JOptionPane.YES_OPTION) {
-                newAbsentAdjustment(inadjustment, nickname, Adjustment.IN,date);
-                newAbsentAdjustment(outadjustment, nickname, Adjustment.OUT,date);
+                newAbsentAdjustment(inadjustment, nickname, Adjustments.IN,date);
+                newAbsentAdjustment(outadjustment, nickname, Adjustments.OUT,date);
             }   
         }
         //string "absent" explicitly written in both textboxes
         else if(timeinstring.toLowerCase().contains("absent") && timeoutstring.toLowerCase().contains("absent"))
         {
-            newAbsentAdjustment(inadjustment, nickname, Adjustment.IN,date);
-            newAbsentAdjustment(outadjustment, nickname, Adjustment.OUT,date);
+            newAbsentAdjustment(inadjustment, nickname, Adjustments.IN,date);
+            newAbsentAdjustment(outadjustment, nickname, Adjustments.OUT,date);
         }
         //ambiguous - one is empty, the other is not
         else if(timeinstring.isEmpty() || timeoutstring.isEmpty())
@@ -685,8 +678,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 {
                     //create adjustment
                     //in
-                    modifyAdjustment( inadjustment, nickname,  Adjustment.IN, date,  timein);
-                    modifyAdjustment( outadjustment, nickname,  Adjustment.OUT, date,  timeout);
+                    modifyAdjustment( inadjustment, nickname,  Adjustments.IN, date,  timein);
+                    modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, date,  timeout);
                 }
                 //if not absent in employee data
                 else
@@ -704,7 +697,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     //not equal to input - adjustment required
                     else 
                     {
-                        modifyAdjustment( inadjustment, nickname,  Adjustment.IN, date,  timein);
+                        modifyAdjustment( inadjustment, nickname,  Adjustments.IN, date,  timein);
                     }
 
                     if(timeout.equals(data.getOutTime()))
@@ -714,7 +707,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     }
                     else 
                     {
-                        modifyAdjustment( outadjustment, nickname,  Adjustment.OUT, date,  timeout);
+                        modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, date,  timeout);
                     }                        
                 }
             }            
@@ -792,10 +785,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             ex.printStackTrace();
             return;
         }
-        Adjustment inadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
-        Adjustments.getInstance().delete(inadjustment);
-        Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
-        Adjustments.getInstance().delete(outadjustment);
+        Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
+        inadjustment.delete();
+        Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
+        outadjustment.delete();
         MainFrame.getInstance().recalculate(true, true);
         FrmManageEmployeeData.getInstance().onDateSelect();
     }//GEN-LAST:event_btnRevertAllActionPerformed
@@ -988,8 +981,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         TimeInOutData data = edatamap.get(datestring);
         
         Adjustments adjustments=Adjustments.getInstance();
-        Adjustment inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
-        Adjustment outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+        Adjustment inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
+        Adjustment outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
         
         String timeinstring="",timeoutstring="",warningstring="";
         
@@ -1057,8 +1050,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     timeoutstring=data.getOutTimeString();
                 }
 
-                inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
-                outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+                inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
+                outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
 
                 if(inAdj!=null)timeinstring=inAdj.getPrettyTimeString();
                 if(outAdj!=null)timeoutstring=outAdj.getPrettyTimeString();

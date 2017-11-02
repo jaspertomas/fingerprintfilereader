@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +13,11 @@ import utils.SqliteDbHelper;
 import utils.JsonHelper;
 
 public class Adjustments {
+    //------------FORMATTERS-----------
+    public static final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
+    public static final DateTimeFormatter prettyTimeFormat = DateTimeFormatter.ofPattern("hh:mm a");
+    public static final DateTimeFormatter prettyDateTimeFormat = DateTimeFormatter.ofPattern("EE, MMMM dd, yyyy hh:mm a");
+    public static final DateTimeFormatter prettyDateFormat = DateTimeFormatter.ofPattern("EE, MMMM dd, yyyy");
     //------------CONSTANTS-----------
     public static final Integer IN=1;
     public static final Integer OUT=2;    

@@ -609,7 +609,7 @@ public class EmployeeDataManager {
             }
             
             //if adjustment is absent=true
-            if(a.getAbsent()==true)
+            if(a.getAbsent()==1)
             {
                 //remove date data
                 edatamap.remove(Holidays.dateFormat.format(a.getDate()));

@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
-import managers.EmployeeFileManager;
 import models.Dates;
 import utils.fileaccess.PdfWriter;
 
@@ -37,7 +36,6 @@ public class MainFrame extends java.awt.Frame {
         instance=this;
 
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
-        EmployeeFileManager.getInstance().load();
     }
 
     /**

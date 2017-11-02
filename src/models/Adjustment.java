@@ -4,14 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Adjustment {
-    //------------FORMATTERS----------
-    public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     //------------FIELDS-----------
     public static final String tablename="adjustment";
     //field names
@@ -134,7 +132,7 @@ public class Adjustment {
             values.add(employee_nickname);
             values.add(type!=null?type.toString():null);
             values.add(date!=null?date.toString():null);
-            values.add(time!=null?timeFormat.format(time):null);
+            values.add(time!=null?time.toLocalTime().format(Adjustments.timeFormat):null);
             values.add(absent!=null?absent.toString():null);
 
             return values;

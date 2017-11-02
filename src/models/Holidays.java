@@ -32,16 +32,19 @@ public class Holidays {
     //-------------------------TABLE FUNCTIONS---------------------
 
     //-----------getter functions----------
-    /*
-    public static Holidays getByName(String name)
+    public static Holiday getByName(String name)
     {
-            HashMap<Integer,Holidays> map=select(" name = '"+name+"'");
-            for(Holidays item:map)return item;
+            RecordList map=select(" name = '"+name+"'");
+            for(Holiday item:map)return item;
             return null;
     }	
-    */
     public static Holiday getById(Integer id) {
             RecordList map=select(" id = '"+id.toString()+"'");
+            for(Holiday item:map)return item;
+            return null;
+    }
+    public static Holiday getByDate(Date date) {
+            RecordList map=select(" date = '"+dateFormat.format(date)+"'");
             for(Holiday item:map)return item;
             return null;
     }
@@ -261,4 +264,42 @@ public class Holidays {
         }
         return null;
     }
+    public static Date getFreeDate() {
+        Date date;
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        String year=Settings.getCurrentYear();
+        
+        try {
+            date = dateFormat.parse(Settings.getCurrentYear()+"/01/01");
+            
+            while(yearFormat.format(date).contentEquals(year))
+            {
+                if(getByDate(date)==null)
+                {
+                    return date;
+                }
+
+                c.setTime(date);
+                c.add(java.util.Calendar.DATE, 1);  // number of days to add
+                date=c.getTime();
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }        
+    public static String getFreeHolidayName() {
+        String name="--New Holiday--";
+        Integer counter=1;
+        while(true)
+        {
+            if(getByName(name)==null)
+            {
+                return name;
+            }
+            counter++;
+            name="--New Holiday"+counter.toString()+"--";
+        }
+    }      
+
 }
