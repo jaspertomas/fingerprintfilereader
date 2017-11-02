@@ -5,6 +5,7 @@
         <group>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/Constants.java</file>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/FrmManageEmployeeData.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Employee.java</file>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/managers/EmployeeDataManager.java</file>
         </group>
     </open-files>

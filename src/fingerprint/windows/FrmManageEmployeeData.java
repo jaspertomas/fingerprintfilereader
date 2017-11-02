@@ -80,7 +80,13 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.getDocument().addDocumentListener(doclistener);
         txtCola.getDocument().addDocumentListener(doclistener);
         txtSalary.getDocument().addDocumentListener(doclistener);
-        txtDeduction.getDocument().addDocumentListener(doclistener);
+        txtVale.getDocument().addDocumentListener(doclistener);
+        txtSSS.getDocument().addDocumentListener(doclistener);
+        txtPH.getDocument().addDocumentListener(doclistener);
+        txtPI.getDocument().addDocumentListener(doclistener);
+        txtLoan.getDocument().addDocumentListener(doclistener);
+        txtOtherDeductions.getDocument().addDocumentListener(doclistener);
+        
         onSelect();
         onDateSelect();
 
@@ -121,7 +127,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtCola = new javax.swing.JTextField();
         btnExit = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        txtDeduction = new javax.swing.JTextField();
+        txtVale = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
@@ -144,6 +150,16 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         btnNineAM = new javax.swing.JButton();
         btnSixPM = new javax.swing.JButton();
         btnNineToSix = new javax.swing.JButton();
+        txtSSS = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txtPH = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtPI = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        txtLoan = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txtOtherDeductions = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -200,7 +216,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Deduction");
+        jLabel4.setText("Vale");
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel6.setText("Manage Employees");
@@ -279,6 +295,16 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("SSS");
+
+        jLabel11.setText("PI");
+
+        jLabel12.setText("PH");
+
+        jLabel13.setText("Other");
+
+        jLabel14.setText("Loan");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,96 +314,123 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel6)
-                            .add(layout.createSequentialGroup()
-                                .add(jLabel9)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(lblNickname2)))
-                        .add(0, 0, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
                                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                    .add(layout.createSequentialGroup()
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator1)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                        .add(0, 0, Short.MAX_VALUE)
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(jLabel3)
-                                            .add(btnRevert))
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(layout.createSequentialGroup()
-                                                .add(1, 1, 1)
-                                                .add(btnSave)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .add(btnDelete)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(btnExit))
-                                            .add(layout.createSequentialGroup()
-                                                .add(15, 15, 15)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                    .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                    .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                                .add(0, 0, Short.MAX_VALUE))))
-                                    .add(jSeparator1)
-                                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                        .add(jLabel1)
-                                        .add(jLabel2)
-                                        .add(layout.createSequentialGroup()
-                                            .add(jLabel4)
-                                            .add(28, 28, 28)
-                                            .add(txtDeduction, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .add(layout.createSequentialGroup()
-                                            .add(jLabel5)
-                                            .add(27, 27, 27)
-                                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                .add(lblNickname)
+                                                    .add(jLabel1)
+                                                    .add(layout.createSequentialGroup()
+                                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                            .add(jLabel5)
+                                                            .add(jLabel2))
+                                                        .add(25, 25, 25)
+                                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                            .add(lblNickname)
+                                                            .add(layout.createSequentialGroup()
+                                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                                    .add(layout.createSequentialGroup()
+                                                                        .add(txtFname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                        .add(txtMname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                                                    .add(layout.createSequentialGroup()
+                                                                        .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .add(jLabel3)))
+                                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                                    .add(txtLname)
+                                                                    .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 150, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))))
+                                                .add(12, 12, 12))
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                                 .add(layout.createSequentialGroup()
-                                                    .add(txtFname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                    .add(txtMname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                    .add(txtLname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 150, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                        .add(layout.createSequentialGroup()
+                                                            .add(jLabel14)
+                                                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                            .add(txtLoan, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                            .add(jLabel13)
+                                                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                                                        .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                                .add(jLabel4)
+                                                                .add(jLabel12))
+                                                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                                .add(layout.createSequentialGroup()
+                                                                    .add(9, 9, 9)
+                                                                    .add(txtPH, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                    .add(jLabel11))
+                                                                .add(layout.createSequentialGroup()
+                                                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                    .add(txtVale, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                    .add(jLabel10)))
+                                                            .add(24, 24, 24)))
+                                                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                        .add(txtPI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                        .add(txtOtherDeductions, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                        .add(txtSSS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                                        .add(btnRevert)
+                                                        .add(1, 1, 1)
+                                                        .add(btnSave)
+                                                        .add(287, 287, 287))
+                                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                                        .add(btnDelete)
+                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                        .add(btnExit)))))))
+                                .add(64, 64, 64))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator3))
+                        .addContainerGap())
+                    .add(jLabel6)
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel9)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(lblNickname2))
+                    .add(layout.createSequentialGroup()
+                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jLabel8)
+                                    .add(lblDatelbl)
+                                    .add(jLabel7))
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(layout.createSequentialGroup()
-                                        .add(btnRevertTimes)
-                                        .add(1, 1, 1)
-                                        .add(btnSaveTimes)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 50, Short.MAX_VALUE)
-                                        .add(btnRevertAll, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .add(lblDate)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(btnExit2))
+                                        .add(lblWarning))
                                     .add(layout.createSequentialGroup()
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                             .add(layout.createSequentialGroup()
-                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                    .add(jLabel8)
-                                                    .add(lblDatelbl)
-                                                    .add(jLabel7))
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                    .add(layout.createSequentialGroup()
-                                                        .add(lblDate)
-                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                        .add(lblWarning))
-                                                    .add(layout.createSequentialGroup()
-                                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                            .add(layout.createSequentialGroup()
-                                                                .add(txtTimeIn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                                .add(18, 18, 18)
-                                                                .add(btnNineAM))
-                                                            .add(layout.createSequentialGroup()
-                                                                .add(txtTimeOut, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                                .add(19, 19, 19)
-                                                                .add(btnSixPM)))
-                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                                        .add(btnNineToSix))))
-                                            .add(lblDate1))
-                                        .add(0, 20, Short.MAX_VALUE))))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator3))
-                        .add(78, 78, 78))))
+                                                .add(txtTimeIn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                .add(18, 18, 18)
+                                                .add(btnNineAM))
+                                            .add(layout.createSequentialGroup()
+                                                .add(txtTimeOut, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                .add(19, 19, 19)
+                                                .add(btnSixPM)))
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                        .add(btnNineToSix))))
+                            .add(lblDate1)
+                            .add(layout.createSequentialGroup()
+                                .add(btnRevertTimes)
+                                .add(1, 1, 1)
+                                .add(btnSaveTimes)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 108, Short.MAX_VALUE)
+                                .add(btnRevertAll, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(btnExit2))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -399,17 +452,29 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel2)
-                            .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel3)
-                            .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel3))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel4)
-                            .add(txtDeduction, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(txtVale, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel10)
+                            .add(txtSSS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel12)
+                            .add(txtPH, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel11)
+                            .add(txtPI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(txtLoan, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(txtOtherDeductions, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel14)
+                            .add(jLabel13))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(btnRevert)
@@ -453,9 +518,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                             .add(btnSaveTimes)
                             .add(btnExit2)
                             .add(btnRevertAll)))
-                    .add(layout.createSequentialGroup()
-                        .add(jScrollPane2)
-                        .addContainerGap())))
+                    .add(jScrollPane2))
+                .addContainerGap())
         );
 
         pack();
@@ -493,8 +557,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             e.setLname(txtLname.getText());
             e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim().isEmpty()?"0":txtSalary.getText().trim()));
             e.setCola(Double.valueOf(txtCola.getText().trim().isEmpty()?"0":txtCola.getText().trim()));
-            e.setDeduction(Double.valueOf(txtDeduction.getText().trim().isEmpty()?"0":txtDeduction.getText().trim()));
-
+            e.setDeduction(Double.valueOf(txtVale.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
+/*!!!*/
             EmployeeFileManager.getInstance().save();
 
             refreshList();
@@ -800,6 +864,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JButton btnSaveTimes;
     private javax.swing.JButton btnSixPM;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -822,13 +891,18 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JLabel lblWarning;
     private javax.swing.JList listDates;
     private javax.swing.JTextField txtCola;
-    private javax.swing.JTextField txtDeduction;
     private javax.swing.JTextField txtFname;
     private javax.swing.JTextField txtLname;
+    private javax.swing.JTextField txtLoan;
     private javax.swing.JTextField txtMname;
+    private javax.swing.JTextField txtOtherDeductions;
+    private javax.swing.JTextField txtPH;
+    private javax.swing.JTextField txtPI;
+    private javax.swing.JTextField txtSSS;
     private javax.swing.JTextField txtSalary;
     private javax.swing.JTextField txtTimeIn;
     private javax.swing.JTextField txtTimeOut;
+    private javax.swing.JTextField txtVale;
     // End of variables declaration//GEN-END:variables
 
     public void onSelect() {
@@ -856,7 +930,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.setText(e.getLname());
         txtSalary.setText(e.getMonthlySalary().toString());
         txtCola.setText(e.getCola().toString());
-        txtDeduction.setText(e.getDeduction().toString());
+        txtVale.setText(e.getDeduction().toString());
         enableButtons(false);
 
         //for time in / out adjustment
