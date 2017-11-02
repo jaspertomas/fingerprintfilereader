@@ -152,9 +152,15 @@ public class Employee {
             else
                     Employees.update(this);
     }
+
     @Override
     public String toString()
     {
-            return id.toString();
+        return nickname;
     }
+
+    public String getFullName() {
+        return fname + " " +mname + " "+lname;
+    }
+
 }

@@ -238,7 +238,7 @@ public class EmployeeDataManager {
 
                 //process holiday bonus first
                 try {
-                    holiday=Holidays.getInstance().getByDateString(date);
+                    holiday=Holidays.getByDateString(date);
                 } catch (ParseException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error","Error processing holiday data",JOptionPane.ERROR_MESSAGE);
@@ -468,8 +468,8 @@ public class EmployeeDataManager {
             //cola now calculated on a per day basis (above)
 //            cola=e.getCola();
 //            totalcola=cola*daysworked;
-            deductions=e.getDeduction();
-            netpay=grosspay+totalcola-deductions+holidaybonus;
+            //!!!deductions=e.getDeduction();
+            //!!!netpay=grosspay+totalcola-deductions+holidaybonus;
             
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\r\n";
@@ -482,9 +482,9 @@ public class EmployeeDataManager {
             tempstring+="Total COLA: P "+format.format(totalcola)+"\r\n";
 //            if(holidaybonus!=0)
                 tempstring+="Holiday Additional: P "+format.format(holidaybonus)+"\r\n";
-            tempstring+="Deductions: P "+format.format(deductions)+"\r\n";
+            //!!!tempstring+="Deductions: P "+format.format(deductions)+"\r\n";
             tempstring+="- - - - - - - - - - - - - - - \r\n";
-            tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
+            //!!!tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
             }
             tempstring+="==============================\n\n";
 
@@ -574,7 +574,7 @@ public class EmployeeDataManager {
 
         //create data for absent people 
         ArrayList<String> namestoinsert=new ArrayList<String>();
-        for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
+        for (Employee e : Employees.select("")) {
             namestoinsert.add(e.getNickname());
         }
         for(String nametoinsert:namestoinsert){

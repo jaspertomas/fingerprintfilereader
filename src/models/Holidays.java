@@ -1,277 +1,245 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import utils.fileaccess.BinaryFileReader;
-import utils.fileaccess.BinaryFileWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utils.SqliteDbHelper;
+import utils.JsonHelper;
 
-/**
- *
- * @author jaspertomas
- */
 public class Holidays {
+    //------------FIELDS-----------
+    public static final String tablename=Holiday.tablename;
+    public static String[] fields=Holiday.fields;
+    public static String[] fieldtypes=Holiday.fieldtypes;
+    //-----------------------
+    //-------------------------TABLE FUNCTIONS---------------------
 
-    //---------------SINGLETON-------------------
-
-    static Holidays instance;
-
-    public static Holidays getInstance() {
-        if (instance == null) {
-            instance = new Holidays();
-        }
-        return instance;
-    }
-    //---------------VARIABLES---------------------  
-//    public static final String REGULAR="R";
-//    public static final String SPECIAL="S";
-//    public static final String OTHER="O";
-    public static final Integer REGULAR=0;
-    public static final Integer SPECIAL=1;
-    public static final Integer OTHER=2;
-
-    private static final String OUTPUT_FILE_NAME = "holidays.dat";
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-    public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
-
-    
-    ArrayList<Holiday> items,allItems=new ArrayList<Holiday>();
-
-    public ArrayList<Holiday> getItems() {
-        if(items==null)
-        {
-            items=new ArrayList<Holiday>();
-            load();
-        }
-        
-        return items;
-    }
-//    public void reset() {
-//        items.clear();
-//    }
-
-    public void save()
+    //-----------getter functions----------
+    /*
+    public static Holidays getByName(String name)
     {
-        //initialize if necessary
-        getItems();
-        
-        BinaryFileWriter writer = new BinaryFileWriter();
-        writer.connectToFile(OUTPUT_FILE_NAME);
-        
-        for(Holiday item:allItems)
-        {
-            writer.writeString(item.getName());
-            writer.writeInt(item.getType());
-//            writer.writeString(dateFormat.format(item.getDate()));
-            writer.writeDate(item.getDate());
-        }
-        writer.close(); 
+            HashMap<Integer,Holidays> map=select(" name = '"+name+"'");
+            for(Holidays item:map)return item;
+            return null;
+    }	
+    */
+    public static Holiday getById(Integer id) {
+            RecordList map=select(" id = '"+id.toString()+"'");
+            for(Holiday item:map)return item;
+            return null;
     }
-    public void load()
+    //-----------database functions--------------
+
+    public static void delete(Integer id)
     {
-        String currentYear=Settings.getInstance().getCurrentYear();
-        
-        items.clear();
-        allItems.clear();
-        
-        Holiday h;
-                
-        BinaryFileReader reader = new BinaryFileReader();
-        boolean result=reader.connectToFile(OUTPUT_FILE_NAME);
-        
-        if(!result)
-        {
-            //file not found
-            System.out.println("File "+OUTPUT_FILE_NAME+" not found");
-            return;
-        }
-        
-        while(reader.notEOF())
-        {
-            h=new Holiday();
-            h.setName(reader.readString());
-            if(!reader.notEOF())break;
-            h.setType(reader.readInt());
-            try {
-                h.setDate(dateFormat.parse(reader.readString()));
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-//                Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            //add holidays only if their year matches this year
-            if(yearFormat.format(h.getDate()).contentEquals(currentYear))
-                items.add(h);
-            allItems.add(h);
-        }
-        Collections.sort(items);
-        reader.close();        
-    }
-
-    //add items that don't already exist in the items array
-//    void generate(ArrayList<Holiday> items) {
-////        EmployeeList temp=new EmployeeList();
-//        
-//        //scan employee list for matching nickname; 
-//        //if it doesnt exist, add it
-////        for(String name:items)
-////        {
-////            if(items.getByName(name)==null)
-////            items.add(new Holiday(name,"","","",0d,0d,0d));
-////        }
-////        save();
-//    }
-    public void generate(String yearstring) {
-        try {
-            //Regular holidays
-            allItems.add(new Holiday("New Year",Holidays.REGULAR,dateFormat.parse(yearstring+"/01/01")));
-            allItems.add(new Holiday("Araw ng Kagitingan",Holidays.REGULAR,dateFormat.parse(yearstring+"/4/9")));
-            allItems.add(new Holiday("Labor Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/5/1")));
-            allItems.add(new Holiday("Independence Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/6/12")));
-            allItems.add(new Holiday("Bonifacio Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/11/30")));
-            allItems.add(new Holiday("Christmas",Holidays.REGULAR,dateFormat.parse(yearstring+"/12/25")));
-            allItems.add(new Holiday("Rizal Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/12/30")));
-
-            //movable regular holidays for 2014
-            if(yearstring.contentEquals("2014"))
-            {
-                allItems.add(new Holiday("Maundy Thursday",Holidays.REGULAR,dateFormat.parse(yearstring+"/4/17")));
-                allItems.add(new Holiday("Good Friday",Holidays.REGULAR,dateFormat.parse(yearstring+"/4/18")));
-                allItems.add(new Holiday("National Heroes' Day",Holidays.REGULAR,dateFormat.parse(yearstring+"/8/25")));
-            }
-
-            //Special non/working holidays
-            allItems.add(new Holiday("Ninoy Aquino Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"/8/21")));
-            allItems.add(new Holiday("All Saints' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"/11/1")));
-//            allItems.add(new Holiday("All Souls' Day",Holidays.SPECIAL,dateFormat.parse(yearstring+"/11/2")));
-            allItems.add(new Holiday("Christmas Eve",Holidays.SPECIAL,dateFormat.parse(yearstring+"/12/24")));
-            allItems.add(new Holiday("Day after Christmas",Holidays.SPECIAL,dateFormat.parse(yearstring+"/12/26")));
-            allItems.add(new Holiday("Last Day of the Year",Holidays.SPECIAL,dateFormat.parse(yearstring+"/12/31")));
-
-            //movable special holidays for 2014
-            if(yearstring.contentEquals("2014"))
-            {
-                allItems.add(new Holiday("Chinese New Year",Holidays.SPECIAL,dateFormat.parse(yearstring+"/1/31")));
-                allItems.add(new Holiday("Black Saturday",Holidays.SPECIAL,dateFormat.parse(yearstring+"/4/19")));
-            }
-    
-            Collections.sort(allItems);
-            save();
-        } catch (ParseException ex) {
+        Connection conn=SqliteDbHelper.getInstance().getConnection();            
+        Statement st = null;
+        try { 
+            st = conn.createStatement();
+            st.executeUpdate("delete from "+tablename+" where id = '"+id.toString()+"';");
+        } catch (SQLException ex) {
+            Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
-//        load();
     }
-    public void delete(Holiday holiday)
+    public static void delete(Holiday item)
     {
-        //initialize if necessary
-        getItems();
-        
-        allItems.remove(holiday);
-        save();
-        items.remove(holiday);
+        delete(item.getId());
     }
-    public void add(Holiday holiday)
+    public static void insert(Holiday item)
     {
-        //initialize if necessary
-        getItems();
-        
-        allItems.add(holiday);
-        Collections.sort(allItems);
-        save();
-        items.add(holiday);
-        Collections.sort(items);
-    }    
-    public void edit(Holiday h,String name, Integer type, Date date)
+        Connection conn=SqliteDbHelper.getInstance().getConnection();            
+        Statement st = null;
+        boolean withid=false;
+        try { 
+            st = conn.createStatement();
+            //for tables with integer primary key
+            if(fieldtypes[0].contentEquals("integer"))withid=false;                
+            //for tables with varchar primary key
+            else if(fieldtypes[0].contains("varchar"))withid=true;                
+            st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
+        } catch (SQLException ex) {
+            Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+    public static void update(Holiday item)
     {
-        //initialize if necessary
-        getItems();
-                
-        h.setName(name);
-        h.setType(type);
-        h.setDate(date);
-        
-        Collections.sort(allItems);
-        save();
-        Collections.sort(items);
-    }      
-
-    public Holiday getByDate(Date date) {
-        //initialize if necessary
-        getItems();
-        
-        for(Holiday h:items)
-        {
-            if(h.getDate().equals(date))
-                return h;
+        Connection conn=SqliteDbHelper.getInstance().getConnection();            
+        Statement st = null;
+        boolean withid=false;
+        try { 
+            st = conn.createStatement();
+            st.executeUpdate("update "+tablename+" set "+implodeFieldsWithValues(item,false)+" where id = '"+item.getId().toString()+"';");
+        } catch (SQLException ex) {
+            Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-        return null;
     }
-    public Holiday getByDateString(String datestring) throws ParseException {
-        //initialize if necessary
-        getItems();
-        
-        Date date=dateFormat.parse(datestring);
-        for(Holiday h:allItems)
-        {
-            if(h.getDate().equals(date))
-                return h;
-        }
-        return null;
-    }
+    public static Integer count(String conditions)
+    {
+        if(conditions.isEmpty())conditions = "1";
 
-    public Holiday getByName(String name) {
-        //initialize if necessary
-        getItems();
-        
-        for(Holiday h:items)
+        //if conditions contains a limit clause, remove it. 
+        //It is not applicable to a count query
+        else if(conditions.contains("limit"))
         {
-            if(h.getName().equals(name))
-                return h;
+            String[] segments=conditions.split("limit");
+            conditions=segments[0];
         }
-        return null;
-    }    
-    public Date getFreeDate() {
-        Date date;
-        java.util.Calendar c = java.util.Calendar.getInstance();
-        String year=Settings.getInstance().getCurrentYear();
-        
-        try {
-            date = dateFormat.parse(Settings.getInstance().getCurrentYear()+"/01/01");
-            
-            while(yearFormat.format(date).contentEquals(year))
-            {
-                if(getByDate(date)==null)
-                {
-                    return date;
-                }
 
-                c.setTime(date);
-                c.add(java.util.Calendar.DATE, 1);  // number of days to add
-                date=c.getTime();
+        Connection conn=SqliteDbHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+        st = conn.createStatement();
+        rs = st.executeQuery("SELECT count(*) from "+tablename+" where "+conditions);
+            while (rs.next()) {
+                return rs.getInt(1);
             }
-        } catch (ParseException ex) {
+        } catch (SQLException ex) {
+            Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         return null;
-    }        
-    public String getFreeHolidayName() {
-        String name="--New Holiday--";
-        Integer counter=1;
-        while(true)
-        {
-            if(getByName(name)==null)
-            {
-                return name;
+    }
+    public static RecordList select(String conditions)
+    {
+        if(conditions.isEmpty())conditions = "1";
+        Connection conn=SqliteDbHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
+                rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
+
+            RecordList items=new RecordList();
+            while (rs.next()) {
+                items.add(new Holiday(rs));
+                    //items.put(rs.getInt("id"), new Holidays(rs));
             }
-            counter++;
-            name="--New Holiday"+counter.toString()+"--";
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
         }
-    }        
+    }
+
+    //-----------database helper functions--------------
+    public static String implodeValues(Holiday item,boolean withId)
+    {
+            ArrayList<String> values=item.implodeFieldValuesHelper(withId);
+            String output="";
+            for(String value:values)
+            {
+                    if(!output.isEmpty())
+                            output+=",";
+                    output+=(value!=null?"'"+value+"'":"null");
+            }
+            return output;
+    }
+    public static String implodeFields(boolean withId)
+    {
+            String output="";
+            for(String field:fields)
+            {
+                    if(!withId && field.contentEquals("id"))continue;
+                    if(!output.isEmpty())
+                            output+=",";
+                    output+=field;
+            }
+            return output;
+    }
+    public static String implodeFieldsWithValues(Holiday item,boolean withId)
+    {
+            ArrayList<String> values=item.implodeFieldValuesHelper(true);//get entire list of values; whether the id is included will be dealt with later.
+
+            if(values.size()!=fields.length)
+            {
+                    System.err.println("Holidays:implodeFieldsWithValues(): ERROR: values length does not match fields length");
+            }
+
+            String output="";
+            for(int i=0;i<fields.length;i++)
+            {
+                    if(!withId && fields[i].contentEquals("id"))continue;
+                    if(!output.isEmpty())
+                            output+=",";
+                    output+=fields[i]+"="+(values.get(i)!=null?"'"+values.get(i)+"'":"null");
+            }
+            return output;
+    }	
+    public static String implodeFieldsWithTypes()
+    {
+            String output="";
+            for(int i=0;i<fields.length;i++)
+            {
+                    if(fields[i].contentEquals(fields[0]))//fields[0] being the primary key
+                    {
+                        if(fieldtypes[i].toLowerCase().contains("int"))
+                            output+=fields[i]+" INTEGER PRIMARY KEY";
+                        else
+                            output+=fields[i]+" "+fieldtypes[i]+" PRIMARY KEY";
+                    }
+                    else
+                            output+=","+fields[i]+" "+fieldtypes[i];
+            }
+            return output;
+    }	
+    public static void createTable()
+    {
+        String query = "CREATE TABLE IF NOT EXISTS "+tablename+" ("+implodeFieldsWithTypes()+" );";
+        try { 
+            SqliteDbHelper.getInstance().getConnection().createStatement().executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+    public static void deleteTable()
+    {
+        String query = "DROP TABLE IF EXISTS "+tablename;
+        try { 
+            SqliteDbHelper.getInstance().getConnection().createStatement().executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+    public static class RecordList extends ArrayList<Holiday>{
+        public static RecordList fromJsonString(String resultstring) throws IOException
+        {
+            return JsonHelper.mapper.readValue(resultstring, RecordList.class);
+        }
+        public String toEscapedJsonString() throws IOException
+        {
+            return "\""+JsonHelper.mapper.writeValueAsString(this).replace("\"", "\\\"") +"\"";
+        }
+    }
+    public static void main(String args[])
+    {
+        try {
+            deleteTable();
+            createTable();
+            //Holiday i=new Holiday();
+            //i.save();
+            
+//            Holidays.delete(1);
+            for(Holiday j:Holidays.select(""))
+                System.out.println(j.getId());
+            
+            System.out.println(Holidays.count(""));
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
 }

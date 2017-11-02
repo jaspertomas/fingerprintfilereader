@@ -22,6 +22,7 @@ import models.Adjustments;
 import models.CompiledEmployeeData;
 import models.Dates;
 import models.Employee;
+import models.Employees;
 import models.Holidays;
 import models.TimeInOutData;
 import models.WeeklyTimeData;
@@ -529,8 +530,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFnameActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        EmployeeFileManager efm = EmployeeFileManager.getInstance();
-        Employee e = efm.getEmployees().get(jList1.getSelectedIndex());
+        Employee e = Employees.select("").get(jList1.getSelectedIndex());
 
         //show dialog box to confirm delete 
         int n = JOptionPane.showConfirmDialog(
@@ -540,15 +540,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
-            efm.getEmployees().remove(e);
-            efm.save();
+            e.delete();
             refreshList();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-            Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
+            Employee e = Employees.select("").get(jList1.getSelectedIndex());
 
             e.setNickname(lblNickname.getText());
             e.setFname(txtFname.getText());
@@ -556,9 +555,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             e.setLname(txtLname.getText());
             e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim().isEmpty()?"0":txtSalary.getText().trim()));
             e.setCola(Double.valueOf(txtCola.getText().trim().isEmpty()?"0":txtCola.getText().trim()));
-            e.setDeduction(Double.valueOf(txtVale.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
+            //!!!e.setDeduction(Double.valueOf(txtVale.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
 /*!!!*/
-            EmployeeFileManager.getInstance().save();
+            e.save();
 
             refreshList();
             onSelect();
@@ -910,7 +909,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             return;
         }
 
-        Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
+        Employee e = Employees.select("").get(jList1.getSelectedIndex());
         String nickname=e.getNickname();
 
         if(nickname.trim().isEmpty())
@@ -929,7 +928,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.setText(e.getLname());
         txtSalary.setText(e.getMonthlySalary().toString());
         txtCola.setText(e.getCola().toString());
-        txtVale.setText(e.getDeduction().toString());
+//!!!!        txtVale.setText(e.getDeduction().toString());
         enableButtons(false);
 
         //for time in / out adjustment
@@ -949,7 +948,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     public void refreshList() {
         Integer selectedIndex=jList1.getSelectedIndex();
         DefaultListModel model = new DefaultListModel();
-        for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
+        for (Employee e : Employees.select("")) {
             model.addElement(e);
         }
         jList1.setModel(model);
