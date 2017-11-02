@@ -22,14 +22,12 @@ public class Employees {
     //-------------------------TABLE FUNCTIONS---------------------
 
     //-----------getter functions----------
-    /*
-    public static Employees getByName(String name)
+    public static Employee getByNickname(String nickname)
     {
-            HashMap<Integer,Employees> map=select(" name = '"+name+"'");
-            for(Employees item:map)return item;
+            RecordList map=select(" nickname = '"+nickname+"'");
+            for(Employee item:map)return item;
             return null;
     }	
-    */
     public static Employee getById(Integer id) {
             RecordList map=select(" id = '"+id.toString()+"'");
             for(Employee item:map)return item;
@@ -242,4 +240,27 @@ public class Employees {
             e.printStackTrace();
         }
     } 
+    
+    //add employees that don't already exist in the employees array
+    public static void generateFromStringArray(EmployeeNameList employeenamelist) {
+//        EmployeeList temp=new EmployeeList();
+        
+        //scan employee list for matching nickname; 
+        //if it doesnt exist, add it
+        for(String nickname:employeenamelist)
+        {
+            if(Employees.getByNickname(nickname)==null)
+            {
+                Employee e=new Employee();
+                e.setNickname(nickname);
+                e.setFname("");
+                e.setMname("");
+                e.setLname("");
+                e.setCola(0d);
+                e.setMonthlySalary(0d);
+                e.save();
+            }
+        }
+    }
+    
 }

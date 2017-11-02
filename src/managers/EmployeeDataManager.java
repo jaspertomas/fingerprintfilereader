@@ -509,7 +509,8 @@ public class EmployeeDataManager {
 
         createNameListAndCalendar();
         
-        EmployeeFileManager.getInstance().generateFromStringArray(employeenamelist);
+        //EmployeeFileManager.getInstance().generateFromStringArray(employeenamelist);
+        Employees.generateFromStringArray(employeenamelist);
 
         //start to process data into array structure
         weeklydata = new WeeklyTimeData();

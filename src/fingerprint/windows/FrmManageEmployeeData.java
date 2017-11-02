@@ -17,7 +17,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import managers.EmployeeDataManager;
-import managers.EmployeeFileManager;
 import models.Adjustment;
 import models.Adjustments;
 import models.CompiledEmployeeData;
