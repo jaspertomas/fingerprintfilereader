@@ -61,6 +61,12 @@ public class Holidays {
         } catch (SQLException ex) {
             Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
+        } finally {
+            try {
+                st.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     public static void delete(Holiday item)
@@ -85,6 +91,12 @@ public class Holidays {
         } catch (SQLException ex) {
             Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
+        } finally {
+            try {
+                st.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     public static void update(Holiday item)
@@ -98,6 +110,12 @@ public class Holidays {
         } catch (SQLException ex) {
             Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
+        } finally {
+            try {
+                st.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     public static Integer count(String conditions)
@@ -127,6 +145,11 @@ public class Holidays {
         }
         return null;
     }
+    public static RecordList selectForCurrentYear()
+    {
+        String year=Settings.getCurrentYear();
+        return select(" date like \""+year+"-%\" order by date");
+    }
     public static RecordList select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
@@ -147,6 +170,13 @@ public class Holidays {
             Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             return null;
+        } finally {
+            try {
+                rs.close();
+                st.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
