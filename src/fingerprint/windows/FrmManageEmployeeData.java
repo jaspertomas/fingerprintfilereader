@@ -4,10 +4,12 @@
  */
 package fingerprint.windows;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -637,7 +639,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 Integer hour=Integer.valueOf(segments[0]);
                 if(hour>12)throw new ParseException("",0);
                 
-                timein=new Time(Adjustments.prettyTimeFormat.parse(timeinstring).getTime());
+                /*!!! date to time?*/
+                timein=Time.valueOf(LocalTime.parse(timeinstring, Adjustments.prettyTimeFormat));
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format for Time In, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -647,7 +650,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 Integer hour=Integer.valueOf(segments[0]);
                 if(hour>12)throw new ParseException("",0);
                 
-                timeout=new Time(Adjustments.prettyTimeFormat.parse(timeoutstring).getTime());
+                timeout=Time.valueOf(LocalTime.parse(timeoutstring, Adjustments.prettyTimeFormat));
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format for Time Out, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -678,8 +681,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 {
                     //create adjustment
                     //in
-                    modifyAdjustment( inadjustment, nickname,  Adjustments.IN, date,  timein);
-                    modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, date,  timeout);
+                    modifyAdjustment( inadjustment, nickname,  Adjustments.IN, Date.valueOf(date),  timein);
+                    modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, Date.valueOf(date),  timeout);
                 }
                 //if not absent in employee data
                 else
@@ -697,7 +700,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     //not equal to input - adjustment required
                     else 
                     {
-                        modifyAdjustment( inadjustment, nickname,  Adjustments.IN, date,  timein);
+                        modifyAdjustment( inadjustment, nickname,  Adjustments.IN, Date.valueOf(date),  timein);
                     }
 
                     if(timeout.equals(data.getOutTime()))
@@ -707,7 +710,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     }
                     else 
                     {
-                        modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, date,  timeout);
+                        modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, Date.valueOf(date),  timeout);
                     }                        
                 }
             }            
@@ -727,23 +730,24 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             a.setType(type);
             a.setDate(date);
             a.setTime(time);
-            a.setAbsent(false);
-            Adjustments.getInstance().add(a);
+            a.setAbsent(0);
+            a.save();
         }
         //else change value of existing adjustment
         else
         {
             a=existingadj;
-//            a.setEmployeeNickname(nickname);
-//            a.setType(type);
-//            a.setDate(date);
-//            a.setTime(time);
-//            a.setAbsent(false);
-            Adjustments.getInstance().edit(a,nickname,type,date,time,false);
+            a.setEmployeeNickname(nickname);
+            a.setType(type);
+            a.setDate(date);
+            a.setTime(time);
+            a.setAbsent(0);
+            a.save();
+            
         }
         
     }
-    private void newAbsentAdjustment(Adjustment existingadj,String nickname, Integer type,Date date)
+    private void newAbsentAdjustment(Adjustment existingadj,String nickname, Integer type,LocalDate date)
     {
         Adjustment a;
         
@@ -753,10 +757,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             a=new Adjustment();
             a.setEmployeeNickname(nickname);
             a.setType(type);
-            a.setDate(date);
+            a.setDate(Date.valueOf(date));
             a.setTime(null);
-            a.setAbsent(true);
-            Adjustments.getInstance().add(a);
+            a.setAbsent(1);
+            a.save();
         }
         //else change value of existing adjustment
         else
@@ -764,9 +768,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             a=existingadj;
             a.setEmployeeNickname(nickname);
             a.setType(type);
-            a.setDate(date);
+            a.setDate(Date.valueOf(date));
             a.setTime(null);
-            a.setAbsent(true);
+            a.setAbsent(1);
+            a.save();
         }
         
         
@@ -778,13 +783,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
     private void btnRevertAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertAllActionPerformed
         String nickname=lblNickname.getText();
-        Date date=null;
-        try {
-            date = Adjustments.prettyDateFormat.parse(lblDate.getText());
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-            return;
-        }
+        LocalDate date= LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
         Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
         inadjustment.delete();
         Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
@@ -965,12 +964,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         //write date label
         String datestring = Dates.getInstance().getItems().get(listDates.getSelectedIndex());
         String prettydatestring="";
-        try {
-            date=Holidays.dateFormat.parse(datestring);
-            prettydatestring=Adjustments.prettyDateFormat.format(date);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        date=Date.valueOf(LocalDate.parse(datestring, Holidays.dateFormat));
+        prettydatestring=date.toLocalDate().format(Adjustments.prettyDateFormat);
         lblDate.setText(prettydatestring);
         
         
@@ -980,9 +975,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         
         TimeInOutData data = edatamap.get(datestring);
         
-        Adjustments adjustments=Adjustments.getInstance();
-        Adjustment inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
-        Adjustment outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
+        Adjustment inAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date.toLocalDate());
+        Adjustment outAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date.toLocalDate());
         
         String timeinstring="",timeoutstring="",warningstring="";
         
@@ -999,11 +993,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             timeoutstring=data.getPrettyOutTimeString();
         }
         //overwrite data if adjustments exist and it's not "absent"
-        if(inAdj!=null && inAdj.getAbsent()!=true)
+        if(inAdj!=null && inAdj.getAbsent()!=1)
         {
             timeinstring=inAdj.getPrettyTimeString();
         }
-        if(outAdj!=null && outAdj.getAbsent()!=true)
+        if(outAdj!=null && outAdj.getAbsent()!=1)
         {
             timeoutstring=outAdj.getPrettyTimeString();
         }        
@@ -1020,7 +1014,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
     private void refreshDateList() {
         Integer selectedIndex=listDates.getSelectedIndex();
-        Adjustments adjustments=Adjustments.getInstance();
         Adjustment inAdj,outAdj;
         String nickname=lblNickname.getText();
         String timeinstring,timeoutstring;
@@ -1033,12 +1026,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             timeinstring=timeoutstring="";
             
             //all this effort is to determine if the date needs adjustment
-            try {
-                date=Holidays.dateFormat.parse(datestring);
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-                return;
-            }
+            date=Date.valueOf(LocalDate.parse(datestring,Holidays.dateFormat));
             WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
             CompiledEmployeeData edatamap = weeklydata.get(nickname);
             if(edatamap!=null)
@@ -1050,8 +1038,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     timeoutstring=data.getOutTimeString();
                 }
 
-                inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
-                outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
+                inAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date.toLocalDate());
+                outAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date.toLocalDate());
 
                 if(inAdj!=null)timeinstring=inAdj.getPrettyTimeString();
                 if(outAdj!=null)timeoutstring=outAdj.getPrettyTimeString();

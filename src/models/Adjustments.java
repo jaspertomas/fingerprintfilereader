@@ -252,7 +252,7 @@ public class Adjustments {
     } 
 
     /*!!select everything? really?*/
-    public Adjustment getByNicknameTypeAndDate(String name, Integer type, LocalDate date) {
+    public static Adjustment getByNicknameTypeAndDate(String name, Integer type, LocalDate date) {
         RecordList map=Adjustments.select(" employee_nickname = "+name+" and type = "+type+" and date = \""+date.toString()+"\"");
         for(Adjustment item:map)return item;
         return null;

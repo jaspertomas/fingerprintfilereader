@@ -4,7 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/Constants.java</file>
-            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Adjustments.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/FrmManageEmployeeData.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Settings.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/MainFrame.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Adjustment.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/managers/EmployeeDataManager.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/TimeInOutData.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/FrmManageHolidays.java</file>
         </group>
     </open-files>
 </project-private>

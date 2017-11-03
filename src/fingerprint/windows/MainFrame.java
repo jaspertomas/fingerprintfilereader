@@ -11,7 +11,11 @@ import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
+import models.Adjustments;
 import models.Dates;
+import models.Employees;
+import models.Holidays;
+import models.Settings;
 import utils.fileaccess.PdfWriter;
 
 /**
@@ -35,6 +39,13 @@ public class MainFrame extends java.awt.Frame {
 
         instance=this;
 
+        //create database if not exist
+        Holidays.createTable();
+        Employees.createTable();
+        Settings.createTable();
+        Adjustments.createTable();
+
+        
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
     }
 

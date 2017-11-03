@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -152,5 +153,8 @@ public class Adjustment {
     public String toString()
     {
             return id.toString();
+    }
+    public String getPrettyTimeString() {
+        return time.toLocalTime().format(Adjustments.prettyTimeFormat);
     }
 }
