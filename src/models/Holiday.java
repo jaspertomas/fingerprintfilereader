@@ -43,7 +43,7 @@ public class Holiday {
             id=rs.getInt("id");
             name=rs.getString("name");
             type=rs.getInt("type");
-            date=rs.getDate("date");
+            date=Date.valueOf(rs.getString("date"));
         } catch (SQLException ex) {
             Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -115,6 +115,6 @@ public class Holiday {
     @Override
     public String toString()
     {
-            return id.toString();
+        return name;
     }
 }

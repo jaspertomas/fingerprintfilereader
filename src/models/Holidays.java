@@ -77,8 +77,11 @@ public class Holidays {
             //for tables with integer primary key
             if(fieldtypes[0].contentEquals("integer"))withid=false;                
             //for tables with varchar primary key
-            else if(fieldtypes[0].contains("varchar"))withid=true;                
-            st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
+            else if(fieldtypes[0].contains("varchar"))withid=true;     
+            
+            String query="INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");";
+            //System.out.println(query);
+            st.executeUpdate(query);
         } catch (SQLException ex) {
             Logger.getLogger(Holidays.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -258,10 +261,9 @@ public class Holidays {
     } 
     public static Holiday getByDateString(String datestring) throws ParseException {
         LocalDate date = LocalDate.parse(datestring, dateFormat);
-        for(Holiday h:Holidays.select(""))
+        for(Holiday h:Holidays.select(" date = \""+date.toString()+"\""))
         {
-            if(h.getDate().equals(date))
-                return h;
+            return h;
         }
         return null;
     }
@@ -297,35 +299,35 @@ public class Holidays {
     }      
     public static void generate(String yearstring) {
         //Regular holidays
-        new Holiday("New Year",Holidays.REGULAR,Date.valueOf(yearstring+"/01/01")).save();
-        new Holiday("Araw ng Kagitingan",Holidays.REGULAR,Date.valueOf(yearstring+"/4/9")).save();
-        new Holiday("Labor Day",Holidays.REGULAR,Date.valueOf(yearstring+"/5/1")).save();
-        new Holiday("Independence Day",Holidays.REGULAR,Date.valueOf(yearstring+"/6/12")).save();
-        new Holiday("Bonifacio Day",Holidays.REGULAR,Date.valueOf(yearstring+"/11/30")).save();
-        new Holiday("Christmas",Holidays.REGULAR,Date.valueOf(yearstring+"/12/25")).save();
-        new Holiday("Rizal Day",Holidays.REGULAR,Date.valueOf(yearstring+"/12/30")).save();
+        new Holiday("New Year",Holidays.REGULAR,Date.valueOf(yearstring+"-01-01")).save();
+        new Holiday("Araw ng Kagitingan",Holidays.REGULAR,Date.valueOf(yearstring+"-4-9")).save();
+        new Holiday("Labor Day",Holidays.REGULAR,Date.valueOf(yearstring+"-5-1")).save();
+        new Holiday("Independence Day",Holidays.REGULAR,Date.valueOf(yearstring+"-6-12")).save();
+        new Holiday("Bonifacio Day",Holidays.REGULAR,Date.valueOf(yearstring+"-11-30")).save();
+        new Holiday("Christmas",Holidays.REGULAR,Date.valueOf(yearstring+"-12-25")).save();
+        new Holiday("Rizal Day",Holidays.REGULAR,Date.valueOf(yearstring+"-12-30")).save();
 
         //movable regular holidays for 2014
         if(yearstring.contentEquals("2014"))
         {
-            new Holiday("Maundy Thursday",Holidays.REGULAR,Date.valueOf(yearstring+"/4/17")).save();
-            new Holiday("Good Friday",Holidays.REGULAR,Date.valueOf(yearstring+"/4/18")).save();
-            new Holiday("National Heroes' Day",Holidays.REGULAR,Date.valueOf(yearstring+"/8/25")).save();
+            new Holiday("Maundy Thursday",Holidays.REGULAR,Date.valueOf(yearstring+"-4-17")).save();
+            new Holiday("Good Friday",Holidays.REGULAR,Date.valueOf(yearstring+"-4-18")).save();
+            new Holiday("National Heroes'' Day",Holidays.REGULAR,Date.valueOf(yearstring+"-8-25")).save();
         }
 
-        //Special non/working holidays
-        new Holiday("Ninoy Aquino Day",Holidays.SPECIAL,Date.valueOf(yearstring+"/8/21")).save();
-        new Holiday("All Saints' Day",Holidays.SPECIAL,Date.valueOf(yearstring+"/11/1")).save();
-//            new Holiday("All Souls' Day",Holidays.SPECIAL,Date.valueOf(yearstring+"/11/2")).save();
-        new Holiday("Christmas Eve",Holidays.SPECIAL,Date.valueOf(yearstring+"/12/24")).save();
-        new Holiday("Day after Christmas",Holidays.SPECIAL,Date.valueOf(yearstring+"/12/26")).save();
-        new Holiday("Last Day of the Year",Holidays.SPECIAL,Date.valueOf(yearstring+"/12/31")).save();
+        //Special non-working holidays
+        new Holiday("Ninoy Aquino Day",Holidays.SPECIAL,Date.valueOf(yearstring+"-8-21")).save();
+        new Holiday("All Saints'' Day",Holidays.SPECIAL,Date.valueOf(yearstring+"-11-1")).save();
+//            new Holiday("All Souls\' Day",Holidays.SPECIAL,Date.valueOf(yearstring+"-11-2")).save();
+        new Holiday("Christmas Eve",Holidays.SPECIAL,Date.valueOf(yearstring+"-12-24")).save();
+        new Holiday("Day after Christmas",Holidays.SPECIAL,Date.valueOf(yearstring+"-12-26")).save();
+        new Holiday("Last Day of the Year",Holidays.SPECIAL,Date.valueOf(yearstring+"-12-31")).save();
 
         //movable special holidays for 2014
         if(yearstring.contentEquals("2014"))
         {
-            new Holiday("Chinese New Year",Holidays.SPECIAL,Date.valueOf(yearstring+"/1/31")).save();
-            new Holiday("Black Saturday",Holidays.SPECIAL,Date.valueOf(yearstring+"/4/19")).save();
+            new Holiday("Chinese New Year",Holidays.SPECIAL,Date.valueOf(yearstring+"-1-31")).save();
+            new Holiday("Black Saturday",Holidays.SPECIAL,Date.valueOf(yearstring+"-4-19")).save();
         }
 
 //!!            Collections.sort(allItems);

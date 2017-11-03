@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -279,7 +277,7 @@ public class Settings {
         {
             setting=new Setting();
             setting.setName("currentYear");
-            setting.setValue(setting.toString());
+            setting.setValue(currentYear.toString());
             setting.save();
         }
     }

@@ -436,8 +436,10 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     
 
     private void refreshList() {
+        String year=Settings.getCurrentYear();
+
         DefaultListModel model = new DefaultListModel();
-        for (Holiday h : Holidays.select("")) {
+        for (Holiday h : Holidays.select(" date like \""+year+"-%\"")) {
             model.addElement(h);
         }
         listHolidays.setModel(model);
@@ -449,7 +451,9 @@ public class FrmManageHolidays extends javax.swing.JFrame {
     
     private void setButtonMode()
     {
-        boolean formenabled=!Holidays.select("").isEmpty();
+        String year=Settings.getCurrentYear();
+
+        boolean formenabled=!Holidays.select(" date like \""+year+"-%\"").isEmpty();
         btnAdd.setVisible(formenabled);
         btnDelete.setVisible(formenabled);
         btnSave.setVisible(formenabled);
