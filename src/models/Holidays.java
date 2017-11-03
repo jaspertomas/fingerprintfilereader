@@ -45,7 +45,7 @@ public class Holidays {
             return null;
     }
     public static Holiday getByDate(LocalDate date) {
-            RecordList map=select(" date = '"+date.format(dateFormat)+"'");
+            RecordList map=select(" date = '"+date.toString()+"'");
             for(Holiday item:map)return item;
             return null;
     }
@@ -302,8 +302,7 @@ public class Holidays {
         String year=Settings.getCurrentYear();
         
         date = LocalDate.parse(Settings.getCurrentYear()+"/01/01", dateFormat);
-
-        while(yearFormat.format(date).contentEquals(year))
+        while(date.toString().contains(year))
         {
             if(getByDate(date)==null)
             {

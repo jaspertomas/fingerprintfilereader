@@ -296,6 +296,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         //tempdate=Holidays.dateFormat.parse(temp);
         newDate=LocalDate.parse(temp, Holidays.dateFormat);
 
+        //validate date is within this year
         if(!Holidays.yearFormat.format(newDate).contentEquals(year))
         {
             JOptionPane.showMessageDialog(this, "Cannot set this holiday to a different year", "Error", JOptionPane.ERROR_MESSAGE);
@@ -303,7 +304,6 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         }
         
         //validate holiday name is not duplicate
-
         int duplicate_count = Holidays.count(" date like \""+year+"-%\" and name = '"+newName+"' and id != "+h.getId().toString());
         if(duplicate_count>0)
         {
@@ -321,7 +321,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         }
 
         //edit holiday
-        h.setName(txtName.getText());
+        h.setName(newName);
         h.setType(cmbType.getSelectedIndex());
         h.setDate(Date.valueOf(newDate));
         h.save();
@@ -442,6 +442,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         //select first element
         listHolidays.setSelectedIndex(0);
         onSelect();
+        
     }
     
     private void setButtonMode()
