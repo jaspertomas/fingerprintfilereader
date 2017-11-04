@@ -638,11 +638,16 @@ public class EmployeeDataManager {
         //convert lines into objects
         timerecords = new ArrayList<TimeRecord>();
         for (String line : lines) {
+            String[] segments=line.split("\t");
+            
             //ignore the header
             if (line.contains(headerfingerprint)) {
                 continue;
             } //ignore empty lines
             else if (line.trim().length() == 0) {
+                continue;
+            } //ignore lines with no employee name
+            else if (segments[3].trim().isEmpty()) {
                 continue;
             } else {
                 timerecords.add(new TimeRecord(line));
