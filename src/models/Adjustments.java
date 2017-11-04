@@ -126,7 +126,9 @@ public class Adjustments {
         ResultSet rs = null;
         try { 
             st = conn.createStatement();
-                rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
+            String query="SELECT * from "+tablename+" where "+conditions;
+            //System.out.println(query);
+                rs = st.executeQuery(query);
 
             RecordList items=new RecordList();
             while (rs.next()) {
@@ -253,7 +255,7 @@ public class Adjustments {
 
     /*!!select everything? really?*/
     public static Adjustment getByNicknameTypeAndDate(String name, Integer type, LocalDate date) {
-        RecordList map=Adjustments.select(" employee_nickname = "+name+" and type = "+type+" and date = \""+date.toString()+"\"");
+        RecordList map=Adjustments.select(" employee_nickname = '"+name+"' and type = "+type+" and date = \""+date.toString()+"\"");
         for(Adjustment item:map)return item;
         return null;
     }   

@@ -164,11 +164,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel1.setText("Name");
@@ -222,11 +217,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel6.setText("Manage Employees");
 
-        listDates.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(listDates);
 
         lblDatelbl.setText("Date");
@@ -531,7 +521,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFnameActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        Employee e = Employees.select("").get(jList1.getSelectedIndex());
+        Employee e = Employees.select().get(jList1.getSelectedIndex());
 
         //show dialog box to confirm delete 
         int n = JOptionPane.showConfirmDialog(
@@ -548,7 +538,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-            Employee e = Employees.select("").get(jList1.getSelectedIndex());
+            Employee e = Employees.select().get(jList1.getSelectedIndex());
 
             e.setNickname(lblNickname.getText());
             e.setFname(txtFname.getText());
@@ -901,7 +891,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             return;
         }
 
-        Employee e = Employees.select("").get(jList1.getSelectedIndex());
+        Employee e = Employees.select().get(jList1.getSelectedIndex());
         String nickname=e.getNickname();
 
         if(nickname.trim().isEmpty())
@@ -940,7 +930,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     public void refreshList() {
         Integer selectedIndex=jList1.getSelectedIndex();
         DefaultListModel model = new DefaultListModel();
-        for (Employee e : Employees.select("")) {
+        for (Employee e : Employees.select()) {
             model.addElement(e);
         }
         jList1.setModel(model);

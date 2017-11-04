@@ -4,7 +4,6 @@
  */
 package managers;
 
-import fingerprint.windows.FrmManageEmployeeData;
 import fingerprint.windows.MainFrame;
 import java.io.File;
 import java.sql.Time;

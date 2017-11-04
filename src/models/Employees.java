@@ -108,6 +108,11 @@ public class Employees {
         }
         return null;
     }
+    public static RecordList select()
+    {
+        String conditions=" 1 order by lname, fname";
+        return select(conditions);
+    }
     public static RecordList select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";

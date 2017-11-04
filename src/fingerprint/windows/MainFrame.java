@@ -271,48 +271,37 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnManageHolidaysActionPerformed
     private JFileChooser fc,sfc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
-        try {
-            Holiday a=Holidays.getByDateString("2013/01/01");
-            if(a==null)
-                JOptionPane.showMessageDialog(this, "null");
-            else
-                JOptionPane.showMessageDialog(this, a.getDate().toString());
-            
-            /*
-            //Create a file chooser
-            fc = new JFileChooser();
-            
-            //In response to a button click:
-            int returnVal = fc.showOpenDialog(this);
-            
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-            //parse file
-            File file = fc.getSelectedFile();
+        //Create a file chooser
+        fc = new JFileChooser();
 
-            //if file hasn't been selected, do nothing
-            if(file==null)return;
-            
-            //            System.out.println(file.getPath());
-            //            File file=new File("/Users/jaspertomas/NetBeansProjects/Fingerprint/NewGlog_0001_20130921114600.csv");
+        //In response to a button click:
+        int returnVal = fc.showOpenDialog(this);
 
-            EmployeeDataManager.getInstance().calculate(file);
-            
-            
-            //            //show dialog box to ask whether to save output to file
-            //            int n = JOptionPane.showConfirmDialog(
-            //                    null,
-            //                    "Would you like to save the output to a file?",
-            //                    "Save output",
-            //                    JOptionPane.YES_NO_OPTION);
-            //
-            //            if (n == JOptionPane.YES_OPTION) {
-            //                saveDialog();
-            //            }        
-            FrmManageEmployeeData.getInstance().refreshList();
-            } */
-        } catch (ParseException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        //parse file
+        File file = fc.getSelectedFile();
+
+        //if file hasn't been selected, do nothing
+        if(file==null)return;
+
+        //            System.out.println(file.getPath());
+        //            File file=new File("/Users/jaspertomas/NetBeansProjects/Fingerprint/NewGlog_0001_20130921114600.csv");
+
+        EmployeeDataManager.getInstance().calculate(file);
+
+
+        //            //show dialog box to ask whether to save output to file
+        //            int n = JOptionPane.showConfirmDialog(
+        //                    null,
+        //                    "Would you like to save the output to a file?",
+        //                    "Save output",
+        //                    JOptionPane.YES_NO_OPTION);
+        //
+        //            if (n == JOptionPane.YES_OPTION) {
+        //                saveDialog();
+        //            }        
+        FrmManageEmployeeData.getInstance().refreshList();
+        } 
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
 
     private void btnManageEmployeeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageEmployeeDataActionPerformed

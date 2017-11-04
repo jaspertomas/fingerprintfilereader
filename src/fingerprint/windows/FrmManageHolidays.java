@@ -300,6 +300,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         if(!Holidays.yearFormat.format(newDate).contentEquals(year))
         {
             JOptionPane.showMessageDialog(this, "Cannot set this holiday to a different year", "Error", JOptionPane.ERROR_MESSAGE);
+            onSelect();
             return;
         }
         
@@ -317,6 +318,7 @@ public class FrmManageHolidays extends javax.swing.JFrame {
         if(duplicate_count>0)
         {
             JOptionPane.showMessageDialog(this, Holidays.dateFormat.format(newDate)+" is already taken.\nPlease use a different date.", "Error", JOptionPane.ERROR_MESSAGE);
+            onSelect();
             return;
         }
 
