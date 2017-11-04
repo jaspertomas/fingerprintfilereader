@@ -195,7 +195,7 @@ public class EmployeeDataManager {
         Double holidaybonus=0d;
 
 //        for (String name : employeenamelist) 
-        for(Employee e:Employees.select(""))
+        for(Employee e:Employees.select())
         {
             totalcola=0d;
             Integer daysworked=0;
@@ -519,7 +519,7 @@ public class EmployeeDataManager {
         }
         //create data for absent people 
         ArrayList<String> namestoinsert=new ArrayList<String>();
-        for (Employee e : Employees.select("")) {
+        for (Employee e : Employees.select()) {
             namestoinsert.add(e.getNickname());
         }
         for(String nametoinsert:namestoinsert){
@@ -573,7 +573,7 @@ public class EmployeeDataManager {
 
         //create data for absent people 
         ArrayList<String> namestoinsert=new ArrayList<String>();
-        for (Employee e : Employees.select("")) {
+        for (Employee e : Employees.select()) {
             namestoinsert.add(e.getNickname());
         }
         for(String nametoinsert:namestoinsert){
@@ -713,7 +713,7 @@ public class EmployeeDataManager {
     public String getPayrollText() 
     {
         String string="";
-        for(Employee e:Employees.select(""))
+        for(Employee e:Employees.select())
         {
             string+=e.getFullName()+"\r\n";
 //            string+="reg hours rh"++"\r\n";

@@ -6,18 +6,14 @@ package fingerprint.windows;
 
 import java.awt.Font;
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
 import models.Adjustments;
 import models.Dates;
 import models.Employees;
-import models.Holiday;
 import models.Holidays;
 import models.Settings;
 import utils.fileaccess.PdfWriter;
@@ -53,6 +49,8 @@ public class MainFrame extends java.awt.Frame {
 
         
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
+        
+        chooseFile();
     }
 
     /**
@@ -271,6 +269,11 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnManageHolidaysActionPerformed
     private JFileChooser fc,sfc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
+        chooseFile();
+    }//GEN-LAST:event_btnChooseCsvFileActionPerformed
+
+    private void chooseFile()
+    {
         //Create a file chooser
         fc = new JFileChooser();
 
@@ -283,27 +286,11 @@ public class MainFrame extends java.awt.Frame {
 
         //if file hasn't been selected, do nothing
         if(file==null)return;
-
-        //            System.out.println(file.getPath());
-        //            File file=new File("/Users/jaspertomas/NetBeansProjects/Fingerprint/NewGlog_0001_20130921114600.csv");
-
         EmployeeDataManager.getInstance().calculate(file);
-
-
-        //            //show dialog box to ask whether to save output to file
-        //            int n = JOptionPane.showConfirmDialog(
-        //                    null,
-        //                    "Would you like to save the output to a file?",
-        //                    "Save output",
-        //                    JOptionPane.YES_NO_OPTION);
-        //
-        //            if (n == JOptionPane.YES_OPTION) {
-        //                saveDialog();
-        //            }        
         FrmManageEmployeeData.getInstance().refreshList();
         } 
-    }//GEN-LAST:event_btnChooseCsvFileActionPerformed
-
+    }
+    
     private void btnManageEmployeeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageEmployeeDataActionPerformed
         setVisible(false);
         FrmManageEmployeeData.getInstance().setVisible(true);
