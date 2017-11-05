@@ -3,9 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/bugs%202.txt</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/FrmManageEmployeeData.java</file>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Holiday.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/MainFrame.java</file>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Holidays.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/managers/EmployeeDataManager.java</file>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/FrmManageHolidays.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Employees.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Adjustments.java</file>
         </group>
     </open-files>
 </project-private>

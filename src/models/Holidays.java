@@ -358,9 +358,5 @@ public class Holidays {
             new Holiday("Chinese New Year",Holidays.SPECIAL,Date.valueOf(yearstring+"-1-31")).save();
             new Holiday("Black Saturday",Holidays.SPECIAL,Date.valueOf(yearstring+"-4-19")).save();
         }
-
-//!!            Collections.sort(allItems);
-//!!            save();
-//        load();
     } 
 }

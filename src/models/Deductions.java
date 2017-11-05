@@ -5,42 +5,34 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.SqliteDbHelper;
 import utils.JsonHelper;
 
-public class Adjustments {
-    //------------FORMATTERS-----------
-    public static final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
-    public static final DateTimeFormatter prettyTimeFormat = DateTimeFormatter.ofPattern("hh:mm a");
-    public static final DateTimeFormatter prettyDateTimeFormat = DateTimeFormatter.ofPattern("EE, MMMM dd, yyyy hh:mm a");
-    public static final DateTimeFormatter prettyDateFormat = DateTimeFormatter.ofPattern("EE, MMMM dd, yyyy");
-    //------------CONSTANTS-----------
-    public static final Integer IN=1;
-    public static final Integer OUT=2;    
+public class Deductions {
     //------------FIELDS-----------
-    public static final String tablename=Adjustment.tablename;
-    public static String[] fields=Adjustment.fields;
-    public static String[] fieldtypes=Adjustment.fieldtypes;
+    public static final String tablename=Deduction.tablename;
+    public static String[] fields=Deduction.fields;
+    public static String[] fieldtypes=Deduction.fieldtypes;
     //-----------------------
     //-------------------------TABLE FUNCTIONS---------------------
 
     //-----------getter functions----------
     /*
-    public static Adjustments getByName(String name)
+    public static Deductions getByName(String name)
     {
-            HashMap<Integer,Adjustments> map=select(" name = '"+name+"'");
-            for(Adjustments item:map)return item;
+            HashMap<Integer,Deductions> map=select(" name = '"+name+"'");
+            for(Deductions item:map)return item;
             return null;
     }	
     */
-    public static Adjustment getById(Integer id) {
+    public static Deduction getById(Integer id) {
             RecordList map=select(" id = '"+id.toString()+"'");
-            for(Adjustment item:map)return item;
+            for(Deduction item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -53,15 +45,15 @@ public class Adjustments {
             st = conn.createStatement();
             st.executeUpdate("delete from "+tablename+" where id = '"+id.toString()+"';");
         } catch (SQLException ex) {
-            Logger.getLogger(Adjustments.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Deductions.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
-    public static void delete(Adjustment item)
+    public static void delete(Deduction item)
     {
         delete(item.getId());
     }
-    public static void insert(Adjustment item)
+    public static void insert(Deduction item)
     {
         Connection conn=SqliteDbHelper.getInstance().getConnection();            
         Statement st = null;
@@ -74,11 +66,11 @@ public class Adjustments {
             else if(fieldtypes[0].contains("varchar"))withid=true;                
             st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
         } catch (SQLException ex) {
-            Logger.getLogger(Adjustments.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Deductions.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
-    public static void update(Adjustment item)
+    public static void update(Deduction item)
     {
         Connection conn=SqliteDbHelper.getInstance().getConnection();            
         Statement st = null;
@@ -87,7 +79,7 @@ public class Adjustments {
             st = conn.createStatement();
             st.executeUpdate("update "+tablename+" set "+implodeFieldsWithValues(item,false)+" where id = '"+item.getId().toString()+"';");
         } catch (SQLException ex) {
-            Logger.getLogger(Adjustments.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Deductions.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
@@ -113,7 +105,7 @@ public class Adjustments {
                 return rs.getInt(1);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Adjustments.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Deductions.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         return null;
@@ -126,25 +118,23 @@ public class Adjustments {
         ResultSet rs = null;
         try { 
             st = conn.createStatement();
-            String query="SELECT * from "+tablename+" where "+conditions;
-            //System.out.println(query);
-                rs = st.executeQuery(query);
+                rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
             RecordList items=new RecordList();
             while (rs.next()) {
-                items.add(new Adjustment(rs));
-                    //items.put(rs.getInt("id"), new Adjustments(rs));
+                items.add(new Deduction(rs));
+                    //items.put(rs.getInt("id"), new Deductions(rs));
             }
             return items;
         } catch (SQLException ex) {
-            Logger.getLogger(Adjustments.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Deductions.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             return null;
         }
     }
 
     //-----------database helper functions--------------
-    public static String implodeValues(Adjustment item,boolean withId)
+    public static String implodeValues(Deduction item,boolean withId)
     {
             ArrayList<String> values=item.implodeFieldValuesHelper(withId);
             String output="";
@@ -168,13 +158,13 @@ public class Adjustments {
             }
             return output;
     }
-    public static String implodeFieldsWithValues(Adjustment item,boolean withId)
+    public static String implodeFieldsWithValues(Deduction item,boolean withId)
     {
             ArrayList<String> values=item.implodeFieldValuesHelper(true);//get entire list of values; whether the id is included will be dealt with later.
 
             if(values.size()!=fields.length)
             {
-                    System.err.println("Adjustments:implodeFieldsWithValues(): ERROR: values length does not match fields length");
+                    System.err.println("Deductions:implodeFieldsWithValues(): ERROR: values length does not match fields length");
             }
 
             String output="";
@@ -210,7 +200,7 @@ public class Adjustments {
         try { 
             SqliteDbHelper.getInstance().getConnection().createStatement().executeUpdate(query);
         } catch (SQLException ex) {
-            Logger.getLogger(Adjustment.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Deduction.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
@@ -220,11 +210,11 @@ public class Adjustments {
         try { 
             SqliteDbHelper.getInstance().getConnection().createStatement().executeUpdate(query);
         } catch (SQLException ex) {
-            Logger.getLogger(Adjustment.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Deduction.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
-    public static class RecordList extends ArrayList<Adjustment>{
+    public static class RecordList extends ArrayList<Deduction>{
         public static RecordList fromJsonString(String resultstring) throws IOException
         {
             return JsonHelper.mapper.readValue(resultstring, RecordList.class);
@@ -239,25 +229,17 @@ public class Adjustments {
         try {
             deleteTable();
             createTable();
-            //Adjustment i=new Adjustment();
+            //Deduction i=new Deduction();
             //i.save();
             
-//            Adjustments.delete(1);
-            for(Adjustment j:Adjustments.select(""))
+//            Deductions.delete(1);
+            for(Deduction j:Deductions.select(""))
                 System.out.println(j.getId());
             
-            System.out.println(Adjustments.count(""));
+            System.out.println(Deductions.count(""));
             
         } catch (Exception e) {
             e.printStackTrace();
         }
     } 
-
-    public static Adjustment getByNicknameTypeAndDate(String name, Integer type, LocalDate date) {
-        RecordList map=Adjustments.select(" employee_nickname = '"+name+"' and type = "+type+" and date = \""+date.toString()+"\"");
-        for(Adjustment item:map)return item;
-        return null;
-    }   
-
-    
 }
