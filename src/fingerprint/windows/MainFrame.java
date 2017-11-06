@@ -325,7 +325,7 @@ public class MainFrame extends java.awt.Frame {
         
         if(!EmployeeDataManager.getInstance().validateDates())return;
 
-        EmployeeDataManager.getInstance().recalculate(file,recreatenamelistandcalendar);    
+        EmployeeDataManager.getInstance().calculate(file);    
         
         if(!quiet)
         JOptionPane.showMessageDialog(this, "Payroll recalculated");

@@ -560,7 +560,7 @@ public class EmployeeDataManager {
 
         printPayrollOutput();
     }
-
+/*
     //recreatenamelistandcalendar is true by default
     //false only if Adjust Date Range button is clicked
     public void recalculate(File file) {
@@ -615,7 +615,7 @@ public class EmployeeDataManager {
         
         printPayrollOutput();
     }
-    
+    */
     private void applyAdjustments()
     {
         for(Adjustment a:Adjustments.select(""))

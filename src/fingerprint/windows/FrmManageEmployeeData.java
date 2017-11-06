@@ -95,12 +95,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 enableDeductions();
-                /*
-                if (jList1.getComponentCount() != 0) {
-                    jList1.setSelectedIndex(0);
-                    onSelect();
-                }
-                */
             }
         });
     }
@@ -879,15 +873,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             d.setEmployeeId(e.id);
             d.setWeekId(week.id);
             d.setVale(Double.valueOf(txtVale.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
-            d.setSss(Double.valueOf(txtSSS.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
-            d.setPh(Double.valueOf(txtPH.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
-            d.setPi(Double.valueOf(txtPI.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
-            d.setLoan(Double.valueOf(txtLoan.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
-            d.setOther(Double.valueOf(txtOther.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
+            d.setSss(Double.valueOf(txtSSS.getText().trim().isEmpty()?"0":txtSSS.getText().trim()));
+            d.setPh(Double.valueOf(txtPH.getText().trim().isEmpty()?"0":txtPH.getText().trim()));
+            d.setPi(Double.valueOf(txtPI.getText().trim().isEmpty()?"0":txtPI.getText().trim()));
+            d.setLoan(Double.valueOf(txtLoan.getText().trim().isEmpty()?"0":txtLoan.getText().trim()));
+            d.setOther(Double.valueOf(txtOther.getText().trim().isEmpty()?"0":txtOther.getText().trim()));
             d.save();
 
-            //refreshList();
-            //onSelect();
+            refreshList();
+            onSelect();
         } catch (java.lang.NumberFormatException e) {
             e.printStackTrace();
         }
@@ -1021,6 +1015,27 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 //        lblDate.setText(e.getNickname());
     
         onDateSelect();
+        
+        Week week=EmployeeDataManager.getInstance().getWeek();
+        Deduction d=Deductions.getByEmployeeAndWeekIds(e.id, week.id);
+        if(d!=null)
+        {
+            txtVale.setText(d.getVale().toString());
+            txtSSS.setText(d.getSss().toString());
+            txtPH.setText(d.getPh().toString());
+            txtPI.setText(d.getPi().toString());
+            txtLoan.setText(d.getLoan().toString());
+            txtOther.setText(d.getOther().toString());
+        }
+        else
+        {
+            txtVale.setText("0");
+            txtSSS.setText("0");
+            txtPH.setText("0");
+            txtPI.setText("0");
+            txtLoan.setText("0");
+            txtOther.setText("0");
+        }
     }
 
     public void enableButtons(boolean b) {

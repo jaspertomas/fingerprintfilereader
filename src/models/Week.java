@@ -3,6 +3,7 @@ package models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -37,8 +38,8 @@ public class Week extends TreeMap<String, CompiledEmployeeData> {
     public Week(ResultSet rs) {
         try {
             id=rs.getInt("id");
-            startdate=rs.getDate("startdate");
-            enddate=rs.getDate("enddate");
+            startdate=Date.valueOf(rs.getString("startdate"));
+            enddate=Date.valueOf(rs.getString("enddate"));
             total=rs.getDouble("total");
         } catch (SQLException ex) {
             Logger.getLogger(Week.class.getName()).log(Level.SEVERE, null, ex);

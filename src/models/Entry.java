@@ -54,7 +54,7 @@ public class Entry {
             id=rs.getInt("id");
             week_id=rs.getInt("week_id");
             employee_id=rs.getInt("employee_id");
-            date=rs.getDate("date");
+            date=Date.valueOf(rs.getString("date"));
             time_in=rs.getTime("time_in");
             lunch_out=rs.getTime("lunch_out");
             lunch_in=rs.getTime("lunch_in");

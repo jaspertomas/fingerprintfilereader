@@ -49,7 +49,7 @@ public class Adjustment {
             employee_id=rs.getInt("employee_id");
             employee_nickname=rs.getString("employee_nickname");
             type=rs.getInt("type");
-            date=rs.getDate("date");
+            date=Date.valueOf(rs.getString("date"));
             time=rs.getTime("time");
             absent=rs.getInt("absent");
         } catch (SQLException ex) {
