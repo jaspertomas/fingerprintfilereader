@@ -529,14 +529,40 @@ public class EmployeeDataManager {
         }
     }
     public void calculate(File file) {
+        calculate(file,false);
+    }
+    public void calculate(File file,Boolean adjustDates) {
 
         //parse file and create records list
         parseFile(file);
+        
+        if(adjustDates)
+        {
+            //remove calendar entries that do not fit between startdate and enddate
+            ArrayList<TimeRecord> temp = new ArrayList<TimeRecord>();
+            for (TimeRecord timerecord : timerecords) {
+                if (DateUtil.isEarlierThan(timerecord.getDate(), txtStartDate.getText())
+                        || DateUtil.isLaterThan(timerecord.getDate(), txtEndDate.getText())) {
+                    temp.add(timerecord);
+                }
+            }
+            for (TimeRecord timerecord : temp) {
+                timerecords.remove(timerecord);
+            }
+        }
 
         //arrange time records into arraylists by employee
         TreeMap<String, ArrayList<TimeRecord>> timerecordsbyemployee=groupTimeRecordsByEmployee();
 
-        Date[] dates=createNameListAndCalendar();
+        Date[] dates;
+        if(adjustDates)
+        {
+            dates=new Date[2];
+            dates[0]=Date.valueOf(txtStartDate.getText().replace("/", "-"));
+            dates[1]=Date.valueOf(txtEndDate.getText().replace("/", "-"));
+        }
+        else
+            dates=createNameListAndCalendar();
         
         //EmployeeFileManager.getInstance().generateFromStringArray(employeenamelist);
         Employees.generateFromStringArray(employeenamelist);
