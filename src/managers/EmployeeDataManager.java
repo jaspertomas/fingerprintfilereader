@@ -6,9 +6,11 @@ package managers;
 
 import fingerprint.windows.MainFrame;
 import java.io.File;
+import java.sql.Date;
 import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -30,6 +32,7 @@ import models.Holidays;
 import models.TimeInOutData;
 import models.TimeRecord;
 import models.Week;
+import models.Weeks;
 import utils.DateHelper;
 import utils.fileaccess.FileReader;
 
@@ -75,17 +78,16 @@ public class EmployeeDataManager {
     //this is a string array of all dates included in the parsed file
     //key = employee
     //value = all timerecords by a specific employee
-    TreeMap<String, ArrayList<TimeRecord>> timerecordsbyemployee;
     Week week;
 
     public Week getWeek() {
         return week;
     }
-
+/*
     public void setWeek(Week week) {
         this.week = week;
     }
-
+*/
     //----------------------------------
     public CompiledEmployeeData genEmployeeDataMap(ArrayList<TimeRecord> employeetimerecordlist) {
         //employeetimerecordlist contains many login time records per day, spanning many days
@@ -152,7 +154,7 @@ public class EmployeeDataManager {
         return compiledemployeedata;
     }
 
-    public void createNameListAndCalendar() {
+    public Date[] createNameListAndCalendar() {
         //create employee name list
         // and date list
         employeenamelist = new EmployeeNameList();
@@ -172,6 +174,12 @@ public class EmployeeDataManager {
         //set date textboxes according to the date range in the calendar
         txtStartDate.setText(dates.get(0));
         txtEndDate.setText(dates.get(dates.size() - 1));
+        
+        //create return value of start and end dates
+        Date[] startAndEndDates = new Date[2];
+        startAndEndDates[0]=Date.valueOf(LocalDate.parse(dates.get(0)));
+        startAndEndDates[1]=Date.valueOf(LocalDate.parse(dates.get(dates.size() - 1)));
+        return startAndEndDates;
     }
 
     public void printPayrollOutput() {
@@ -512,19 +520,31 @@ public class EmployeeDataManager {
         parseFile(file);
 
         //arrange time records into arraylists by employee
-        groupTimeRecordsByEmployee();
+        TreeMap<String, ArrayList<TimeRecord>> timerecordsbyemployee=groupTimeRecordsByEmployee();
 
-        createNameListAndCalendar();
+        Date[] dates=createNameListAndCalendar();
         
         //EmployeeFileManager.getInstance().generateFromStringArray(employeenamelist);
         Employees.generateFromStringArray(employeenamelist);
 
+        //delete previous data 
+        Week oldWeek=Weeks.getByStartAndEndDates(dates[0], dates[1]);
+        if(oldWeek!=null)oldWeek.delete();
+        
         //start to process data into array structure
         week = new Week();
+        week.startdate=dates[0];
+        week.enddate=dates[0];
+        week.save();
+        
         for (ArrayList<TimeRecord> timerecordlist : timerecordsbyemployee.values()) {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
+            //if not empty, 
+            //take employee name as key, edatamap as value,
+            //put into week
             if(timerecordlist.size()>0)week.put(timerecordlist.get(0).getName(), edatamap);
         }
+        
         //create data for absent people 
         ArrayList<String> namestoinsert=new ArrayList<String>();
         for (Employee e : Employees.select()) {
@@ -564,7 +584,7 @@ public class EmployeeDataManager {
         }
 
         //arrange time records into arraylists by employee
-        groupTimeRecordsByEmployee();
+        TreeMap<String, ArrayList<TimeRecord>> timerecordsbyemployee=groupTimeRecordsByEmployee();
 
         if(recreatenamelistandcalendar)
             createNameListAndCalendar();
@@ -663,7 +683,10 @@ public class EmployeeDataManager {
         }
     }
 
-    private void groupTimeRecordsByEmployee() {
+    private TreeMap<String, ArrayList<TimeRecord>> groupTimeRecordsByEmployee() {
+        //output
+        TreeMap<String, ArrayList<TimeRecord>> timerecordsbyemployee;
+
         //group by date
         ArrayList<TimeRecord> dailyrecordlist;
         timerecordsbyemployee = new TreeMap<String, ArrayList<TimeRecord>>();
@@ -678,6 +701,7 @@ public class EmployeeDataManager {
             }
 
         }
+        return timerecordsbyemployee;
     }
 
 

@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +28,11 @@ public class Deductions {
             return null;
     }	
     */
+    public static Deduction getByEmployeeAndWeekIds(Integer employee_id, Integer week_id) {
+            RecordList map=select(" employee_id = '"+employee_id.toString()+"' and week_id = '"+week_id.toString()+"'");
+            for(Deduction item:map)return item;
+            return null;
+    }
     public static Deduction getById(Integer id) {
             RecordList map=select(" id = '"+id.toString()+"'");
             for(Deduction item:map)return item;
@@ -52,6 +55,18 @@ public class Deductions {
     public static void delete(Deduction item)
     {
         delete(item.getId());
+    }
+    public static void deleteWhereWeekId(Integer week_id)
+    {
+        Connection conn=SqliteDbHelper.getInstance().getConnection();            
+        Statement st = null;
+        try { 
+            st = conn.createStatement();
+            st.executeUpdate("delete from "+tablename+" where week_id = '"+week_id.toString()+"';");
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeWeeks.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
     }
     public static Integer insert(Deduction item)
     {

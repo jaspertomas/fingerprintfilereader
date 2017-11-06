@@ -99,6 +99,10 @@ public class Week extends TreeMap<String, CompiledEmployeeData> {
     }
     public void delete()
     {
+            //delete all records associated with this
+            //except deductions
+            EmployeeWeeks.deleteWhereWeekId(this.id);
+            Entrys.deleteWhereWeekId(this.id);
             Weeks.delete(this);
     }
     public void save()

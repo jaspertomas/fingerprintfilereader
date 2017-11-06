@@ -10,33 +10,49 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static models.EmployeeWeeks.tablename;
 import utils.SqliteDbHelper;
 import utils.JsonHelper;
 
-public class Entrys {
+public class EmployeeWeeks {
     //------------FIELDS-----------
-    public static final String tablename=Entry.tablename;
-    public static String[] fields=Entry.fields;
-    public static String[] fieldtypes=Entry.fieldtypes;
+    public static final String tablename=EmployeeWeek.tablename;
+    public static String[] fields=EmployeeWeek.fields;
+    public static String[] fieldtypes=EmployeeWeek.fieldtypes;
     //-----------------------
     //-------------------------TABLE FUNCTIONS---------------------
 
     //-----------getter functions----------
     /*
-    public static Entrys getByName(String name)
+    public static EmployeeWeeks getByName(String name)
     {
-            HashMap<Integer,Entrys> map=select(" name = '"+name+"'");
-            for(Entrys item:map)return item;
+            HashMap<Integer,EmployeeWeeks> map=select(" name = '"+name+"'");
+            for(EmployeeWeeks item:map)return item;
             return null;
     }	
     */
-    public static Entry getById(Integer id) {
+    public static EmployeeWeek getById(Integer id) {
             RecordList map=select(" id = '"+id.toString()+"'");
-            for(Entry item:map)return item;
+            for(EmployeeWeek item:map)return item;
             return null;
     }
     //-----------database functions--------------
+
+    public static void delete(Integer id)
+    {
+        Connection conn=SqliteDbHelper.getInstance().getConnection();            
+        Statement st = null;
+        try { 
+            st = conn.createStatement();
+            st.executeUpdate("delete from "+tablename+" where id = '"+id.toString()+"';");
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeWeeks.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+    public static void delete(EmployeeWeek item)
+    {
+        delete(item.getId());
+    }
     public static void deleteWhereWeekId(Integer week_id)
     {
         Connection conn=SqliteDbHelper.getInstance().getConnection();            
@@ -49,23 +65,7 @@ public class Entrys {
             ex.printStackTrace();
         }
     }
-    public static void delete(Integer id)
-    {
-        Connection conn=SqliteDbHelper.getInstance().getConnection();            
-        Statement st = null;
-        try { 
-            st = conn.createStatement();
-            st.executeUpdate("delete from "+tablename+" where id = '"+id.toString()+"';");
-        } catch (SQLException ex) {
-            Logger.getLogger(Entrys.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-    }
-    public static void delete(Entry item)
-    {
-        delete(item.getId());
-    }
-    public static Integer insert(Entry item)
+    public static Integer insert(EmployeeWeek item)
     {
         Connection conn=SqliteDbHelper.getInstance().getConnection();            
         Statement st = null;
@@ -79,12 +79,12 @@ public class Entrys {
             st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
             return st.getGeneratedKeys().getInt(1);
         } catch (SQLException ex) {
-            Logger.getLogger(Entrys.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmployeeWeeks.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             return null;
         }
     }
-    public static void update(Entry item)
+    public static void update(EmployeeWeek item)
     {
         Connection conn=SqliteDbHelper.getInstance().getConnection();            
         Statement st = null;
@@ -93,7 +93,7 @@ public class Entrys {
             st = conn.createStatement();
             st.executeUpdate("update "+tablename+" set "+implodeFieldsWithValues(item,false)+" where id = '"+item.getId().toString()+"';");
         } catch (SQLException ex) {
-            Logger.getLogger(Entrys.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmployeeWeeks.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
@@ -119,7 +119,7 @@ public class Entrys {
                 return rs.getInt(1);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Entrys.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmployeeWeeks.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         return null;
@@ -136,19 +136,19 @@ public class Entrys {
 
             RecordList items=new RecordList();
             while (rs.next()) {
-                items.add(new Entry(rs));
-                    //items.put(rs.getInt("id"), new Entrys(rs));
+                items.add(new EmployeeWeek(rs));
+                    //items.put(rs.getInt("id"), new EmployeeWeeks(rs));
             }
             return items;
         } catch (SQLException ex) {
-            Logger.getLogger(Entrys.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmployeeWeeks.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             return null;
         }
     }
 
     //-----------database helper functions--------------
-    public static String implodeValues(Entry item,boolean withId)
+    public static String implodeValues(EmployeeWeek item,boolean withId)
     {
             ArrayList<String> values=item.implodeFieldValuesHelper(withId);
             String output="";
@@ -172,13 +172,13 @@ public class Entrys {
             }
             return output;
     }
-    public static String implodeFieldsWithValues(Entry item,boolean withId)
+    public static String implodeFieldsWithValues(EmployeeWeek item,boolean withId)
     {
             ArrayList<String> values=item.implodeFieldValuesHelper(true);//get entire list of values; whether the id is included will be dealt with later.
 
             if(values.size()!=fields.length)
             {
-                    System.err.println("Entrys:implodeFieldsWithValues(): ERROR: values length does not match fields length");
+                    System.err.println("EmployeeWeeks:implodeFieldsWithValues(): ERROR: values length does not match fields length");
             }
 
             String output="";
@@ -214,7 +214,7 @@ public class Entrys {
         try { 
             SqliteDbHelper.getInstance().getConnection().createStatement().executeUpdate(query);
         } catch (SQLException ex) {
-            Logger.getLogger(Entry.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmployeeWeek.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
@@ -224,11 +224,11 @@ public class Entrys {
         try { 
             SqliteDbHelper.getInstance().getConnection().createStatement().executeUpdate(query);
         } catch (SQLException ex) {
-            Logger.getLogger(Entry.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmployeeWeek.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
-    public static class RecordList extends ArrayList<Entry>{
+    public static class RecordList extends ArrayList<EmployeeWeek>{
         public static RecordList fromJsonString(String resultstring) throws IOException
         {
             return JsonHelper.mapper.readValue(resultstring, RecordList.class);
@@ -243,14 +243,14 @@ public class Entrys {
         try {
             deleteTable();
             createTable();
-            //Entry i=new Entry();
+            //EmployeeWeek i=new EmployeeWeek();
             //i.save();
             
-//            Entrys.delete(1);
-            for(Entry j:Entrys.select(""))
+//            EmployeeWeeks.delete(1);
+            for(EmployeeWeek j:EmployeeWeeks.select(""))
                 System.out.println(j.getId());
             
-            System.out.println(Entrys.count(""));
+            System.out.println(EmployeeWeeks.count(""));
             
         } catch (Exception e) {
             e.printStackTrace();

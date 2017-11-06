@@ -2,6 +2,7 @@ package models;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,6 +29,11 @@ public class Weeks {
             return null;
     }	
     */
+    public static Week getByStartAndEndDates(Date startdate, Date enddate) {
+            RecordList map=select(" startdate = '"+startdate.toString()+"' and enddate = '"+enddate.toString()+"' ");
+            for(Week item:map)return item;
+            return null;
+    }
     public static Week getById(Integer id) {
             RecordList map=select(" id = '"+id.toString()+"'");
             for(Week item:map)return item;
