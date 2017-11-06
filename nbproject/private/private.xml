@@ -5,6 +5,9 @@
         <group>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/FrmManageEmployeeData.java</file>
             <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/fingerprint/windows/MainFrame.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Week.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/models/Weeks.java</file>
+            <file>file:/Users/jaspertomas/NetBeansProjects/Fingerprint/src/managers/EmployeeDataManager.java</file>
         </group>
     </open-files>
 </project-private>

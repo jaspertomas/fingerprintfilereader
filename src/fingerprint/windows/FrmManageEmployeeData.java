@@ -4,28 +4,30 @@
  */
 package fingerprint.windows;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import managers.EmployeeDataManager;
-import managers.EmployeeFileManager;
 import models.Adjustment;
 import models.Adjustments;
 import models.CompiledEmployeeData;
 import models.Dates;
+import models.Deduction;
+import models.Deductions;
 import models.Employee;
+import models.Employees;
 import models.Holidays;
 import models.TimeInOutData;
-import models.WeeklyTimeData;
+import models.Week;
 
 
 /**
@@ -80,18 +82,36 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.getDocument().addDocumentListener(doclistener);
         txtCola.getDocument().addDocumentListener(doclistener);
         txtSalary.getDocument().addDocumentListener(doclistener);
-        txtDeduction.getDocument().addDocumentListener(doclistener);
+        txtVale.getDocument().addDocumentListener(doclistener);
+        txtSSS.getDocument().addDocumentListener(doclistener);
+        txtPH.getDocument().addDocumentListener(doclistener);
+        txtPI.getDocument().addDocumentListener(doclistener);
+        txtLoan.getDocument().addDocumentListener(doclistener);
+        txtOther.getDocument().addDocumentListener(doclistener);
+        
         onSelect();
         onDateSelect();
 
-//        addWindowListener(new java.awt.event.WindowAdapter() {
-//            public void windowOpened(java.awt.event.WindowEvent evt) {
-//                if (jList1.getComponentCount() != 0) {
-//                    jList1.setSelectedIndex(0);
-//                    onSelect();
-//                }
-//            }
-//        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                enableDeductions();
+            }
+        });
+    }
+    
+    private void enableDeductions()
+    {
+        Boolean b=(EmployeeDataManager.getInstance().getWeek()!=null);
+        
+        txtVale.setEnabled(b);
+        txtSSS.setEnabled(b);
+        txtPH.setEnabled(b);
+        txtPI.setEnabled(b);
+        txtLoan.setEnabled(b);
+        txtOther.setEnabled(b);
+        
+        btnSaveDeductions.setEnabled(b);
+        btnRevertDeductions.setEnabled(b);
     }
 
     /**
@@ -121,7 +141,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtCola = new javax.swing.JTextField();
         btnExit = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        txtDeduction = new javax.swing.JTextField();
+        txtVale = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
@@ -144,14 +164,21 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         btnNineAM = new javax.swing.JButton();
         btnSixPM = new javax.swing.JButton();
         btnNineToSix = new javax.swing.JButton();
+        txtSSS = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txtPH = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtPI = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        txtLoan = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txtOther = new javax.swing.JTextField();
+        btnSaveDeductions = new javax.swing.JButton();
+        btnRevertDeductions = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel1.setText("Name");
@@ -200,16 +227,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Deduction");
+        jLabel4.setText("Vale");
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel6.setText("Manage Employees");
 
-        listDates.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(listDates);
 
         lblDatelbl.setText("Date");
@@ -279,6 +301,32 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("SSS");
+
+        jLabel11.setText("PI");
+
+        jLabel12.setText("PH");
+
+        jLabel13.setText("Other");
+
+        jLabel14.setText("Loan");
+
+        btnSaveDeductions.setText("Save");
+        btnSaveDeductions.setEnabled(false);
+        btnSaveDeductions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveDeductionsActionPerformed(evt);
+            }
+        });
+
+        btnRevertDeductions.setText("Revert");
+        btnRevertDeductions.setEnabled(false);
+        btnRevertDeductions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRevertDeductionsActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,96 +336,130 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel6)
-                            .add(layout.createSequentialGroup()
-                                .add(jLabel9)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(lblNickname2)))
-                        .add(0, 0, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
                                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                    .add(layout.createSequentialGroup()
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(jLabel3)
-                                            .add(btnRevert))
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(layout.createSequentialGroup()
-                                                .add(1, 1, 1)
-                                                .add(btnSave)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .add(btnDelete)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(btnExit))
-                                            .add(layout.createSequentialGroup()
-                                                .add(15, 15, 15)
-                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                    .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                    .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                                .add(0, 0, Short.MAX_VALUE))))
-                                    .add(jSeparator1)
-                                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                        .add(jLabel1)
-                                        .add(jLabel2)
-                                        .add(layout.createSequentialGroup()
-                                            .add(jLabel4)
-                                            .add(28, 28, 28)
-                                            .add(txtDeduction, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .add(layout.createSequentialGroup()
-                                            .add(jLabel5)
-                                            .add(27, 27, 27)
-                                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                .add(lblNickname)
-                                                .add(layout.createSequentialGroup()
-                                                    .add(txtFname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                    .add(txtMname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                    .add(txtLname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 150, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(layout.createSequentialGroup()
-                                        .add(btnRevertTimes)
-                                        .add(1, 1, 1)
-                                        .add(btnSaveTimes)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 50, Short.MAX_VALUE)
-                                        .add(btnRevertAll, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(btnExit2))
-                                    .add(layout.createSequentialGroup()
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(layout.createSequentialGroup()
-                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                    .add(jLabel8)
-                                                    .add(lblDatelbl)
-                                                    .add(jLabel7))
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator1)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                                .add(0, 0, Short.MAX_VALUE)
+                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                                                     .add(layout.createSequentialGroup()
-                                                        .add(lblDate)
-                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                        .add(lblWarning))
+                                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                            .add(jLabel1)
+                                                            .add(layout.createSequentialGroup()
+                                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                                    .add(jLabel5)
+                                                                    .add(jLabel2))
+                                                                .add(25, 25, 25)
+                                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                                    .add(lblNickname)
+                                                                    .add(layout.createSequentialGroup()
+                                                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                                            .add(layout.createSequentialGroup()
+                                                                                .add(txtFname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                                .add(txtMname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                                                            .add(layout.createSequentialGroup()
+                                                                                .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                .add(jLabel3)))
+                                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                                            .add(txtLname)
+                                                                            .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 150, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))))
+                                                        .add(12, 12, 12))
                                                     .add(layout.createSequentialGroup()
                                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                                             .add(layout.createSequentialGroup()
-                                                                .add(txtTimeIn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                                .add(18, 18, 18)
-                                                                .add(btnNineAM))
-                                                            .add(layout.createSequentialGroup()
-                                                                .add(txtTimeOut, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                                .add(19, 19, 19)
-                                                                .add(btnSixPM)))
+                                                                .add(jLabel14)
+                                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                .add(txtLoan, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                .add(jLabel13)
+                                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                                    .add(jLabel4)
+                                                                    .add(jLabel12))
+                                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                                    .add(layout.createSequentialGroup()
+                                                                        .add(9, 9, 9)
+                                                                        .add(txtPH, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                        .add(jLabel11))
+                                                                    .add(layout.createSequentialGroup()
+                                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                        .add(txtVale, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                                        .add(jLabel10)))
+                                                                .add(24, 24, 24)))
+                                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                            .add(txtPI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                            .add(txtOther, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                            .add(txtSSS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                                        .add(btnNineToSix))))
-                                            .add(lblDate1))
-                                        .add(0, 20, Short.MAX_VALUE))))
+                                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                            .add(btnSaveDeductions)
+                                                            .add(btnRevertDeductions))))))
+                                        .add(64, 64, 64))
+                                    .add(layout.createSequentialGroup()
+                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                                .add(btnRevert)
+                                                .add(1, 1, 1)
+                                                .add(btnSave)
+                                                .add(287, 287, 287))
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                                .add(btnDelete)
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                .add(btnExit)))
+                                        .add(0, 0, Short.MAX_VALUE))))
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator3))
-                        .add(78, 78, 78))))
+                        .addContainerGap())
+                    .add(jLabel6)
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel9)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(lblNickname2))
+                    .add(layout.createSequentialGroup()
+                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jLabel8)
+                                    .add(lblDatelbl)
+                                    .add(jLabel7))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(layout.createSequentialGroup()
+                                        .add(lblDate)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                        .add(lblWarning))
+                                    .add(layout.createSequentialGroup()
+                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(layout.createSequentialGroup()
+                                                .add(txtTimeIn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                .add(18, 18, 18)
+                                                .add(btnNineAM))
+                                            .add(layout.createSequentialGroup()
+                                                .add(txtTimeOut, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                .add(19, 19, 19)
+                                                .add(btnSixPM)))
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                        .add(btnNineToSix))))
+                            .add(lblDate1)
+                            .add(layout.createSequentialGroup()
+                                .add(btnRevertTimes)
+                                .add(1, 1, 1)
+                                .add(btnSaveTimes)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(btnRevertAll, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(btnExit2))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -399,24 +481,38 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel2)
-                            .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(txtSalary, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel3))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel3)
-                            .add(txtCola, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(btnRevert)
+                            .add(btnSave)
+                            .add(btnDelete)
+                            .add(btnExit))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel4)
-                            .add(txtDeduction, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(txtVale, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel10)
+                            .add(txtSSS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(btnRevert)
-                            .add(btnSave)
-                            .add(btnDelete)
-                            .add(btnExit)))
-                    .add(jScrollPane1))
+                            .add(jLabel12)
+                            .add(txtPH, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel11)
+                            .add(txtPI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(btnRevertDeductions))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(txtLoan, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(txtOther, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel14)
+                            .add(jLabel13)
+                            .add(btnSaveDeductions)))
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 237, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jSeparator3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -453,9 +549,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                             .add(btnSaveTimes)
                             .add(btnExit2)
                             .add(btnRevertAll)))
-                    .add(layout.createSequentialGroup()
-                        .add(jScrollPane2)
-                        .addContainerGap())))
+                    .add(jScrollPane2))
+                .addContainerGap())
         );
 
         pack();
@@ -466,8 +561,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFnameActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        EmployeeFileManager efm = EmployeeFileManager.getInstance();
-        Employee e = efm.getEmployees().get(jList1.getSelectedIndex());
+        Employee e = Employees.select().get(jList1.getSelectedIndex());
 
         //show dialog box to confirm delete 
         int n = JOptionPane.showConfirmDialog(
@@ -477,15 +571,14 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
-            efm.getEmployees().remove(e);
-            efm.save();
+            e.delete();
             refreshList();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-            Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
+            Employee e = Employees.select().get(jList1.getSelectedIndex());
 
             e.setNickname(lblNickname.getText());
             e.setFname(txtFname.getText());
@@ -493,9 +586,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             e.setLname(txtLname.getText());
             e.setMonthlySalary(Double.valueOf(txtSalary.getText().trim().isEmpty()?"0":txtSalary.getText().trim()));
             e.setCola(Double.valueOf(txtCola.getText().trim().isEmpty()?"0":txtCola.getText().trim()));
-            e.setDeduction(Double.valueOf(txtDeduction.getText().trim().isEmpty()?"0":txtDeduction.getText().trim()));
-
-            EmployeeFileManager.getInstance().save();
+            //!!!e.setDeduction(Double.valueOf(txtVale.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
+/*!!!*/
+            e.save();
 
             refreshList();
             onSelect();
@@ -529,21 +622,31 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveTimesActionPerformed
     private void saveTimes()
     {
-        //variable definition, aka fetching data from all over the place
-        String nickname=lblNickname.getText();
-        Date date=null;
-        try {
-            date = Adjustments.prettyDateFormat.parse(lblDate.getText());
-        } catch (ParseException ex) {
-            //no date set: do nothing
+        //validate an employee is selected
+        Integer employeeSelectedIndex=jList1.getSelectedIndex();
+        if(employeeSelectedIndex==-1)
+        {
+            JOptionPane.showMessageDialog (this, "No employee selected", "Error", JOptionPane.PLAIN_MESSAGE);
             return;
         }
+
+        //validate a date is selected
+        Integer dateSelectedIndex=listDates.getSelectedIndex();
+        if(dateSelectedIndex==-1)
+        {
+            JOptionPane.showMessageDialog (this, "No date selected", "Error", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
+        //variable definition, aka fetching data from all over the place
+        String nickname=lblNickname.getText();
+        LocalDate date=LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
 
         String timeinstring=txtTimeIn.getText().trim();
         String timeoutstring=txtTimeOut.getText().trim();
         
-        Adjustment inadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
-        Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+        Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
+        Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
 
         //textboxes are empty - absent
         if (timeinstring.isEmpty() && timeoutstring.isEmpty())
@@ -556,15 +659,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
             if (n == JOptionPane.YES_OPTION) {
-                newAbsentAdjustment(inadjustment, nickname, Adjustment.IN,date);
-                newAbsentAdjustment(outadjustment, nickname, Adjustment.OUT,date);
+                newAbsentAdjustment(inadjustment, nickname, Adjustments.IN,date);
+                newAbsentAdjustment(outadjustment, nickname, Adjustments.OUT,date);
             }   
         }
         //string "absent" explicitly written in both textboxes
         else if(timeinstring.toLowerCase().contains("absent") && timeoutstring.toLowerCase().contains("absent"))
         {
-            newAbsentAdjustment(inadjustment, nickname, Adjustment.IN,date);
-            newAbsentAdjustment(outadjustment, nickname, Adjustment.OUT,date);
+            newAbsentAdjustment(inadjustment, nickname, Adjustments.IN,date);
+            newAbsentAdjustment(outadjustment, nickname, Adjustments.OUT,date);
         }
         //ambiguous - one is empty, the other is not
         else if(timeinstring.isEmpty() || timeoutstring.isEmpty())
@@ -582,7 +685,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 Integer hour=Integer.valueOf(segments[0]);
                 if(hour>12)throw new ParseException("",0);
                 
-                timein=new Time(Adjustments.prettyTimeFormat.parse(timeinstring).getTime());
+                /*!!! date to time?*/
+                timein=Time.valueOf(LocalTime.parse(timeinstring, Adjustments.prettyTimeFormat));
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format for Time In, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -592,7 +696,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 Integer hour=Integer.valueOf(segments[0]);
                 if(hour>12)throw new ParseException("",0);
                 
-                timeout=new Time(Adjustments.prettyTimeFormat.parse(timeoutstring).getTime());
+                timeout=Time.valueOf(LocalTime.parse(timeoutstring, Adjustments.prettyTimeFormat));
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format for Time Out, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -604,7 +708,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 return;
             }
             
-            WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+            Week weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
             CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
 
             //process starts
@@ -623,8 +727,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 {
                     //create adjustment
                     //in
-                    modifyAdjustment( inadjustment, nickname,  Adjustment.IN, date,  timein);
-                    modifyAdjustment( outadjustment, nickname,  Adjustment.OUT, date,  timeout);
+                    modifyAdjustment( inadjustment, nickname,  Adjustments.IN, Date.valueOf(date),  timein);
+                    modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, Date.valueOf(date),  timeout);
                 }
                 //if not absent in employee data
                 else
@@ -642,7 +746,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     //not equal to input - adjustment required
                     else 
                     {
-                        modifyAdjustment( inadjustment, nickname,  Adjustment.IN, date,  timein);
+                        modifyAdjustment( inadjustment, nickname,  Adjustments.IN, Date.valueOf(date),  timein);
                     }
 
                     if(timeout.equals(data.getOutTime()))
@@ -652,7 +756,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     }
                     else 
                     {
-                        modifyAdjustment( outadjustment, nickname,  Adjustment.OUT, date,  timeout);
+                        modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, Date.valueOf(date),  timeout);
                     }                        
                 }
             }            
@@ -672,23 +776,24 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             a.setType(type);
             a.setDate(date);
             a.setTime(time);
-            a.setAbsent(false);
-            Adjustments.getInstance().add(a);
+            a.setAbsent(0);
+            a.save();
         }
         //else change value of existing adjustment
         else
         {
             a=existingadj;
-//            a.setEmployeeNickname(nickname);
-//            a.setType(type);
-//            a.setDate(date);
-//            a.setTime(time);
-//            a.setAbsent(false);
-            Adjustments.getInstance().edit(a,nickname,type,date,time,false);
+            a.setEmployeeNickname(nickname);
+            a.setType(type);
+            a.setDate(date);
+            a.setTime(time);
+            a.setAbsent(0);
+            a.save();
+            
         }
         
     }
-    private void newAbsentAdjustment(Adjustment existingadj,String nickname, Integer type,Date date)
+    private void newAbsentAdjustment(Adjustment existingadj,String nickname, Integer type,LocalDate date)
     {
         Adjustment a;
         
@@ -698,10 +803,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             a=new Adjustment();
             a.setEmployeeNickname(nickname);
             a.setType(type);
-            a.setDate(date);
+            a.setDate(Date.valueOf(date));
             a.setTime(null);
-            a.setAbsent(true);
-            Adjustments.getInstance().add(a);
+            a.setAbsent(1);
+            a.save();
         }
         //else change value of existing adjustment
         else
@@ -709,9 +814,10 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             a=existingadj;
             a.setEmployeeNickname(nickname);
             a.setType(type);
-            a.setDate(date);
+            a.setDate(Date.valueOf(date));
             a.setTime(null);
-            a.setAbsent(true);
+            a.setAbsent(1);
+            a.save();
         }
         
         
@@ -723,17 +829,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
     private void btnRevertAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertAllActionPerformed
         String nickname=lblNickname.getText();
-        Date date=null;
-        try {
-            date = Adjustments.prettyDateFormat.parse(lblDate.getText());
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-            return;
-        }
-        Adjustment inadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
-        Adjustments.getInstance().delete(inadjustment);
-        Adjustment outadjustment=Adjustments.getInstance().getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
-        Adjustments.getInstance().delete(outadjustment);
+        LocalDate date= LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
+        Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
+        inadjustment.delete();
+        Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
+        outadjustment.delete();
         MainFrame.getInstance().recalculate(true, true);
         FrmManageEmployeeData.getInstance().onDateSelect();
     }//GEN-LAST:event_btnRevertAllActionPerformed
@@ -753,6 +853,43 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtTimeOut.setText("5:30 PM");
         saveTimes();
     }//GEN-LAST:event_btnNineToSixActionPerformed
+
+    private void btnSaveDeductionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDeductionsActionPerformed
+        try {
+            Integer selectedIndex=jList1.getSelectedIndex();
+            
+            //validate an employee is selected
+            if(selectedIndex==-1)
+            {
+                JOptionPane.showMessageDialog (this, "No employee selected", "Error", JOptionPane.PLAIN_MESSAGE);
+                return;
+            }
+            
+            Employee e = Employees.select().get(selectedIndex);
+            Week week=EmployeeDataManager.getInstance().getWeek();
+            Deduction d=Deductions.getByEmployeeAndWeekIds(e.id,week.id);
+            if(d==null)
+                d=new Deduction();
+            d.setEmployeeId(e.id);
+            d.setWeekId(week.id);
+            d.setVale(Double.valueOf(txtVale.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
+            d.setSss(Double.valueOf(txtSSS.getText().trim().isEmpty()?"0":txtSSS.getText().trim()));
+            d.setPh(Double.valueOf(txtPH.getText().trim().isEmpty()?"0":txtPH.getText().trim()));
+            d.setPi(Double.valueOf(txtPI.getText().trim().isEmpty()?"0":txtPI.getText().trim()));
+            d.setLoan(Double.valueOf(txtLoan.getText().trim().isEmpty()?"0":txtLoan.getText().trim()));
+            d.setOther(Double.valueOf(txtOther.getText().trim().isEmpty()?"0":txtOther.getText().trim()));
+            d.save();
+
+            refreshList();
+            onSelect();
+        } catch (java.lang.NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSaveDeductionsActionPerformed
+
+    private void btnRevertDeductionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertDeductionsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRevertDeductionsActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -795,11 +932,18 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JButton btnNineToSix;
     private javax.swing.JButton btnRevert;
     private javax.swing.JButton btnRevertAll;
+    private javax.swing.JButton btnRevertDeductions;
     private javax.swing.JButton btnRevertTimes;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveDeductions;
     private javax.swing.JButton btnSaveTimes;
     private javax.swing.JButton btnSixPM;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -822,13 +966,18 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JLabel lblWarning;
     private javax.swing.JList listDates;
     private javax.swing.JTextField txtCola;
-    private javax.swing.JTextField txtDeduction;
     private javax.swing.JTextField txtFname;
     private javax.swing.JTextField txtLname;
+    private javax.swing.JTextField txtLoan;
     private javax.swing.JTextField txtMname;
+    private javax.swing.JTextField txtOther;
+    private javax.swing.JTextField txtPH;
+    private javax.swing.JTextField txtPI;
+    private javax.swing.JTextField txtSSS;
     private javax.swing.JTextField txtSalary;
     private javax.swing.JTextField txtTimeIn;
     private javax.swing.JTextField txtTimeOut;
+    private javax.swing.JTextField txtVale;
     // End of variables declaration//GEN-END:variables
 
     public void onSelect() {
@@ -837,7 +986,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             return;
         }
 
-        Employee e = EmployeeFileManager.getInstance().getEmployees().get(jList1.getSelectedIndex());
+        Employee e = Employees.select().get(jList1.getSelectedIndex());
         String nickname=e.getNickname();
 
         if(nickname.trim().isEmpty())
@@ -856,7 +1005,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtLname.setText(e.getLname());
         txtSalary.setText(e.getMonthlySalary().toString());
         txtCola.setText(e.getCola().toString());
-        txtDeduction.setText(e.getDeduction().toString());
+//!!!!        txtVale.setText(e.getDeduction().toString());
         enableButtons(false);
 
         //for time in / out adjustment
@@ -866,6 +1015,27 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 //        lblDate.setText(e.getNickname());
     
         onDateSelect();
+        
+        Week week=EmployeeDataManager.getInstance().getWeek();
+        Deduction d=Deductions.getByEmployeeAndWeekIds(e.id, week.id);
+        if(d!=null)
+        {
+            txtVale.setText(d.getVale().toString());
+            txtSSS.setText(d.getSss().toString());
+            txtPH.setText(d.getPh().toString());
+            txtPI.setText(d.getPi().toString());
+            txtLoan.setText(d.getLoan().toString());
+            txtOther.setText(d.getOther().toString());
+        }
+        else
+        {
+            txtVale.setText("0");
+            txtSSS.setText("0");
+            txtPH.setText("0");
+            txtPI.setText("0");
+            txtLoan.setText("0");
+            txtOther.setText("0");
+        }
     }
 
     public void enableButtons(boolean b) {
@@ -876,7 +1046,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     public void refreshList() {
         Integer selectedIndex=jList1.getSelectedIndex();
         DefaultListModel model = new DefaultListModel();
-        for (Employee e : EmployeeFileManager.getInstance().getEmployees()) {
+        for (Employee e : Employees.select()) {
             model.addElement(e);
         }
         jList1.setModel(model);
@@ -900,24 +1070,19 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         //write date label
         String datestring = Dates.getInstance().getItems().get(listDates.getSelectedIndex());
         String prettydatestring="";
-        try {
-            date=Holidays.dateFormat.parse(datestring);
-            prettydatestring=Adjustments.prettyDateFormat.format(date);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        date=Date.valueOf(LocalDate.parse(datestring, Holidays.dateFormat));
+        prettydatestring=date.toLocalDate().format(Adjustments.prettyDateFormat);
         lblDate.setText(prettydatestring);
         
         
-        WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+        Week weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
         CompiledEmployeeData edatamap = weeklydata.get(nickname);
         if(edatamap==null)return;
         
         TimeInOutData data = edatamap.get(datestring);
         
-        Adjustments adjustments=Adjustments.getInstance();
-        Adjustment inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
-        Adjustment outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+        Adjustment inAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date.toLocalDate());
+        Adjustment outAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date.toLocalDate());
         
         String timeinstring="",timeoutstring="",warningstring="";
         
@@ -934,11 +1099,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             timeoutstring=data.getPrettyOutTimeString();
         }
         //overwrite data if adjustments exist and it's not "absent"
-        if(inAdj!=null && inAdj.getAbsent()!=true)
+        if(inAdj!=null && inAdj.getAbsent()!=1)
         {
             timeinstring=inAdj.getPrettyTimeString();
         }
-        if(outAdj!=null && outAdj.getAbsent()!=true)
+        if(outAdj!=null && outAdj.getAbsent()!=1)
         {
             timeoutstring=outAdj.getPrettyTimeString();
         }        
@@ -955,7 +1120,6 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
     private void refreshDateList() {
         Integer selectedIndex=listDates.getSelectedIndex();
-        Adjustments adjustments=Adjustments.getInstance();
         Adjustment inAdj,outAdj;
         String nickname=lblNickname.getText();
         String timeinstring,timeoutstring;
@@ -968,13 +1132,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             timeinstring=timeoutstring="";
             
             //all this effort is to determine if the date needs adjustment
-            try {
-                date=Holidays.dateFormat.parse(datestring);
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-                return;
-            }
-            WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+            date=Date.valueOf(LocalDate.parse(datestring,Holidays.dateFormat));
+            Week weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
             CompiledEmployeeData edatamap = weeklydata.get(nickname);
             if(edatamap!=null)
             {
@@ -985,8 +1144,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     timeoutstring=data.getOutTimeString();
                 }
 
-                inAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.IN, date);
-                outAdj=adjustments.getByNicknameTypeAndDate(nickname, Adjustment.OUT, date);
+                inAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date.toLocalDate());
+                outAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date.toLocalDate());
 
                 if(inAdj!=null)timeinstring=inAdj.getPrettyTimeString();
                 if(outAdj!=null)timeoutstring=outAdj.getPrettyTimeString();

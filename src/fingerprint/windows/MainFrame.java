@@ -11,8 +11,11 @@ import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
-import managers.EmployeeFileManager;
+import models.Adjustments;
 import models.Dates;
+import models.Employees;
+import models.Holidays;
+import models.Settings;
 import utils.fileaccess.PdfWriter;
 
 /**
@@ -36,8 +39,18 @@ public class MainFrame extends java.awt.Frame {
 
         instance=this;
 
+        //create database if not exist
+        Holidays.createTable();
+        Employees.createTable();
+        Settings.createTable();
+        Adjustments.createTable();
+        
+        Settings.load();
+
+        
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
-        EmployeeFileManager.getInstance().load();
+        
+        chooseFile();
     }
 
     /**
@@ -147,7 +160,7 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        jLabel5.setText("Tacloban Version 1");
+        jLabel5.setText("Tacloban Version 4");
 
         chkAttendance.setText("Attendance Mode");
         chkAttendance.addActionListener(new java.awt.event.ActionListener() {
@@ -256,40 +269,28 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnManageHolidaysActionPerformed
     private JFileChooser fc,sfc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
-
-        //Create a file chooser
-        fc = new JFileChooser();
-        
-        //In response to a button click:
-        int returnVal = fc.showOpenDialog(this);
-        
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            //parse file
-            File file = fc.getSelectedFile();
-
-            //if file hasn't been selected, do nothing
-            if(file==null)return;
-            
-//            System.out.println(file.getPath());
-//            File file=new File("/Users/jaspertomas/NetBeansProjects/Fingerprint/NewGlog_0001_20130921114600.csv");
-
-            EmployeeDataManager.getInstance().calculate(file);
-
-
-//            //show dialog box to ask whether to save output to file
-//            int n = JOptionPane.showConfirmDialog(
-//                    null,
-//                    "Would you like to save the output to a file?",
-//                    "Save output",
-//                    JOptionPane.YES_NO_OPTION);
-//
-//            if (n == JOptionPane.YES_OPTION) {
-//                saveDialog();
-//            }        
-            FrmManageEmployeeData.getInstance().refreshList();
-        } 
+        chooseFile();
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
 
+    private void chooseFile()
+    {
+        //Create a file chooser
+        fc = new JFileChooser();
+
+        //In response to a button click:
+        int returnVal = fc.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        //parse file
+        File file = fc.getSelectedFile();
+
+        //if file hasn't been selected, do nothing
+        if(file==null)return;
+        EmployeeDataManager.getInstance().calculate(file);
+        FrmManageEmployeeData.getInstance().refreshList();
+        } 
+    }
+    
     private void btnManageEmployeeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageEmployeeDataActionPerformed
         setVisible(false);
         FrmManageEmployeeData.getInstance().setVisible(true);
@@ -324,7 +325,7 @@ public class MainFrame extends java.awt.Frame {
         
         if(!EmployeeDataManager.getInstance().validateDates())return;
 
-        EmployeeDataManager.getInstance().recalculate(file,recreatenamelistandcalendar);    
+        EmployeeDataManager.getInstance().calculate(file);    
         
         if(!quiet)
         JOptionPane.showMessageDialog(this, "Payroll recalculated");
