@@ -534,7 +534,7 @@ public class EmployeeDataManager {
         //start to process data into array structure
         week = new Week();
         week.startdate=dates[0];
-        week.enddate=dates[0];
+        week.enddate=dates[1];
         week.save();
         
         for (ArrayList<TimeRecord> timerecordlist : timerecordsbyemployee.values()) {
