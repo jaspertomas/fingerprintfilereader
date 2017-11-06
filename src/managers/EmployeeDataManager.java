@@ -508,7 +508,10 @@ public class EmployeeDataManager {
             tempstring+="Total COLA: P "+format.format(totalcola)+"\r\n";
             if(holidaybonus!=0)
                 tempstring+="Holiday Additional: P "+format.format(holidaybonus)+"\r\n";
-            tempstring+="Deductions: P "+format.format(total_deductions)+"\r\n";
+            if(vale>0 || loan>0 || other>0)
+                tempstring+="Vale: P "+format.format(vale)+"\t"+"Loan: P "+format.format(loan)+"\t"+"Other: P "+format.format(other)+"\r\n";
+            if(sss>0 || ph>0 || pi>0)
+                tempstring+="SSS: P "+format.format(sss)+"\t"+"PH: P "+format.format(ph)+"\t"+"PI: P "+format.format(pi)+"\r\n";
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
             }
