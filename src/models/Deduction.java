@@ -38,12 +38,12 @@ public class Deduction {
     public Integer id;
     public Integer week_id;
     public Integer employee_id;
-    public Double vale;
-    public Double sss;
-    public Double ph;
-    public Double pi;
-    public Double loan;
-    public Double other;
+    public Double vale=0d;
+    public Double sss=0d;
+    public Double ph=0d;
+    public Double pi=0d;
+    public Double loan=0d;
+    public Double other=0d;
 
     public Deduction() {
     }

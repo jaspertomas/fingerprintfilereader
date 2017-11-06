@@ -24,6 +24,8 @@ import models.Dates;
 import models.CompiledEmployeeData;
 import models.Constants;
 import models.DateUtil;
+import models.Deduction;
+import models.Deductions;
 import models.Employee;
 import models.EmployeeNameList;
 import models.Employees;
@@ -205,7 +207,7 @@ public class EmployeeDataManager {
         
         CompiledEmployeeData edatamap=null;
         TimeInOutData data;
-        Double regularrate,overtimerate,cola,regularpay,overtimepay,grosspay,totalcola,deductions,netpay;
+        Double regularrate,overtimerate,cola,regularpay,overtimepay,grosspay,totalcola,vale,sss,ph,pi,loan,other,total_deductions,netpay;
         Integer days,regularminutes=0,overtimeminutes=0,totalregularminutes=0,totalovertimeminutes=0,diffminutes;
         Holiday holiday=null;
         Double holidaybonus=0d;
@@ -481,10 +483,19 @@ public class EmployeeDataManager {
             overtimepay=overtimerate*totalovertimeminutes/60/hoursInADay;
             grosspay=regularpay+overtimepay;
             //cola now calculated on a per day basis (above)
-//            cola=e.getCola();
-//            totalcola=cola*daysworked;
-            //!!!deductions=e.getDeduction();
-            //!!!netpay=grosspay+totalcola-deductions+holidaybonus;
+            cola=e.getCola();
+            totalcola=cola*daysworked;
+            
+            Deduction d=Deductions.getByEmployeeAndWeekIds(e.id, week.id);
+            if(d==null)d=new Deduction();
+            vale=d.getVale();
+            sss=d.getSss();
+            ph=d.getPh();
+            pi=d.getPi();
+            loan=d.getLoan();
+            other=d.getOther();
+            total_deductions=vale+sss+ph+pi+loan+other;
+            netpay=grosspay+totalcola-total_deductions+holidaybonus;
             
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\r\n";
@@ -495,11 +506,11 @@ public class EmployeeDataManager {
             tempstring+="Overtime Pay: P "+format.format(overtimepay)+"\r\n";
             tempstring+="Gross Salary: P "+format.format(grosspay)+"\r\n";
             tempstring+="Total COLA: P "+format.format(totalcola)+"\r\n";
-//            if(holidaybonus!=0)
+            if(holidaybonus!=0)
                 tempstring+="Holiday Additional: P "+format.format(holidaybonus)+"\r\n";
-            //!!!tempstring+="Deductions: P "+format.format(deductions)+"\r\n";
+            tempstring+="Deductions: P "+format.format(total_deductions)+"\r\n";
             tempstring+="- - - - - - - - - - - - - - - \r\n";
-            //!!!tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
+            tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
             }
             tempstring+="==============================\n\n";
 
@@ -757,7 +768,7 @@ public class EmployeeDataManager {
 //            string+="holiday pay"++"\r\n";
 //            string+="gross pay"++"\r\n";
 //            string+="cola"++"\r\n";
-//            string+="deductions"++"\r\n";
+//            string+="total_deductions"++"\r\n";
 //            string+="net salary"++"\r\n";
             /*
 reg hours rh
@@ -769,7 +780,7 @@ overtime pay
 holiday pay
 gross pay
 cola
-deductions
+total_deductions
 net salary             
              */
             
