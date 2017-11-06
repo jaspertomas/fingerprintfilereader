@@ -154,14 +154,10 @@ public class Entry {
             values.add(week_id!=null?week_id.toString():null);
             values.add(employee_id!=null?employee_id.toString():null);
             values.add(date!=null?date.toString():null);
-            values.add(time_in.toString());
-            values.add(time_in!=null?time_in.toLocalTime().format(Adjustments.timeFormat):null);
-            values.add(lunch_out.toString());
-            values.add(lunch_out!=null?lunch_out.toLocalTime().format(Adjustments.timeFormat):null);
-            values.add(lunch_in.toString());
-            values.add(lunch_in!=null?lunch_in.toLocalTime().format(Adjustments.timeFormat):null);
-            values.add(time_out.toString());
-            values.add(time_out!=null?time_out.toLocalTime().format(Adjustments.timeFormat):null);
+            values.add(time_in!=null?time_in.toString():null);
+            values.add(lunch_out!=null?lunch_out.toString():null);
+            values.add(lunch_in!=null?lunch_in.toString():null);
+            values.add(time_out!=null?time_out.toString():null);
             values.add(holiday_type!=null?holiday_type.toString():null);
 
             return values;
@@ -173,7 +169,7 @@ public class Entry {
     public void save()
     {
             if(id==null || id==0)
-                    Entrys.insert(this);
+                    id=Entrys.insert(this);
             else
                     Entrys.update(this);
     }

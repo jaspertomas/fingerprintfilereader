@@ -25,7 +25,8 @@ import models.Employee;
 import models.Employees;
 import models.Holidays;
 import models.TimeInOutData;
-import models.WeeklyTimeData;
+import models.Week;
+import models.Week;
 
 
 /**
@@ -651,7 +652,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 return;
             }
             
-            WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+            Week weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
             CompiledEmployeeData edatamap = weeklydata.get(lblNickname.getText());
 
             //process starts
@@ -958,7 +959,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         lblDate.setText(prettydatestring);
         
         
-        WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+        Week weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
         CompiledEmployeeData edatamap = weeklydata.get(nickname);
         if(edatamap==null)return;
         
@@ -1016,7 +1017,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             
             //all this effort is to determine if the date needs adjustment
             date=Date.valueOf(LocalDate.parse(datestring,Holidays.dateFormat));
-            WeeklyTimeData weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
+            Week weeklydata=EmployeeDataManager.getInstance().getWeeklydata();
             CompiledEmployeeData edatamap = weeklydata.get(nickname);
             if(edatamap!=null)
             {

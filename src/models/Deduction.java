@@ -174,7 +174,7 @@ public class Deduction {
     public void save()
     {
             if(id==null || id==0)
-                    Deductions.insert(this);
+                    id=Deductions.insert(this);
             else
                     Deductions.update(this);
     }

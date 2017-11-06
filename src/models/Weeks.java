@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +51,7 @@ public class Weeks {
     {
         delete(item.getId());
     }
-    public static void insert(Week item)
+    public static Integer insert(Week item)
     {
         Connection conn=SqliteDbHelper.getInstance().getConnection();            
         Statement st = null;
@@ -65,9 +63,11 @@ public class Weeks {
             //for tables with varchar primary key
             else if(fieldtypes[0].contains("varchar"))withid=true;                
             st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
+            return st.getGeneratedKeys().getInt(1);
         } catch (SQLException ex) {
             Logger.getLogger(Weeks.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
+            return null;
         }
     }
     public static void update(Week item)

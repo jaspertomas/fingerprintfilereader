@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -133,7 +131,7 @@ public class Adjustment {
             values.add(employee_nickname);
             values.add(type!=null?type.toString():null);
             values.add(date!=null?date.toString():null);
-            values.add(time!=null?time.toLocalTime().format(Adjustments.timeFormat):null);
+            values.add(time!=null?time.toString():null);
             values.add(absent!=null?absent.toString():null);
 
             return values;

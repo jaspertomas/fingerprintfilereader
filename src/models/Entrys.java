@@ -53,7 +53,7 @@ public class Entrys {
     {
         delete(item.getId());
     }
-    public static void insert(Entry item)
+    public static Integer insert(Entry item)
     {
         Connection conn=SqliteDbHelper.getInstance().getConnection();            
         Statement st = null;
@@ -65,9 +65,11 @@ public class Entrys {
             //for tables with varchar primary key
             else if(fieldtypes[0].contains("varchar"))withid=true;                
             st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
+            return st.getGeneratedKeys().getInt(1);
         } catch (SQLException ex) {
             Logger.getLogger(Entrys.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
+            return null;
         }
     }
     public static void update(Entry item)

@@ -29,7 +29,7 @@ import models.Holiday;
 import models.Holidays;
 import models.TimeInOutData;
 import models.TimeRecord;
-import models.WeeklyTimeData;
+import models.Week;
 import utils.DateHelper;
 import utils.fileaccess.FileReader;
 
@@ -76,7 +76,15 @@ public class EmployeeDataManager {
     //key = employee
     //value = all timerecords by a specific employee
     TreeMap<String, ArrayList<TimeRecord>> timerecordsbyemployee;
-    WeeklyTimeData weeklydata;
+    Week week;
+
+    public Week getWeek() {
+        return week;
+    }
+
+    public void setWeek(Week week) {
+        this.week = week;
+    }
 
     //----------------------------------
     public CompiledEmployeeData genEmployeeDataMap(ArrayList<TimeRecord> employeetimerecordlist) {
@@ -226,7 +234,7 @@ public class EmployeeDataManager {
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             
             //calculate total regular minutes and total overtime minutes
-            edatamap = weeklydata.get(name);
+            edatamap = week.get(name);
             if (edatamap == null) {
                 continue;
             }
@@ -512,10 +520,10 @@ public class EmployeeDataManager {
         Employees.generateFromStringArray(employeenamelist);
 
         //start to process data into array structure
-        weeklydata = new WeeklyTimeData();
+        week = new Week();
         for (ArrayList<TimeRecord> timerecordlist : timerecordsbyemployee.values()) {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
-            if(timerecordlist.size()>0)weeklydata.put(timerecordlist.get(0).getName(), edatamap);
+            if(timerecordlist.size()>0)week.put(timerecordlist.get(0).getName(), edatamap);
         }
         //create data for absent people 
         ArrayList<String> namestoinsert=new ArrayList<String>();
@@ -523,8 +531,8 @@ public class EmployeeDataManager {
             namestoinsert.add(e.getNickname());
         }
         for(String nametoinsert:namestoinsert){
-            if (!weeklydata.containsKey(nametoinsert)) {
-                weeklydata.put(nametoinsert, new CompiledEmployeeData());
+            if (!week.containsKey(nametoinsert)) {
+                week.put(nametoinsert, new CompiledEmployeeData());
             }
         }
         
@@ -563,12 +571,12 @@ public class EmployeeDataManager {
 
 
         //start to process data into array structure
-        weeklydata = new WeeklyTimeData();
+        week = new Week();
         for (ArrayList<TimeRecord> timerecordlist : timerecordsbyemployee.values()) 
         {
             CompiledEmployeeData edatamap = genEmployeeDataMap(timerecordlist);
             if(edatamap!=null)
-                weeklydata.put(timerecordlist.get(0).getName(), edatamap);
+                week.put(timerecordlist.get(0).getName(), edatamap);
         }
 
         //create data for absent people 
@@ -577,8 +585,8 @@ public class EmployeeDataManager {
             namestoinsert.add(e.getNickname());
         }
         for(String nametoinsert:namestoinsert){
-            if (!weeklydata.containsKey(nametoinsert)) {
-                weeklydata.put(nametoinsert, new CompiledEmployeeData());
+            if (!week.containsKey(nametoinsert)) {
+                week.put(nametoinsert, new CompiledEmployeeData());
             }
         }
         
@@ -592,7 +600,7 @@ public class EmployeeDataManager {
     {
         for(Adjustment a:Adjustments.select(""))
         {
-            CompiledEmployeeData edatamap = weeklydata.get(a.getEmployeeNickname());
+            CompiledEmployeeData edatamap = week.get(a.getEmployeeNickname());
             if(edatamap==null)continue;
             TimeInOutData inoutdata = edatamap.get(a.getDate().toLocalDate().format(Holidays.dateFormat));
             if(inoutdata==null)
@@ -747,8 +755,8 @@ net salary
         return string;
     }
 
-    public WeeklyTimeData getWeeklydata() {
-        return weeklydata;
+    public Week getWeeklydata() {
+        return week;
     }
 
     

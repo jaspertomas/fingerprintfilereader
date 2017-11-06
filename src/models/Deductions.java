@@ -53,7 +53,7 @@ public class Deductions {
     {
         delete(item.getId());
     }
-    public static void insert(Deduction item)
+    public static Integer insert(Deduction item)
     {
         Connection conn=SqliteDbHelper.getInstance().getConnection();            
         Statement st = null;
@@ -65,9 +65,11 @@ public class Deductions {
             //for tables with varchar primary key
             else if(fieldtypes[0].contains("varchar"))withid=true;                
             st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
+            return st.getGeneratedKeys().getInt(1);
         } catch (SQLException ex) {
             Logger.getLogger(Deductions.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
+            return null;
         }
     }
     public static void update(Deduction item)

@@ -1,19 +1,14 @@
 package models;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.SqliteDbHelper;
-import utils.JsonHelper;
 
-public class Week {
+public class Week extends TreeMap<String, CompiledEmployeeData> {
     //------------FIELDS-----------
     public static final String tablename="week";
     //field names
@@ -109,7 +104,7 @@ public class Week {
     public void save()
     {
             if(id==null || id==0)
-                    Weeks.insert(this);
+                    id=Weeks.insert(this);
             else
                     Weeks.update(this);
     }
