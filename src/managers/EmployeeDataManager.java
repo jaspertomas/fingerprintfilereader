@@ -483,8 +483,8 @@ public class EmployeeDataManager {
             overtimepay=overtimerate*totalovertimeminutes/60/hoursInADay;
             grosspay=regularpay+overtimepay;
             //cola now calculated on a per day basis (above)
-            cola=e.getCola();
-            totalcola=cola*daysworked;
+//            cola=e.getCola();
+//            totalcola=cola*daysworked;
             
             Deduction d=Deductions.getByEmployeeAndWeekIds(e.id, week.id);
             if(d==null)d=new Deduction();
