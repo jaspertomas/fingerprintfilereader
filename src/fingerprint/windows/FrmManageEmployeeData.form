@@ -111,7 +111,7 @@
                                                       </Group>
                                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                           <Component id="txtPI" min="-2" pref="141" max="-2" attributes="0"/>
-                                                          <Component id="txtOtherDeductions" min="-2" pref="141" max="-2" attributes="0"/>
+                                                          <Component id="txtOther" min="-2" pref="141" max="-2" attributes="0"/>
                                                           <Component id="txtSSS" min="-2" pref="141" max="-2" attributes="0"/>
                                                       </Group>
                                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -257,7 +257,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtLoan" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtOtherDeductions" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtOther" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSaveDeductions" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -302,7 +302,7 @@
                           </Group>
                       </Group>
                       <Component id="lblDate1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="191" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnRevertTimes" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSaveTimes" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -580,7 +580,7 @@
         <Property name="text" type="java.lang.String" value="Loan"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtOtherDeductions">
+    <Component class="javax.swing.JTextField" name="txtOther">
     </Component>
     <Component class="javax.swing.JButton" name="btnSaveDeductions">
       <Properties>

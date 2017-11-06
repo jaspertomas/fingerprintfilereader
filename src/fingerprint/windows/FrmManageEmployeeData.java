@@ -87,19 +87,37 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         txtPH.getDocument().addDocumentListener(doclistener);
         txtPI.getDocument().addDocumentListener(doclistener);
         txtLoan.getDocument().addDocumentListener(doclistener);
-        txtOtherDeductions.getDocument().addDocumentListener(doclistener);
+        txtOther.getDocument().addDocumentListener(doclistener);
         
         onSelect();
         onDateSelect();
 
-//        addWindowListener(new java.awt.event.WindowAdapter() {
-//            public void windowOpened(java.awt.event.WindowEvent evt) {
-//                if (jList1.getComponentCount() != 0) {
-//                    jList1.setSelectedIndex(0);
-//                    onSelect();
-//                }
-//            }
-//        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                enableDeductions();
+                /*
+                if (jList1.getComponentCount() != 0) {
+                    jList1.setSelectedIndex(0);
+                    onSelect();
+                }
+                */
+            }
+        });
+    }
+    
+    private void enableDeductions()
+    {
+        Boolean b=(EmployeeDataManager.getInstance().getWeek()!=null);
+        
+        txtVale.setEnabled(b);
+        txtSSS.setEnabled(b);
+        txtPH.setEnabled(b);
+        txtPI.setEnabled(b);
+        txtLoan.setEnabled(b);
+        txtOther.setEnabled(b);
+        
+        btnSaveDeductions.setEnabled(b);
+        btnRevertDeductions.setEnabled(b);
     }
 
     /**
@@ -161,7 +179,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         txtLoan = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        txtOtherDeductions = new javax.swing.JTextField();
+        txtOther = new javax.swing.JTextField();
         btnSaveDeductions = new javax.swing.JButton();
         btnRevertDeductions = new javax.swing.JButton();
 
@@ -386,7 +404,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                                                 .add(24, 24, 24)))
                                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                                             .add(txtPI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                            .add(txtOtherDeductions, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                            .add(txtOther, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                                             .add(txtSSS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -496,7 +514,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(txtLoan, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(txtOtherDeductions, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(txtOther, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(jLabel14)
                             .add(jLabel13)
                             .add(btnSaveDeductions)))
@@ -531,7 +549,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                                 .add(btnNineToSix, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 39, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .add(29, 29, 29)))
                         .add(lblDate1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 191, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(btnRevertTimes)
                             .add(btnSaveTimes)
@@ -610,6 +628,22 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveTimesActionPerformed
     private void saveTimes()
     {
+        //validate an employee is selected
+        Integer employeeSelectedIndex=jList1.getSelectedIndex();
+        if(employeeSelectedIndex==-1)
+        {
+            JOptionPane.showMessageDialog (this, "No employee selected", "Error", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
+        //validate a date is selected
+        Integer dateSelectedIndex=listDates.getSelectedIndex();
+        if(dateSelectedIndex==-1)
+        {
+            JOptionPane.showMessageDialog (this, "No date selected", "Error", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
         //variable definition, aka fetching data from all over the place
         String nickname=lblNickname.getText();
         LocalDate date=LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
@@ -828,7 +862,16 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
 
     private void btnSaveDeductionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDeductionsActionPerformed
         try {
-            Employee e = Employees.select().get(jList1.getSelectedIndex());
+            Integer selectedIndex=jList1.getSelectedIndex();
+            
+            //validate an employee is selected
+            if(selectedIndex==-1)
+            {
+                JOptionPane.showMessageDialog (this, "No employee selected", "Error", JOptionPane.PLAIN_MESSAGE);
+                return;
+            }
+            
+            Employee e = Employees.select().get(selectedIndex);
             Week week=EmployeeDataManager.getInstance().getWeek();
             Deduction d=Deductions.getByEmployeeAndWeekIds(e.id,week.id);
             if(d==null)
@@ -840,7 +883,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             d.setPh(Double.valueOf(txtPH.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
             d.setPi(Double.valueOf(txtPI.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
             d.setLoan(Double.valueOf(txtLoan.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
-            d.setOther(Double.valueOf(txtOtherDeductions.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
+            d.setOther(Double.valueOf(txtOther.getText().trim().isEmpty()?"0":txtVale.getText().trim()));
             d.save();
 
             //refreshList();
@@ -933,7 +976,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     private javax.swing.JTextField txtLname;
     private javax.swing.JTextField txtLoan;
     private javax.swing.JTextField txtMname;
-    private javax.swing.JTextField txtOtherDeductions;
+    private javax.swing.JTextField txtOther;
     private javax.swing.JTextField txtPH;
     private javax.swing.JTextField txtPI;
     private javax.swing.JTextField txtSSS;

@@ -78,7 +78,7 @@ public class EmployeeDataManager {
     //this is a string array of all dates included in the parsed file
     //key = employee
     //value = all timerecords by a specific employee
-    Week week;
+    Week week=null;
 
     public Week getWeek() {
         return week;
@@ -177,8 +177,8 @@ public class EmployeeDataManager {
         
         //create return value of start and end dates
         Date[] startAndEndDates = new Date[2];
-        startAndEndDates[0]=Date.valueOf(LocalDate.parse(dates.get(0)));
-        startAndEndDates[1]=Date.valueOf(LocalDate.parse(dates.get(dates.size() - 1)));
+        startAndEndDates[0]=Date.valueOf(LocalDate.parse(dates.get(0).replace("/", "-")));
+        startAndEndDates[1]=Date.valueOf(LocalDate.parse(dates.get(dates.size() - 1).replace("/", "-")));
         return startAndEndDates;
     }
 
