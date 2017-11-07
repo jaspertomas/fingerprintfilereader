@@ -831,9 +831,9 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         String nickname=lblNickname.getText();
         LocalDate date= LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
         Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
-        inadjustment.delete();
+        if(inadjustment!=null)inadjustment.delete();
         Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
-        outadjustment.delete();
+        if(outadjustment!=null)outadjustment.delete();
         MainFrame.getInstance().recalculate(true, true);
         FrmManageEmployeeData.getInstance().onDateSelect();
     }//GEN-LAST:event_btnRevertAllActionPerformed
