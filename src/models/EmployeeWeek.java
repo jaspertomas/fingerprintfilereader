@@ -45,11 +45,11 @@ public class EmployeeWeek {
             ,"int(11)"
             ,"decimal(10,2)"
             ,"decimal(10,2)"
-            ,"int(11)"
-            ,"int(11)"
-            ,"int(11)"
-            ,"int(11)"
-            ,"int(11)"
+            ,"decimal(10,2)"
+            ,"decimal(10,2)"
+            ,"decimal(10,2)"
+            ,"decimal(10,2)"
+            ,"decimal(10,2)"
             };
     //-----------------------
 
@@ -62,11 +62,11 @@ public class EmployeeWeek {
     public Integer ot_minutes;
     public Double ot_rate;
     public Double ot_pay;
-    public Integer total_cola;
-    public Integer total_deductions;
-    public Integer total_holiday;
-    public Integer gross_pay;
-    public Integer net_pay;
+    public Double total_cola;
+    public Double total_deductions;
+    public Double total_holiday;
+    public Double gross_pay;
+    public Double net_pay;
 
     public EmployeeWeek() {
     }
@@ -81,11 +81,11 @@ public class EmployeeWeek {
             ot_minutes=rs.getInt("ot_minutes");
             ot_rate=rs.getDouble("ot_rate");
             ot_pay=rs.getDouble("ot_pay");
-            total_cola=rs.getInt("total_cola");
-            total_deductions=rs.getInt("total_deductions");
-            total_holiday=rs.getInt("total_holiday");
-            gross_pay=rs.getInt("gross_pay");
-            net_pay=rs.getInt("net_pay");
+            total_cola=rs.getDouble("total_cola");
+            total_deductions=rs.getDouble("total_deductions");
+            total_holiday=rs.getDouble("total_holiday");
+            gross_pay=rs.getDouble("gross_pay");
+            net_pay=rs.getDouble("net_pay");
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeWeek.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -169,43 +169,43 @@ public class EmployeeWeek {
             this.ot_pay = ot_pay;
     }
 
-    public Integer getTotalCola() {
+    public Double getTotalCola() {
             return total_cola;
     }
 
-    public void setTotalCola(Integer total_cola) {
+    public void setTotalCola(Double total_cola) {
             this.total_cola = total_cola;
     }
 
-    public Integer getTotalDeductions() {
+    public Double getTotalDeductions() {
             return total_deductions;
     }
 
-    public void setTotalDeductions(Integer total_deductions) {
+    public void setTotalDeductions(Double total_deductions) {
             this.total_deductions = total_deductions;
     }
 
-    public Integer getTotalHoliday() {
+    public Double getTotalHoliday() {
             return total_holiday;
     }
 
-    public void setTotalHoliday(Integer total_holiday) {
+    public void setTotalHoliday(Double total_holiday) {
             this.total_holiday = total_holiday;
     }
 
-    public Integer getGrossPay() {
+    public Double getGrossPay() {
             return gross_pay;
     }
 
-    public void setGrossPay(Integer gross_pay) {
+    public void setGrossPay(Double gross_pay) {
             this.gross_pay = gross_pay;
     }
 
-    public Integer getNetPay() {
+    public Double getNetPay() {
             return net_pay;
     }
 
-    public void setNetPay(Integer net_pay) {
+    public void setNetPay(Double net_pay) {
             this.net_pay = net_pay;
     }
 

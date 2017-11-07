@@ -11,6 +11,7 @@ import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -28,7 +29,10 @@ import models.Deduction;
 import models.Deductions;
 import models.Employee;
 import models.EmployeeNameList;
+import models.EmployeeWeek;
+import models.EmployeeWeeks;
 import models.Employees;
+import models.Entry;
 import models.Holiday;
 import models.Holidays;
 import models.TimeInOutData;
@@ -248,8 +252,15 @@ public class EmployeeDataManager {
             if (edatamap == null) {
                 continue;
             }
+            String temp2string,timeinstring="",timeoutstring="",lunchinstring="",lunchoutstring="";
+            Integer holidaytypeid=-1,holidayid=0,isabsent=0,issunday=0;
+            Double holidaybonusrate=0d;
+            Double holidayregularrate=0d;
+            Double holidayregularpay=0d;
             for (String date : dates) 
             {
+                temp2string="";
+                
                 //fetch employee attendance data
                 data = edatamap.get(date);
 
@@ -276,72 +287,62 @@ public class EmployeeDataManager {
                     //add holiday bonus
                     if(holiday.getType()==Holidays.REGULAR)
                     {
-                        tempstring+="Regular Holiday: "+holiday.getName()+"\n";
+                        temp2string+="Regular Holiday: "+holiday.getName()+"\n";
                         //if absent
                         if (data == null) {
 //                            regularholidayratenowork
-                            Double holidaybonusrate=regularholidayratenowork;
-                            
-                            Double holidayregularrate=e.getMonthlySalary();//+e.getCola();
-//                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
-                            Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
-//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+                            holidaybonusrate=regularholidayratenowork;
+                            holidayregularrate=e.getMonthlySalary();//+e.getCola();
+                            holidayregularpay=holidayregularrate*holidaybonusrate/100;
                             holidaybonus+=holidayregularpay;
-                            tempstring+="Holiday Additional (Absent): P "+format.format(holidayregularpay)+"\r\n";
+                            temp2string+="Holiday Additional (Absent): P "+format.format(holidayregularpay)+"\r\n";
                             
                         }
                         else
                         {
 //                              regularholidayratewithwork      
-                            Double holidaybonusrate=regularholidayratewithwork;
-                            
-                            Double holidayregularrate=e.getMonthlySalary();//+e.getCola();
-//                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
-                            Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
-//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+                            holidaybonusrate=regularholidayratewithwork;
+                            holidayregularrate=e.getMonthlySalary();//+e.getCola();
+                            holidayregularpay=holidayregularrate*holidaybonusrate/100;
                             holidaybonus+=holidayregularpay;
-                            tempstring+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
+                            temp2string+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
                         }
                     }
                     else if(holiday.getType()==Holidays.SPECIAL)
                     {
-                        tempstring+="Special Non-working Holiday: "+holiday.getName()+"\n";
+                        temp2string+="Special Non-working Holiday: "+holiday.getName()+"\n";
                         //if absent
                         if (data == null) {
 //                            specialholidayratenowork
-                            Double holidaybonusrate=specialholidayratenowork;
-                            
-                            Double holidayregularrate=e.getMonthlySalary();
-//                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
-                            Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
-//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+                            holidaybonusrate=specialholidayratenowork;
+                            holidayregularrate=e.getMonthlySalary();
+                            holidayregularpay=holidayregularrate*holidaybonusrate/100;
                             holidaybonus+=holidayregularpay;
-                            tempstring+="Holiday Additional (Absent): P "+format.format(holidayregularpay)+"\r\n";
+                            temp2string+="Holiday Additional (Absent): P "+format.format(holidayregularpay)+"\r\n";
                         }
                         else
                         {
 //                            specialholidayratewithwork
-                            Double holidaybonusrate=specialholidayratewithwork;
-                            
-                            Double holidayregularrate=e.getMonthlySalary();
-//                            overtimerate=e.getMonthlySalary()*Constants.overtimemultiplier;
-                            Double holidayregularpay=holidayregularrate*holidaybonusrate/100;
-//                            overtimepay=overtimerate*totalovertimeminutes/60/8;
+                            holidaybonusrate=specialholidayratewithwork;
+                            holidayregularrate=e.getMonthlySalary();
+                            holidayregularpay=holidayregularrate*holidaybonusrate/100;
                             holidaybonus+=holidayregularpay;
-                            tempstring+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
+                            temp2string+="Holiday Additional: P "+format.format(holidayregularpay)+"\r\n";
 
                             
                         }
                     }
                     
+                    holidaytypeid=holiday.type;
+                    holidayid=holiday.id;
                     
                 }
                 
                 if(name.trim().isEmpty())
-                    tempstring+="(nickname not set)" + "\t";
+                    temp2string+="(nickname not set)" + "\t";
                 else
-                    tempstring+=name + "\t";
-                tempstring+=date + "\t";
+                    temp2string+=name + "\t";
+                temp2string+=date + "\t";
                 
                 //count number of days present
                 if (data != null) {
@@ -350,11 +351,15 @@ public class EmployeeDataManager {
                 
                 //if absent, do nothing
                 if (data == null) {
+                    isabsent=1;
+                    
                     //if sunday
                     Calendar calendar=Calendar.getInstance();
                     calendar.setTime(DateHelper.toDate(date));
                     if(calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY)
-                        tempstring+=
+                    {
+                        issunday=1;
+                        temp2string+=
                                 "Sunday"
 //                                + "\t"
 //                                + ""
@@ -363,9 +368,10 @@ public class EmployeeDataManager {
 //                                + "\t"
 //                                + ""
                                 + "\r\n";
+                    }
                     //else if absent
                     else
-                        tempstring+=
+                        temp2string+=
                                 "Absent"
 //                                + "\t"
 //                                + ""
@@ -374,6 +380,11 @@ public class EmployeeDataManager {
 //                                + "\t"
 //                                + ""
                                 + "\r\n";
+
+                    saveEntry( e,  date,  data,  temp2string,  timeinstring,  timeoutstring,  holidaytypeid,  holidayid,  isabsent,  issunday,  holidayregularpay);
+                    
+                    tempstring+=temp2string;
+                    
                     continue;
                 }
 
@@ -382,9 +393,9 @@ public class EmployeeDataManager {
 //                    prefix1="Error: Missing time in or time out: ";
 //                    prefix2="\nPlease go to the Manage Employee Data page to make corrections\n";
                     problemdates.add(date);
-                    
+                        
 //                    if(data.getIn().getTime().after(one))
-                        tempstring+=
+                        temp2string+=
                                 "Missing time in or time out. Fingerprint login at "+data.getPrettyInTimeString()
 //                                + "\t"
 //                                + ""
@@ -393,7 +404,7 @@ public class EmployeeDataManager {
 //                                + "\t"
 //                                + ""
                                 + "\r\n";
-//                        tempstring+=
+//                        temp2string+=
 //                                ""
 //                                + "\t"
 //                                + ""
@@ -403,7 +414,7 @@ public class EmployeeDataManager {
 //                                + data.getOutTimeString()
 //                                + "\r\n";
 //                    else
-//                        tempstring+=
+//                        temp2string+=
 //                                data.getOutTimeString()
 //                                + "\t"
 //                                + data.getOutTimeString()
@@ -415,7 +426,7 @@ public class EmployeeDataManager {
                 } else                       
                 //came to work at lunch break or after
                 if (data.getIn().getTime().equals(twelve) || data.getIn().getTime().after(twelve)) {
-                    tempstring+=
+                    temp2string+=
                             ""
                             + "\t"
                             + ""
@@ -426,7 +437,7 @@ public class EmployeeDataManager {
                             + "\r\n";
                 //left work at lunch break
                 } else if (data.getOut().getTime().equals(one) || data.getOut().getTime().before(one)) {
-                    tempstring+=
+                    temp2string+=
                             data.getPrettyInTimeString()
                             + "\t"
                             + data.getPrettyOutTimeString()
@@ -436,7 +447,7 @@ public class EmployeeDataManager {
                             + "\t"
                             + "\r\n";
                 } else {
-                    tempstring+=
+                    temp2string+=
                             data.getPrettyInTimeString()
                             + "\t"
 //                            + "1200"
@@ -471,6 +482,10 @@ public class EmployeeDataManager {
                 
                 totalregularminutes+=regularminutes;
                 totalovertimeminutes+=overtimeminutes;
+
+                saveEntry( e,  date,  data,  temp2string,  timeinstring,  timeoutstring,  holidaytypeid,  holidayid,  isabsent,  issunday,  holidayregularpay);
+                
+                tempstring+=temp2string;
             }
 
             //if attendance mode, don't print calculations
@@ -496,6 +511,22 @@ public class EmployeeDataManager {
             other=d.getOther();
             total_deductions=vale+sss+ph+pi+loan+other;
             netpay=grosspay+totalcola-total_deductions+holidaybonus;
+            
+            EmployeeWeek ew=new EmployeeWeek();
+            ew.setEmployeeId(e.id);
+            ew.setWeekId(week.id);
+            ew.setRegMinutes(totalregularminutes);
+            ew.setRegRate(regularrate);
+            ew.setRegPay(regularpay);
+            ew.setOtMinutes(totalovertimeminutes);
+            ew.setOtRate(overtimerate);
+            ew.setOtPay(overtimepay);
+            ew.setGrossPay(grosspay);
+            ew.setTotalCola(totalcola);
+            ew.setTotalDeductions(total_deductions);
+            ew.setTotalHoliday(holidaybonus);
+            ew.setNetPay(netpay);
+            ew.save();
             
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="Regular Minutes: "+totalregularminutes+" minutes ("+totalregularminutes/60+" hours "+totalregularminutes%60+" minutes)\r\n";
@@ -527,6 +558,41 @@ public class EmployeeDataManager {
             jTextArea.append(tempstring);
             jTextArea.moveCaretPosition(0);
         }
+        //totals
+        tempstring="Summary\n";
+        Double total=0d;
+        for(Employee e:Employees.select())
+        {
+            EmployeeWeek ew=EmployeeWeeks.getByEmployeeAndWeekIds(e.id, week.id);
+            tempstring+=e.getNickname()+"\t"+format.format(ew.getNetPay())+"\n";
+            total+=ew.getNetPay();
+        }
+        tempstring+="Total:\t"+format.format(total)+"\n";
+        jTextArea.append(tempstring);
+        jTextArea.moveCaretPosition(0);
+    }
+    private void saveEntry(Employee e, String date, TimeInOutData data, String temp2string, String timeinstring, String timeoutstring, Integer holidaytypeid, Integer holidayid, Integer isabsent, Integer issunday, Double holidayregularpay)
+    {
+        Entry entry=new Entry();
+        entry.setEmployeeId(e.id);
+        entry.setWeekId(week.id);
+        entry.setDate(Date.valueOf(date.replace("/", "-")));
+        if(data!=null)
+        {
+            Time inTime=Time.valueOf(LocalTime.parse(data.getPrettyInTimeString(), Adjustments.prettyTimeFormat));
+            Time outTime=Time.valueOf(LocalTime.parse(data.getPrettyOutTimeString(), Adjustments.prettyTimeFormat));
+            entry.setTimeIn(inTime);
+            entry.setTimeOut(outTime);
+//            entry.setLunchIn(Time.valueOf(lunchinstring));
+//            entry.setLunchOut(Time.valueOf(lunchoutstring));
+        }
+        entry.setHolidayId(holidayid);
+        entry.setHolidayType(holidaytypeid);
+        entry.setHolidayPay(holidayregularpay);
+        entry.setIsAbsent(isabsent);
+        entry.setIsSunday(issunday);
+        entry.setDescription(temp2string.replace("'", "''").replace("\n", "<br>"));
+        entry.save();
     }
     public void calculate(File file) {
         calculate(file,false);

@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +30,11 @@ public class EmployeeWeeks {
     */
     public static EmployeeWeek getById(Integer id) {
             RecordList map=select(" id = '"+id.toString()+"'");
+            for(EmployeeWeek item:map)return item;
+            return null;
+    }
+    public static EmployeeWeek getByEmployeeAndWeekIds(Integer employee_id, Integer week_id) {
+            RecordList map=select(" employee_id = '"+employee_id.toString()+"' and week_id = '"+week_id.toString()+"'");
             for(EmployeeWeek item:map)return item;
             return null;
     }

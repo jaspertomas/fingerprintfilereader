@@ -649,6 +649,13 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(e.nickname, Adjustments.IN, date);
         Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(e.nickname, Adjustments.OUT, date);
 
+        if(inadjustment!=null && inadjustment.getAbsent()==1)
+        {
+            JOptionPane.showMessageDialog (this, "Marked as Absent. Please click Revert Adjustments to edit.", "Error", JOptionPane.PLAIN_MESSAGE);
+            onDateSelect();
+            return;
+        }
+        
         //textboxes are empty - absent
         if (timeinstring.isEmpty() && timeoutstring.isEmpty())
         {
@@ -688,7 +695,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 
                 /*!!! date to time?*/
                 timein=Time.valueOf(LocalTime.parse(timeinstring, Adjustments.prettyTimeFormat));
-            } catch (ParseException ex) {
+            } catch (ParseException | java.time.format.DateTimeParseException ex) {
                 JOptionPane.showMessageDialog(this, "Improper time format for Time In, must be in the format of 12:34 am", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -1116,7 +1123,21 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         }        
 
         if(timeinstring.contentEquals(timeoutstring)&&!timeinstring.contentEquals("(Absent)"))
-            warningstring=" (Missing Time In or Time Out)";
+        {
+            if(timeinstring.contains("AM"))
+                warningstring=" (Missing Time Out)";
+            else if(timeinstring.contains("PM"))
+                warningstring=" (Missing Time In)";
+        }
+        
+        if(adjAbsent)
+            warningstring+=" (Absence by adjustment)";
+        else if(inAdj!=null && outAdj!=null)
+            warningstring+=" (Adjusted time in and out)";
+        else if(inAdj!=null)
+            warningstring+=" (Adjusted time in)";
+        else if(outAdj!=null)
+            warningstring+=" (Adjusted time out)";
         
         txtTimeIn.setText(timeinstring);
         txtTimeOut.setText(timeoutstring);
