@@ -50,7 +50,7 @@ public class Adjustment {
             employee_nickname=rs.getString("employee_nickname");
             type=rs.getInt("type");
             date=Date.valueOf(rs.getString("date"));
-            time=Time.valueOf(rs.getString("time"));
+            if(rs.getString("time")!=null)time=Time.valueOf(rs.getString("time"));
             absent=rs.getInt("absent");
         } catch (SQLException ex) {
             Logger.getLogger(Adjustment.class.getName()).log(Level.SEVERE, null, ex);
