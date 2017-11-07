@@ -264,6 +264,7 @@ public class Settings {
     
     public static void save()
     {
+        setting.setValue(currentYear.toString());
         setting.save();
     }
     public static void load()
