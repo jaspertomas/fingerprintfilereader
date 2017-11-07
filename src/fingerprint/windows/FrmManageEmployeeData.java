@@ -638,15 +638,16 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
             return;
         }
 
+        Employee e=Employees.select().get(employeeSelectedIndex);
+        
         //variable definition, aka fetching data from all over the place
-        String nickname=lblNickname.getText();
         LocalDate date=LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
 
         String timeinstring=txtTimeIn.getText().trim();
         String timeoutstring=txtTimeOut.getText().trim();
         
-        Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
-        Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
+        Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(e.nickname, Adjustments.IN, date);
+        Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(e.nickname, Adjustments.OUT, date);
 
         //textboxes are empty - absent
         if (timeinstring.isEmpty() && timeoutstring.isEmpty())
@@ -659,15 +660,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
             if (n == JOptionPane.YES_OPTION) {
-                newAbsentAdjustment(inadjustment, nickname, Adjustments.IN,date);
-                newAbsentAdjustment(outadjustment, nickname, Adjustments.OUT,date);
+                newAbsentAdjustment(inadjustment, e, Adjustments.IN,date);
+                newAbsentAdjustment(outadjustment, e, Adjustments.OUT,date);
             }   
         }
         //string "absent" explicitly written in both textboxes
         else if(timeinstring.toLowerCase().contains("absent") && timeoutstring.toLowerCase().contains("absent"))
         {
-            newAbsentAdjustment(inadjustment, nickname, Adjustments.IN,date);
-            newAbsentAdjustment(outadjustment, nickname, Adjustments.OUT,date);
+            newAbsentAdjustment(inadjustment, e, Adjustments.IN,date);
+            newAbsentAdjustment(outadjustment, e, Adjustments.OUT,date);
         }
         //ambiguous - one is empty, the other is not
         else if(timeinstring.isEmpty() || timeoutstring.isEmpty())
@@ -727,8 +728,8 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                 {
                     //create adjustment
                     //in
-                    modifyAdjustment( inadjustment, nickname,  Adjustments.IN, Date.valueOf(date),  timein);
-                    modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, Date.valueOf(date),  timeout);
+                    modifyAdjustment( inadjustment, e.nickname,  Adjustments.IN, Date.valueOf(date),  timein);
+                    modifyAdjustment( outadjustment, e.nickname,  Adjustments.OUT, Date.valueOf(date),  timeout);
                 }
                 //if not absent in employee data
                 else
@@ -746,7 +747,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     //not equal to input - adjustment required
                     else 
                     {
-                        modifyAdjustment( inadjustment, nickname,  Adjustments.IN, Date.valueOf(date),  timein);
+                        modifyAdjustment( inadjustment, e.nickname,  Adjustments.IN, Date.valueOf(date),  timein);
                     }
 
                     if(timeout.equals(data.getOutTime()))
@@ -756,7 +757,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
                     }
                     else 
                     {
-                        modifyAdjustment( outadjustment, nickname,  Adjustments.OUT, Date.valueOf(date),  timeout);
+                        modifyAdjustment( outadjustment, e.nickname,  Adjustments.OUT, Date.valueOf(date),  timeout);
                     }                        
                 }
             }            
@@ -793,7 +794,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         }
         
     }
-    private void newAbsentAdjustment(Adjustment existingadj,String nickname, Integer type,LocalDate date)
+    private void newAbsentAdjustment(Adjustment existingadj,Employee employee, Integer type,LocalDate date)
     {
         Adjustment a;
         
@@ -801,10 +802,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         if(existingadj==null)
         {
             a=new Adjustment();
-            a.setEmployeeNickname(nickname);
+            a.setEmployeeId(employee.id);
+            a.setEmployeeNickname(employee.nickname);
             a.setType(type);
             a.setDate(Date.valueOf(date));
-            a.setTime(null);
+            a.setTime(Time.valueOf("00:00:00"));
             a.setAbsent(1);
             a.save();
         }
@@ -812,7 +814,7 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         else
         {
             a=existingadj;
-            a.setEmployeeNickname(nickname);
+            a.setEmployeeNickname(employee.nickname);
             a.setType(type);
             a.setDate(Date.valueOf(date));
             a.setTime(null);
@@ -831,10 +833,11 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         String nickname=lblNickname.getText();
         LocalDate date= LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
         Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
-        inadjustment.delete();
+        if(inadjustment!=null)inadjustment.delete();
         Adjustment outadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date);
-        outadjustment.delete();
+        if(outadjustment!=null)outadjustment.delete();
         MainFrame.getInstance().recalculate(true, true);
+        refreshDateList();
         FrmManageEmployeeData.getInstance().onDateSelect();
     }//GEN-LAST:event_btnRevertAllActionPerformed
 
@@ -1083,12 +1086,16 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
         
         Adjustment inAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date.toLocalDate());
         Adjustment outAdj=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.OUT, date.toLocalDate());
+
+        //see if absent, according to adjustments
+        Boolean adjAbsent=false;
+        if(inAdj!=null && inAdj.absent==1)adjAbsent=true;
         
         String timeinstring="",timeoutstring="",warningstring="";
         
         
         //operation start
-        if (data == null) {
+        if (data == null || adjAbsent) {
             timeinstring="(Absent)";
             timeoutstring="(Absent)";
             warningstring="";

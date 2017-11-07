@@ -323,9 +323,10 @@ public class MainFrame extends java.awt.Frame {
 //            return;
 //        }
         
+        //validate dates
         if(!EmployeeDataManager.getInstance().validateDates())return;
 
-        EmployeeDataManager.getInstance().calculate(file);    
+        EmployeeDataManager.getInstance().calculate(file,true);    
         
         if(!quiet)
         JOptionPane.showMessageDialog(this, "Payroll recalculated");

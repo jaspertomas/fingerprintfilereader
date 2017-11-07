@@ -55,10 +55,10 @@ public class Entry {
             week_id=rs.getInt("week_id");
             employee_id=rs.getInt("employee_id");
             date=Date.valueOf(rs.getString("date"));
-            time_in=rs.getTime("time_in");
-            lunch_out=rs.getTime("lunch_out");
-            lunch_in=rs.getTime("lunch_in");
-            time_out=rs.getTime("time_out");
+            time_in=Time.valueOf(rs.getString("time_in"));
+            lunch_out=Time.valueOf(rs.getString("lunch_out"));
+            lunch_in=Time.valueOf(rs.getString("lunch_in"));
+            time_out=Time.valueOf(rs.getString("time_out"));
             holiday_type=rs.getInt("holiday_type");
         } catch (SQLException ex) {
             Logger.getLogger(Entry.class.getName()).log(Level.SEVERE, null, ex);
