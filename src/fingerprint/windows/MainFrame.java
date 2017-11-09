@@ -6,8 +6,7 @@ package fingerprint.windows;
 
 import java.awt.Font;
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
@@ -16,6 +15,7 @@ import models.Dates;
 import models.Employees;
 import models.Holidays;
 import models.Settings;
+import models.Week;
 import utils.fileaccess.PdfWriter;
 
 /**
@@ -397,16 +397,26 @@ public class MainFrame extends java.awt.Frame {
     
        public void saveDialog()
        {
+                Week week=EmployeeDataManager.getInstance().getWeek();
+                //SimpleDateFormat dateformat=new SimpleDateFormat("MM-dd-yyyy");
+                DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("MM dd yyyy");
+
+                String prefix="";
+                String suffix=" tacloban payroll";
+                String filename=
+                        prefix
+                        +week.getStartdate().toLocalDate().format(dateformat)
+                        +" "
+                        +week.getEnddate().toLocalDate().format(dateformat)
+                        +suffix
+                        ;
 
                 //write output to file
-                Date date=new Date();
-                SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd");
-                String datestring=dateformat.format(date);
 
                 if(sfc==null)
                 {
                     sfc = new JFileChooser();
-                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/payroll-"+datestring+".pdf"));
+                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+filename+".pdf"));
                 }
                 //In response to a button click:
                 int returnVal = sfc.showSaveDialog(this);

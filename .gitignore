@@ -1,4 +1,4 @@
 dist/
 build/
 database.db
-
+nbproject/private/private.xml
