@@ -16,7 +16,7 @@ import utils.JsonHelper;
 public class Adjustments {
     //------------FORMATTERS-----------
     //public static final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
-    public static final DateTimeFormatter prettyTimeFormat = DateTimeFormatter.ofPattern("hh:mm a");
+    public static final DateTimeFormatter prettyTimeFormat = DateTimeFormatter.ofPattern("h:mm a");
     public static final DateTimeFormatter prettyDateTimeFormat = DateTimeFormatter.ofPattern("EE, MMMM dd, yyyy hh:mm a");
     public static final DateTimeFormatter prettyDateFormat = DateTimeFormatter.ofPattern("EE, MMMM dd, yyyy");
     //------------CONSTANTS-----------

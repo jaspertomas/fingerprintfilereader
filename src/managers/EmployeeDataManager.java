@@ -543,6 +543,7 @@ public class EmployeeDataManager {
                 tempstring+="Vale: P "+format.format(vale)+"\t"+"Loan: P "+format.format(loan)+"\t"+"Other: P "+format.format(other)+"\r\n";
             if(sss>0 || ph>0 || pi>0)
                 tempstring+="SSS: P "+format.format(sss)+"\t"+"PH: P "+format.format(ph)+"\t"+"PI: P "+format.format(pi)+"\r\n";
+            tempstring+="Total Deductions: P "+format.format(total_deductions)+"\r\n";
             tempstring+="- - - - - - - - - - - - - - - \r\n";
             tempstring+="NET SALARY: PHP "+format.format(netpay) +"\r\n";
             }
