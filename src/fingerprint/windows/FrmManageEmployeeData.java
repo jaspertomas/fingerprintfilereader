@@ -561,8 +561,15 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFnameActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        //validate an employee is selected
+        if(jList1.getSelectedIndex()==-1)
+        {
+            JOptionPane.showMessageDialog (this, "No employee selected", "Error", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+        
         Employee e = Employees.select().get(jList1.getSelectedIndex());
-
+        
         //show dialog box to confirm delete 
         int n = JOptionPane.showConfirmDialog(
                 null,
@@ -837,6 +844,22 @@ public class FrmManageEmployeeData extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExit2ActionPerformed
 
     private void btnRevertAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevertAllActionPerformed
+        //validate an employee is selected
+        Integer employeeSelectedIndex=jList1.getSelectedIndex();
+        if(employeeSelectedIndex==-1)
+        {
+            JOptionPane.showMessageDialog (this, "No employee selected", "Error", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
+        //validate a date is selected
+        Integer dateSelectedIndex=listDates.getSelectedIndex();
+        if(dateSelectedIndex==-1)
+        {
+            JOptionPane.showMessageDialog (this, "No date selected", "Error", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
         String nickname=lblNickname.getText();
         LocalDate date= LocalDate.parse(lblDate.getText(), Adjustments.prettyDateFormat);
         Adjustment inadjustment=Adjustments.getByNicknameTypeAndDate(nickname, Adjustments.IN, date);
