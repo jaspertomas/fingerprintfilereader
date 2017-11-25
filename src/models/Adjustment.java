@@ -1,96 +1,158 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Date;
 import java.sql.Time;
-import java.text.ParseException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author jaspertomas
- */
-public class Adjustment {//implements Comparable<Adjustment> 
-    public static final Integer IN=1;
-    public static final Integer OUT=2;
-    
-    String employeeNickname;
-    Integer type;
-    Date date;
-    Time time;
-    Boolean absent=false;
+public class Adjustment {
+    //------------FIELDS-----------
+    public static final String tablename="adjustment";
+    //field names
+    public static String[] fields={
+            "id"
+            ,"employee_id"
+            ,"employee_nickname"
+            ,"type"
+            ,"date"
+            ,"time"
+            ,"absent"
+            };
+    //field types
+    public static String[] fieldtypes={
+            "int(11)"
+            ,"int(11)"
+            ,"varchar(30)"
+            ,"int(11)"
+            ,"date"
+            ,"time"
+            ,"tinyint(4)"
+            };
+    //-----------------------
+
+    public Integer id;
+    public Integer employee_id;
+    public String employee_nickname;
+    public Integer type;
+    public Date date;
+    public Time time;
+    public Integer absent;
 
     public Adjustment() {
     }
-
-//    public Adjustment(String employeeNickname, Date date, Integer type, String time) {
-//        this.employeeNickname = employeeNickname;
-//        this.type = type;
-//        this.date = date;
-//        this.time = time;
-//    }
-
-    public String getEmployeeNickname() {
-        return employeeNickname;
-    }
-
-    public void setEmployeeNickname(String employeeNickname) {
-        this.employeeNickname = employeeNickname;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        if(time==null)setNullTime();
-        else this.time = time;
-    }
-    private void setNullTime()
-    {
+    public Adjustment(ResultSet rs) {
         try {
-            this.time=new Time(Adjustments.prettyTimeFormat.parse("12:00 am").getTime());
-        } catch (ParseException ex) {
+            id=rs.getInt("id");
+            employee_id=rs.getInt("employee_id");
+            employee_nickname=rs.getString("employee_nickname");
+            type=rs.getInt("type");
+            date=Date.valueOf(rs.getString("date"));
+            if(rs.getString("time")!=null)time=Time.valueOf(rs.getString("time"));
+            absent=rs.getInt("absent");
+        } catch (SQLException ex) {
+            Logger.getLogger(Adjustment.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
 
-    
+//	public String getUuid()
+//	{
+//		return id.toString()+"-";
+//	}
+
+    public Integer getId() {
+            return id;
+    }
+
+    public void setId(Integer id) {
+            this.id = id;
+    }
+
+    public Integer getEmployeeId() {
+            return employee_id;
+    }
+
+    public void setEmployeeId(Integer employee_id) {
+            this.employee_id = employee_id;
+    }
+
+    public String getEmployeeNickname() {
+            return employee_nickname;
+    }
+
+    public void setEmployeeNickname(String employee_nickname) {
+            this.employee_nickname = employee_nickname;
+    }
+
+    public Integer getType() {
+            return type;
+    }
+
+    public void setType(Integer type) {
+            this.type = type;
+    }
+
+    public Date getDate() {
+            return date;
+    }
+
+    public void setDate(Date date) {
+            this.date = date;
+    }
+
+    public Time getTime() {
+            return time;
+    }
+
+    public void setTime(Time time) {
+            this.time = time;
+    }
+
+    public Integer getAbsent() {
+            return absent;
+    }
+
+    public void setAbsent(Integer absent) {
+            this.absent = absent;
+    }
+
+
+    //database functions
+    public ArrayList<String> implodeFieldValuesHelper(boolean withId)
+    {
+            ArrayList<String> values=new ArrayList<String>(); 
+
+            //add values for each field here
+            if(withId)values.add(id!=null?id.toString():null);
+            values.add(employee_id!=null?employee_id.toString():null);
+            values.add(employee_nickname);
+            values.add(type!=null?type.toString():null);
+            values.add(date!=null?date.toString():null);
+            values.add(time!=null?time.toString():null);
+            values.add(absent!=null?absent.toString():null);
+
+            return values;
+    }
+    public void delete()
+    {
+            Adjustments.delete(this);
+    }
+    public void save()
+    {
+            if(id==null || id==0)
+                    Adjustments.insert(this);
+            else
+                    Adjustments.update(this);
+    }
+    @Override
     public String toString()
     {
-         return "Nickname: "+employeeNickname+"; Date:"+date+"; Type:"+(type==1?"in":"out")+"; time"+time+"; absent"+absent;
+            return id.toString();
     }
-
-    public Boolean getAbsent() {
-        return absent;
-    }
-
-    public void setAbsent(Boolean absent) {
-        this.absent = absent;
-    }
-
     public String getPrettyTimeString() {
-        return Adjustments.prettyTimeFormat.format(time);
+        return time.toLocalTime().format(Adjustments.prettyTimeFormat);
     }
-
 }

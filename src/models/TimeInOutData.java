@@ -5,7 +5,7 @@
 package models;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalTime;
 import java.util.Date;
 import managers.EmployeeDataManager;
 
@@ -52,21 +52,11 @@ public class TimeInOutData {
 
     public String getPrettyInTimeString()
     {
-        Time time=in.getTime();
-//        return 
-//                String.format("%02d", time.getHours())
-//                +":"
-//                +String.format("%02d", time.getMinutes());
-        return Adjustments.prettyTimeFormat.format(time);
+        return in.getTime().toLocalTime().format(Adjustments.prettyTimeFormat);
     }
     public String getPrettyOutTimeString()
     {
-        Time time=out.getTime();
-//        return 
-//                String.format("%02d", time.getHours())
-//                +":"
-//                +String.format("%02d", time.getMinutes());
-        return Adjustments.prettyTimeFormat.format(time);
+        return out.getTime().toLocalTime().format(Adjustments.prettyTimeFormat);
     }    
     public Date getInTime()
     {

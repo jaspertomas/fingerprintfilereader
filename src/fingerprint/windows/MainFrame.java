@@ -6,13 +6,16 @@ package fingerprint.windows;
 
 import java.awt.Font;
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import managers.EmployeeDataManager;
-import managers.EmployeeFileManager;
+import models.Adjustments;
 import models.Dates;
+import models.Employees;
+import models.Holidays;
+import models.Settings;
+import models.Week;
 import utils.fileaccess.PdfWriter;
 
 /**
@@ -20,7 +23,13 @@ import utils.fileaccess.PdfWriter;
  * @author jaspertomas
  */
 public class MainFrame extends java.awt.Frame {
-    //---------------SINGLETON-------------------
+    private final String version_name="Malabon";
+    private final String version_number="4.1";
+    private final String save_date_format="MM dd yyyy";
+    private final String save_prefix="";
+    private final String save_suffix=" malabon payroll";
+
+//---------------SINGLETON-------------------
 
     static MainFrame instance;
 
@@ -35,9 +44,21 @@ public class MainFrame extends java.awt.Frame {
         initComponents();
 
         instance=this;
+        
+        jLabel5.setText(version_name+" Version "+version_number);
 
+        //create database if not exist
+        Holidays.createTable();
+        Employees.createTable();
+        Settings.createTable();
+        Adjustments.createTable();
+        
+        Settings.load();
+
+        
         EmployeeDataManager.initialize(txtStartDate, txtEndDate, jTextArea);
-        EmployeeFileManager.getInstance().load();
+        
+        chooseFile();
     }
 
     /**
@@ -147,7 +168,7 @@ public class MainFrame extends java.awt.Frame {
             }
         });
 
-        jLabel5.setText("Malabon Version 3");
+        jLabel5.setText("Malabon Version 4");
 
         chkAttendance.setText("Attendance Mode");
         chkAttendance.addActionListener(new java.awt.event.ActionListener() {
@@ -256,40 +277,28 @@ public class MainFrame extends java.awt.Frame {
     }//GEN-LAST:event_btnManageHolidaysActionPerformed
     private JFileChooser fc,sfc;
     private void btnChooseCsvFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseCsvFileActionPerformed
-
-        //Create a file chooser
-        fc = new JFileChooser();
-        
-        //In response to a button click:
-        int returnVal = fc.showOpenDialog(this);
-        
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            //parse file
-            File file = fc.getSelectedFile();
-
-            //if file hasn't been selected, do nothing
-            if(file==null)return;
-            
-//            System.out.println(file.getPath());
-//            File file=new File("/Users/jaspertomas/NetBeansProjects/Fingerprint/NewGlog_0001_20130921114600.csv");
-
-            EmployeeDataManager.getInstance().calculate(file);
-
-
-//            //show dialog box to ask whether to save output to file
-//            int n = JOptionPane.showConfirmDialog(
-//                    null,
-//                    "Would you like to save the output to a file?",
-//                    "Save output",
-//                    JOptionPane.YES_NO_OPTION);
-//
-//            if (n == JOptionPane.YES_OPTION) {
-//                saveDialog();
-//            }        
-            FrmManageEmployeeData.getInstance().refreshList();
-        } 
+        chooseFile();
     }//GEN-LAST:event_btnChooseCsvFileActionPerformed
 
+    private void chooseFile()
+    {
+        //Create a file chooser
+        fc = new JFileChooser();
+
+        //In response to a button click:
+        int returnVal = fc.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        //parse file
+        File file = fc.getSelectedFile();
+
+        //if file hasn't been selected, do nothing
+        if(file==null)return;
+        EmployeeDataManager.getInstance().calculate(file);
+        FrmManageEmployeeData.getInstance().refreshList();
+        } 
+    }
+    
     private void btnManageEmployeeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageEmployeeDataActionPerformed
         setVisible(false);
         FrmManageEmployeeData.getInstance().setVisible(true);
@@ -322,9 +331,10 @@ public class MainFrame extends java.awt.Frame {
 //            return;
 //        }
         
+        //validate dates
         if(!EmployeeDataManager.getInstance().validateDates())return;
 
-        EmployeeDataManager.getInstance().recalculate(file,recreatenamelistandcalendar);    
+        EmployeeDataManager.getInstance().calculate(file,true);    
         
         if(!quiet)
         JOptionPane.showMessageDialog(this, "Payroll recalculated");
@@ -395,16 +405,24 @@ public class MainFrame extends java.awt.Frame {
     
        public void saveDialog()
        {
+                Week week=EmployeeDataManager.getInstance().getWeek();
+                //SimpleDateFormat dateformat=new SimpleDateFormat("MM-dd-yyyy");
+                DateTimeFormatter dateformat = DateTimeFormatter.ofPattern(save_date_format);
+
+                String filename=
+                        save_prefix
+                        +week.getStartdate().toLocalDate().format(dateformat)
+                        +"-"
+                        +week.getEnddate().toLocalDate().format(dateformat)
+                        +save_suffix
+                        ;
 
                 //write output to file
-                Date date=new Date();
-                SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd");
-                String datestring=dateformat.format(date);
 
-                if(sfc==null)
+                //if(sfc==null)
                 {
                     sfc = new JFileChooser();
-                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/payroll-"+datestring+".pdf"));
+                    sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+filename+".pdf"));
                 }
                 //In response to a button click:
                 int returnVal = sfc.showSaveDialog(this);

@@ -1,51 +1,48 @@
 package models;
 
+import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.SqliteDbHelper;
+import utils.JsonHelper;
 
-public class Holiday {
+public class Setting {
     //------------FIELDS-----------
-    public static final String tablename="holiday";
+    public static final String tablename="setting";
     //field names
     public static String[] fields={
             "id"
             ,"name"
-            ,"type"
-            ,"date"
+            ,"value"
             };
     //field types
     public static String[] fieldtypes={
             "int(11)"
-            ,"varchar(30)"
-            ,"int(11)"
-            ,"date"
+            ,"varchar(50)"
+            ,"varchar(255)"
             };
     //-----------------------
 
     public Integer id;
     public String name;
-    public Integer type;
-    public Date date;
+    public String value;
 
-    public Holiday() {
+    public Setting() {
     }
-    public Holiday(String name,Integer type, Date date) {
-        this.name = name;
-        this.type = type;
-        this.date = date;
-    }
-    public Holiday(ResultSet rs) {
+    public Setting(ResultSet rs) {
         try {
             id=rs.getInt("id");
             name=rs.getString("name");
-            type=rs.getInt("type");
-            date=Date.valueOf(rs.getString("date"));
+            value=rs.getString("value");
         } catch (SQLException ex) {
-            Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Setting.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
@@ -71,20 +68,12 @@ public class Holiday {
             this.name = name;
     }
 
-    public Integer getType() {
-            return type;
+    public String getValue() {
+            return value;
     }
 
-    public void setType(Integer type) {
-            this.type = type;
-    }
-
-    public Date getDate() {
-            return date;
-    }
-
-    public void setDate(Date date) {
-            this.date = date;
+    public void setValue(String value) {
+            this.value = value;
     }
 
 
@@ -96,25 +85,24 @@ public class Holiday {
             //add values for each field here
             if(withId)values.add(id!=null?id.toString():null);
             values.add(name);
-            values.add(type!=null?type.toString():null);
-            values.add(date!=null?date.toString():null);
+            values.add(value);
 
             return values;
     }
     public void delete()
     {
-            Holidays.delete(this);
+            Settings.delete(this);
     }
     public void save()
     {
             if(id==null || id==0)
-                    Holidays.insert(this);
+                    Settings.insert(this);
             else
-                    Holidays.update(this);
+                    Settings.update(this);
     }
     @Override
     public String toString()
     {
-        return name;
+            return id.toString();
     }
 }
