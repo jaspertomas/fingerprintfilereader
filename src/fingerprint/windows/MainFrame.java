@@ -23,7 +23,10 @@ import utils.fileaccess.PdfWriter;
  * @author jaspertomas
  */
 public class MainFrame extends java.awt.Frame {
-    //---------------SINGLETON-------------------
+    private final String version_name="Manila";
+    private final String version_number="4.1";
+    
+//---------------SINGLETON-------------------
 
     static MainFrame instance;
 
@@ -38,6 +41,8 @@ public class MainFrame extends java.awt.Frame {
         initComponents();
 
         instance=this;
+        
+        jLabel5.setText(version_name+" Version "+version_number);
 
         //create database if not exist
         Holidays.createTable();
