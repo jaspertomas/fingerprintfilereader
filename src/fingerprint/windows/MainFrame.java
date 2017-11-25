@@ -413,7 +413,7 @@ public class MainFrame extends java.awt.Frame {
 
                 //write output to file
 
-                if(sfc==null)
+                //if(sfc==null)
                 {
                     sfc = new JFileChooser();
                     sfc.setSelectedFile(new File(sfc.getCurrentDirectory().getPath()+"/"+filename+".pdf"));
