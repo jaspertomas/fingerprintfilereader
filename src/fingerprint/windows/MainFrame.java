@@ -23,9 +23,12 @@ import utils.fileaccess.PdfWriter;
  * @author jaspertomas
  */
 public class MainFrame extends java.awt.Frame {
-    private final String version_name="Manila";
+    private final String version_name="Tacloban";
     private final String version_number="4.1";
-    
+    private final String save_date_format="MM dd yyyy";
+    private final String save_prefix="";
+    private final String save_suffix=" tacloban payroll";
+
 //---------------SINGLETON-------------------
 
     static MainFrame instance;
@@ -404,16 +407,14 @@ public class MainFrame extends java.awt.Frame {
        {
                 Week week=EmployeeDataManager.getInstance().getWeek();
                 //SimpleDateFormat dateformat=new SimpleDateFormat("MM-dd-yyyy");
-                DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("MM dd yyyy");
+                DateTimeFormatter dateformat = DateTimeFormatter.ofPattern(save_date_format);
 
-                String prefix="";
-                String suffix=" tacloban payroll";
                 String filename=
-                        prefix
+                        save_prefix
                         +week.getStartdate().toLocalDate().format(dateformat)
                         +" "
                         +week.getEnddate().toLocalDate().format(dateformat)
-                        +suffix
+                        +save_suffix
                         ;
 
                 //write output to file
